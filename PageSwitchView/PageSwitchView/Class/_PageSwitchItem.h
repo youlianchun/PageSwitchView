@@ -6,9 +6,7 @@
 //  Copyright © 2016年 ylchun. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "PageSwitchItem.h"
-#import <UIKit/UIKit.h>
 
 @interface PageSwitchItem()
 

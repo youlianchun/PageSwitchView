@@ -6,10 +6,9 @@
 //  Copyright © 2016年 ylchun. All rights reserved.
 //
 
-#import "PageSwitchItem.h"
 #import "_PageSwitchItem.h"
+#import "_TwoScrollView.h"
 #import "DelegateInterceptor.h"
-#import "TwoScrollView.h"
 static const CGFloat waitTimer = 0.05;
 
 @interface PageSwitchItem()

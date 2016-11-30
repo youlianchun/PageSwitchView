@@ -12,7 +12,6 @@
 #import "UIGestureRecognizer+Group.h"
 #import "SegmentTableView.h"
 #import "StretchingHeaderView.h"
-#import "TwoScrollView.h"
 #import "_TwoScrollView.h"
 
 @interface _PageSwitchView:UITableView
