@@ -153,7 +153,6 @@
 }
 
 
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     BOOL canSelect = true;
     if ([self.delegate respondsToSelector:@selector(segmentTableView:willSelectAtIndex:)]) {

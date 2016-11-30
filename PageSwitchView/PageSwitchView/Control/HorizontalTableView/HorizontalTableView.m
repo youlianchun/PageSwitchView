@@ -149,7 +149,7 @@
         isReuse = false;
         cell.backgroundColor = self.backgroundColor;
         cell.opaque = self.opaque;
-        cell.selectionStyle=UITableViewCellSelectionStyleNone;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.transform = CGAffineTransformIdentity;
         cell.transform = CGAffineTransformMakeRotation(M_PI/2);
     }
