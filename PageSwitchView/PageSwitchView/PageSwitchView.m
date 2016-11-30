@@ -192,7 +192,6 @@ static const NSInteger kNull_PageIndex = 999999999;
                 //NSLog(@"滑动中");
                 self.isScrolling = YES ;
                 
-                //                    printf("...hhhhhhhhhhhh\n");
                 static CGFloat lastContentOffset_y=0;
                 if (scrollView.contentOffset.y<lastContentOffset_y) {//向下
                     if (contentScrollView && contentScrollView.contentOffset.y > 0) {
@@ -212,7 +211,7 @@ static const NSInteger kNull_PageIndex = 999999999;
                 lastContentOffset_y = scrollView.contentOffset.y;
             }
             else if (scrollView == contentScrollView) {//滚动里面视图
-                printf("...ccccccccccccc\n");
+                
                 if (self.pageTableView.contentOffset.y < self.pageTableView.tableHeaderView.bounds.size.height-self.topeSpace) {
                     scrollView.contentOffset = CGPointZero;
                     scrollView.showsVerticalScrollIndicator = NO;
@@ -359,10 +358,6 @@ static const NSInteger kNull_PageIndex = 999999999;
 
 
 
-
-
-
-
 //-(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
 //    if (self.isScrolling) {
 //       CGRect segmentTableViewRect = [self.segmentTableView convertRect:self.segmentTableView.bounds toView:self];
@@ -435,7 +430,6 @@ static const NSInteger kNull_PageIndex = 999999999;
         topeSpace = 0;
     }
     _topeSpace = topeSpace;
-//        self.pageTableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, self.topeSpace)];
 }
 
 @end
