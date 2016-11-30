@@ -9,6 +9,9 @@
 #import "SegmentTableView.h"
 #import "GradientColor.h"
 
+#pragma mark -
+#pragma mark - _SegmentTableViewCell
+
 @interface _SegmentTableViewCell : UITableViewCell
 {
     UILabel *_textLabel;
@@ -51,6 +54,9 @@
 
 @end
 
+#pragma mark -
+#pragma mark - SegmentTableView
+
 @interface SegmentTableView ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic) UITableView   *tableView;
@@ -69,6 +75,8 @@
     }
     return self;
 }
+
+#pragma mark - Get Set
 
 -(UITableView *)tableView {
     if (!_tableView) {
@@ -90,6 +98,48 @@
     return _tableView;
 }
 
+-(NSArray<NSString *> *)titleArray {
+    if (!_titleArray) {
+        _titleArray = [NSArray array];
+    }
+    return _titleArray;
+}
+
+-(UIFont *)titleFont {
+    if (!_titleFont) {
+        _titleFont = [UIFont systemFontOfSize:self.bounds.size.height/2.2];
+    }
+    return _titleFont;
+}
+
+-(GradientColor *)gradientColor {
+    if (!_gradientColor) {
+        _gradientColor = [[GradientColor alloc]initWithColorA:self.normalTitleColor colorB:self.selectedTitleColor];
+    }
+    return _gradientColor;
+}
+-(GradientColor *)gradientColor_bg {
+    if (!_gradientColor_bg) {
+        _gradientColor_bg = [[GradientColor alloc]initWithColorA:self.normalBgColor colorB:self.selectedBgColor];
+    }
+    return _gradientColor_bg;
+}
+
+-(void)setCurrentIndex:(NSUInteger)currentIndex {
+    if (currentIndex == _currentIndex) {
+        return;
+    }
+    _currentIndex = currentIndex;
+    if ([self.delegate respondsToSelector:@selector(segmentTableView:didSelectAtIndex:)]) {
+        [self.delegate segmentTableView:self didSelectAtIndex:currentIndex];
+    }
+    if (currentIndex < self.titleArray.count) {
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:currentIndex] atScrollPosition:UITableViewScrollPositionMiddle animated:true];
+        [self.tableView reloadData];
+    }
+}
+
+#pragma mark - UITableViewDataSource
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return self.titleArray.count;
@@ -98,6 +148,8 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 1;
 }
+
+#pragma mark - UITableViewDelegate
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.titleLabelWidth>0) {
@@ -166,37 +218,13 @@
     }
 }
 
+#pragma mark - 
+
 -(void)reloadData {
     self.titleArray = [self.dataSource titlesOfRowInTableView:self];
     [self.tableView reloadData];
 }
 
--(NSArray<NSString *> *)titleArray {
-    if (!_titleArray) {
-            _titleArray = [NSArray array];
-    }
-    return _titleArray;
-}
-
--(UIFont *)titleFont {
-    if (!_titleFont) {
-        _titleFont = [UIFont systemFontOfSize:self.bounds.size.height/2.2];
-    }
-    return _titleFont;
-}
-
--(GradientColor *)gradientColor {
-    if (!_gradientColor) {
-        _gradientColor = [[GradientColor alloc]initWithColorA:self.normalTitleColor colorB:self.selectedTitleColor];
-    }
-    return _gradientColor;
-}
--(GradientColor *)gradientColor_bg {
-    if (!_gradientColor_bg) {
-        _gradientColor_bg = [[GradientColor alloc]initWithColorA:self.normalBgColor colorB:self.selectedBgColor];
-    }
-    return _gradientColor_bg;
-}
 
 -(void)handoverWithLeftPageIndex:(NSUInteger)leftPageIndex leftScale:(CGFloat)leftScale rightPageIndex:(NSUInteger)rightPageIndex rightScale:(CGFloat)rightScale{
     _SegmentTableViewCell *leftCell;
@@ -220,19 +248,7 @@
     }
 }
 
--(void)setCurrentIndex:(NSUInteger)currentIndex {
-    if (currentIndex == _currentIndex) {
-        return;
-    }
-    _currentIndex = currentIndex;
-    if ([self.delegate respondsToSelector:@selector(segmentTableView:didSelectAtIndex:)]) {
-        [self.delegate segmentTableView:self didSelectAtIndex:currentIndex];
-    }
-    if (currentIndex < self.titleArray.count) {
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:currentIndex] atScrollPosition:UITableViewScrollPositionMiddle animated:true];
-        [self.tableView reloadData];
-    }
-}
+
 
 -(void)adjustCurrentIndex:(NSUInteger)currentIndex{
     _currentIndex = currentIndex;

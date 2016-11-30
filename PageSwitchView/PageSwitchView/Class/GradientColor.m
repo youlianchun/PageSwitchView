@@ -106,13 +106,7 @@ static const NSUInteger A = 3;
     
     BOOL b = [color getRed:&red green:&green blue:&blue alpha:&alpha];
     NSAssert(b, @"can’t get RGBA from this color");
-    
     NSArray *rgbComponents;
-    //    CGFloat numOfcomponents = CGColorGetNumberOfComponents(color.CGColor);
-    //    if (numOfcomponents == 4) {
-    //        const CGFloat *components = CGColorGetComponents(color.CGColor);
-    //        rgbComponents = [NSArray arrayWithObjects:@(components[0]), @(components[1]), @(components[2]), nil];
-    //    }
     if (b) {
         rgbComponents = [NSArray arrayWithObjects:@(red), @(green), @(blue), @(alpha), nil];
     }

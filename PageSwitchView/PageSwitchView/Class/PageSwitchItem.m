@@ -97,14 +97,6 @@ static const CGFloat waitTimer = 0.05;
     }
 }
 
-+(PageSwitchItem*)itemWithTitle:(NSString*)title page:(void(^)(DoReturn doReturn))newPage {
-    PageSwitchItem *item = [[PageSwitchItem alloc]initSelf];
-    item.newPage = newPage;
-    item.title = title;
-    return item;
-}
-
-
 -(void)setIsVisible:(BOOL)isVisible {
     _isVisible = isVisible;
 }
@@ -133,6 +125,13 @@ static const CGFloat waitTimer = 0.05;
     if (self.didLoadBock) {
         self.didLoadBock();
     }
-//    NSLog(@"%s,%@",__func__,self.title);
 }
+
++(PageSwitchItem*)itemWithTitle:(NSString*)title page:(void(^)(DoReturn doReturn))newPage {
+    PageSwitchItem *item = [[PageSwitchItem alloc]initSelf];
+    item.newPage = newPage;
+    item.title = title;
+    return item;
+}
+
 @end

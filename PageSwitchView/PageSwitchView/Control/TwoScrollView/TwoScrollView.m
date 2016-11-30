@@ -57,12 +57,41 @@
         self.scrollView_r.delegate = (id<UIScrollViewDelegate>)self.dI_r;
     }
 }
+#pragma mark - Get Set
+
 -(void)setPanGestureRecognizerGroupTag:(NSString *)panGestureRecognizerGroupTag {
     _panGestureRecognizerGroupTag = panGestureRecognizerGroupTag;
     self.scrollView_l.panGestureRecognizer.groupTag = panGestureRecognizerGroupTag;
     self.scrollView_r.panGestureRecognizer.groupTag = panGestureRecognizerGroupTag;
 }
 
+#pragma mark - UIScrollViewDelegate
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView == self.scrollView_l) {
+        if ([self.dI_l.receiver respondsToSelector:_cmd]) {
+            [self.dI_l.receiver scrollViewDidScroll:scrollView];
+        }
+        if (scrollView.contentOffset.y <= 0 && self.haveHeader) {
+            [self.scrollView_r setContentOffset:scrollView.contentOffset animated:false];
+        }
+    }
+    
+    if (scrollView == self.scrollView_r) {
+        if ([self.dI_r.receiver respondsToSelector:_cmd]) {
+            [self.dI_r.receiver scrollViewDidScroll:scrollView];
+        }
+        if (scrollView.contentOffset.y <= 0 && self.haveHeader) {
+            [self.scrollView_l setContentOffset:scrollView.contentOffset animated:false];
+        }
+    }
+    
+    if ([self.delegate respondsToSelector:_cmd]) {
+        [self.delegate scrollViewDidScroll:scrollView];
+    }
+}
+
+#pragma mark -
 -(void)lauout{
     
     self.scrollView_l.translatesAutoresizingMaskIntoConstraints = false;
@@ -88,28 +117,6 @@
     [self addConstraint: [NSLayoutConstraint constraintWithItem:self.scrollView_r attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.scrollView_l attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
 }
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (scrollView == self.scrollView_l) {
-        if ([self.dI_l.receiver respondsToSelector:_cmd]) {
-            [self.dI_l.receiver scrollViewDidScroll:scrollView];
-        }
-        if (scrollView.contentOffset.y <= 0 && self.haveHeader) {
-            [self.scrollView_r setContentOffset:scrollView.contentOffset animated:false];
-        }
-    }
-    
-    if (scrollView == self.scrollView_r) {
-        if ([self.dI_r.receiver respondsToSelector:_cmd]) {
-            [self.dI_r.receiver scrollViewDidScroll:scrollView];
-        }
-        if (scrollView.contentOffset.y <= 0 && self.haveHeader) {
-            [self.scrollView_l setContentOffset:scrollView.contentOffset animated:false];
-        }
-    }
-    
-    if ([self.delegate respondsToSelector:_cmd]) {
-        [self.delegate scrollViewDidScroll:scrollView];
-    }
-}
+
 
 @end

@@ -27,6 +27,8 @@
 
 @implementation StretchingHeaderView
 
+#pragma mark - Get Set
+
 -(UIColor *)tintColor {
     if (!_tintColor) {
         _tintColor = [UIColor colorWithWhite:0.6 alpha:0.2];
@@ -133,6 +135,8 @@
         self.makeImageView.alpha = 1-CGRectGetHeight(bounds)/CGRectGetHeight(self.contentView.bounds);
     }
 }
+
+#pragma mark -
 
 -(UIImage*)imageWithUIView:(UIView*)view{
     // 下面方法，第一个参数表示区域大小。第二个参数表示是否是非透明的。如果需要显示半透明效果，需要传NO，否则传YES。第三个参数就是屏幕密度了

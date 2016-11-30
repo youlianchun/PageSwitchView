@@ -7,6 +7,7 @@
 //
 
 #import "HorizontalTableView.h"
+#pragma mark -
 #pragma mark - _HorizontalTableView
 @interface _HorizontalTableView:UITableView
 @end
@@ -34,6 +35,7 @@
 }
 @end
 
+#pragma mark -
 #pragma mark - _HorizontalTableViewCell
 @interface _HorizontalTableViewCell : UITableViewCell
 @property (nonatomic) UIContentView *view;
@@ -56,6 +58,7 @@
 }
 @end
 
+#pragma mark -
 #pragma mark - HorizontalTableView
 @interface HorizontalTableView ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -107,6 +110,7 @@
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.panelView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0]];
 }
 
+#pragma mark - Get Set
 
 -(UIView *)panelView {
     if (!_panelView) {
@@ -124,21 +128,27 @@
     return _panelView;
 }
 
-- (void)reloadData {
-    if ([self.delegate respondsToSelector:@selector(cellSpaceInTableView:)]) {
-        self.cellSpace_2 = [self.delegate cellSpaceInTableView:self]/2.0;
-    }else {
-        self.cellSpace_2 = 0;
-    }
-    self.cellCount = [self.dataSource numberOfRowInTableView:self];
-    [self.tableView reloadData];
-}
-
 -(void)setCellSpace_2:(CGFloat)cellSpace_2 {
     _cellSpace_2 = cellSpace_2;
     self.horizontalTableView_CL.constant = -_cellSpace_2;
     self.horizontalTableView_CR.constant = _cellSpace_2;
 }
+
+-(NSUInteger)currentPageIndex {
+    return (self.tableView.contentOffset.y+CGRectGetHeight(self.tableView.bounds)/2.0)/CGRectGetHeight(self.tableView.bounds);
+}
+
+#pragma mark - UITableViewDataSource
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return self.cellCount;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
+}
+
+#pragma mark - UITableViewDelegate
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier = [NSString stringWithFormat:@"HorizontalTableViewCellIdentifier_%ld",(long)indexPath.section];
@@ -161,13 +171,6 @@
     return self.bounds.size.width;
 }
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.cellCount;
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
-}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return self.cellSpace_2;
@@ -201,6 +204,8 @@
     }
 }
 
+#pragma mark UITableViewDelegate_Scroll
+
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     if ([self.delegate respondsToSelector:@selector(tableView:didScrollToPageIndex:)]) {
         [self.delegate tableView:self didScrollToPageIndex:self.currentPageIndex];
@@ -218,6 +223,7 @@
     }
 }
 
+#pragma mark -
 - (void)scrollToRowAtIndex:(NSUInteger)index animated:(BOOL)animated {
     if (index < self.cellCount) {
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:index] atScrollPosition:UITableViewScrollPositionMiddle animated:animated];
@@ -225,9 +231,16 @@
     }
 }
 
--(NSUInteger)currentPageIndex {
-    return (self.tableView.contentOffset.y+CGRectGetHeight(self.tableView.bounds)/2.0)/CGRectGetHeight(self.tableView.bounds);
+- (void)reloadData {
+    if ([self.delegate respondsToSelector:@selector(cellSpaceInTableView:)]) {
+        self.cellSpace_2 = [self.delegate cellSpaceInTableView:self]/2.0;
+    }else {
+        self.cellSpace_2 = 0;
+    }
+    self.cellCount = [self.dataSource numberOfRowInTableView:self];
+    [self.tableView reloadData];
 }
+
 
 @end
 

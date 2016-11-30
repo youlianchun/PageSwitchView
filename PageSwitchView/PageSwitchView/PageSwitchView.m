@@ -14,6 +14,9 @@
 #import "StretchingHeaderView.h"
 #import "_TwoScrollView.h"
 
+#pragma mark -
+#pragma mark - _PageSwitchView
+
 @interface _PageSwitchView:UITableView
 @property (nonatomic)UIScrollView *otherScrollView;
 @end
@@ -34,6 +37,9 @@
 }
 
 @end
+
+#pragma mark -
+#pragma mark - PageSwitchView
 
 static NSString *kUIGestureRecognizer = @"kUIGestureRecognizer";
 static const NSInteger kNull_PageIndex = 999999999;
@@ -149,6 +155,10 @@ static const NSInteger kNull_PageIndex = 999999999;
     return 1;
 }
 
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
+}
+
 #pragma mark - UITableViewDelegate
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -162,10 +172,6 @@ static const NSInteger kNull_PageIndex = 999999999;
     }
     [self.hTableView reloadData];
     return cell;
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
