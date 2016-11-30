@@ -7,6 +7,7 @@
 //
 
 #import "TwoScrollView.h"
+#import "_TwoScrollView.h"
 #import "DelegateInterceptor.h"
 #import "UIGestureRecognizer+Group.h"
 @interface TwoScrollView ()
@@ -92,7 +93,7 @@
         if ([self.dI_l.receiver respondsToSelector:_cmd]) {
             [self.dI_l.receiver scrollViewDidScroll:scrollView];
         }
-        if (scrollView.contentOffset.y <= 0 ) {
+        if (scrollView.contentOffset.y <= 0 && self.haveHeader) {
             [self.scrollView_r setContentOffset:scrollView.contentOffset animated:false];
         }
     }
@@ -101,7 +102,7 @@
         if ([self.dI_r.receiver respondsToSelector:_cmd]) {
             [self.dI_r.receiver scrollViewDidScroll:scrollView];
         }
-        if (scrollView.contentOffset.y <= 0 ) {
+        if (scrollView.contentOffset.y <= 0 && self.haveHeader) {
             [self.scrollView_l setContentOffset:scrollView.contentOffset animated:false];
         }
     }

@@ -13,6 +13,7 @@
 #import "SegmentTableView.h"
 #import "StretchingHeaderView.h"
 #import "TwoScrollView.h"
+#import "_TwoScrollView.h"
 
 @interface _PageSwitchView:UITableView
 @property (nonatomic)UIScrollView *otherScrollView;
@@ -55,6 +56,7 @@ static const NSInteger kNull_PageIndex = 999999999;
 @property (nonatomic) UIView *headerView;
 @property (nonatomic) CGFloat topeSpace;
 @property (nonatomic) BOOL isScrolling;
+@property (nonatomic) StretchingHeaderView *stretchingHeaderView;
 @end
 
 @implementation PageSwitchView
@@ -90,7 +92,7 @@ static const NSInteger kNull_PageIndex = 999999999;
         _pageTableView.dataSource = self;
         _pageTableView.panGestureRecognizer.groupTag = kUIGestureRecognizer;
         [self addSubview:_pageTableView];
-        _pageTableView.rowHeight = CGRectGetHeight(self.bounds)-CGRectGetHeight(self.segmentTableView.bounds)-self.topeSpace;
+//        _pageTableView.rowHeight = CGRectGetHeight(self.bounds)-CGRectGetHeight(self.segmentTableView.bounds)-self.topeSpace;
         _pageTableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, self.topeSpace)];
         _pageTableView.translatesAutoresizingMaskIntoConstraints = false;
         [self addConstraint:[NSLayoutConstraint constraintWithItem:_pageTableView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
@@ -124,6 +126,14 @@ static const NSInteger kNull_PageIndex = 999999999;
     if (!_headerView) {
         if ([self.dataSource respondsToSelector:@selector(viewForHeaderInPageSwitchView:)]) {
             _headerView = [self.dataSource viewForHeaderInPageSwitchView:self];
+            if (_headerView) {
+               CGFloat hh = _headerView.bounds.size.height;
+                self.topeSpace = self.topeSpace <= hh ? self.topeSpace : hh;
+            }else {
+                self.topeSpace = 0;
+            }
+        }else {
+            self.topeSpace = 0;
         }
     }
     return _headerView;
@@ -160,18 +170,16 @@ static const NSInteger kNull_PageIndex = 999999999;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-//    UIView *v = [[UIView alloc]init];
-//    v.backgroundColor = [UIColor grayColor];
-        return  self.segmentTableView;
-//    return v;
+    return  self.segmentTableView;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-//    if (self.segmentTableView) {
-        return  CGRectGetHeight(self.segmentTableView.bounds);
-//    }
-//    return 0;
+    return  CGRectGetHeight(self.segmentTableView.bounds);
 }
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+  return  CGRectGetHeight(self.bounds)-CGRectGetHeight(self.segmentTableView.bounds)-self.topeSpace;
+}
+
 #pragma mark UITableViewDelegate_Scroll
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (self.pageTableView.scrollEnabled) {
@@ -251,22 +259,23 @@ static const NSInteger kNull_PageIndex = 999999999;
         __weak PageSwitchItem * pageSwitchItem = self.pageSwitchItemArray[rowIndex];
         __weak typeof(self) wself = self;
         pageSwitchItem.didLoadBock = ^{
-            if ([pageSwitchItem.contentViewController respondsToSelector:@selector(viewDidAdjustRect)]) {
-                pageSwitchItem.contentViewController.view.bounds = wContentView.bounds;
-                [pageSwitchItem.contentViewController viewDidAdjustRect];
-            }
             if (pageSwitchItem.isScroll) {
                 UIScrollView *scrollView =  (UIScrollView *)pageSwitchItem.contentView;
                 scrollView.panGestureRecognizer.groupTag = kUIGestureRecognizer;
             }
             if (pageSwitchItem.is2Scroll) {
-                ((TwoScrollView*)pageSwitchItem.contentView).panGestureRecognizerGroupTag = kUIGestureRecognizer;
+                TwoScrollView *twoScrollView = (TwoScrollView*)pageSwitchItem.contentView;
+                twoScrollView.panGestureRecognizerGroupTag = kUIGestureRecognizer;
+                twoScrollView.haveHeader = self.headerView != nil;
             }
             [wself.selfViewController addChildViewController:pageSwitchItem.contentViewController];
             pageSwitchItem.scrollDelegate = wself;
             
             [wContentView addSubview:pageSwitchItem.contentViewController.view];
-            
+            pageSwitchItem.contentViewController.view.frame = wContentView.bounds;
+            if ([pageSwitchItem.contentViewController respondsToSelector:@selector(viewDidAdjustRect)]) {
+                [pageSwitchItem.contentViewController viewDidAdjustRect];
+            }
             if (pageSwitchItem.contentViewController.view != pageSwitchItem.contentView) {
                 [((UIView *)pageSwitchItem.contentView) removeFromSuperview];
                 [pageSwitchItem.contentViewController.view addSubview:pageSwitchItem.contentView];
@@ -427,7 +436,7 @@ static const NSInteger kNull_PageIndex = 999999999;
         topeSpace = 0;
     }
     _topeSpace = topeSpace;
-    //    self.pageTableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, self.topeSpace)];
+//        self.pageTableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, self.topeSpace)];
 }
 
 @end

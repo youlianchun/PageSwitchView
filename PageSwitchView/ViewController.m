@@ -44,21 +44,21 @@
 }
 
 
-- (UIView *)viewForHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView{
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 150)];
-    view.backgroundColor = [UIColor redColor];
-    UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(100, 20, 100, 100)];
-    lab.text = @"labsss";
-    lab.textColor = [UIColor yellowColor];
-    [view addSubview:lab];
-    
-    UISwitch *swith =[ [UISwitch alloc]init];
-    swith.frame = CGRectMake(0, 120, 100, 40);
-    [swith addTarget:self action:@selector(swithActon) forControlEvents:UIControlEventValueChanged];
-    [view addSubview:swith];
-    
-    return view;
-}
+//- (UIView *)viewForHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView{
+//    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 150)];
+//    view.backgroundColor = [UIColor redColor];
+//    UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(100, 20, 100, 100)];
+//    lab.text = @"labsss";
+//    lab.textColor = [UIColor yellowColor];
+//    [view addSubview:lab];
+//    
+//    UISwitch *swith =[ [UISwitch alloc]init];
+//    swith.frame = CGRectMake(0, 120, 100, 40);
+//    [swith addTarget:self action:@selector(swithActon) forControlEvents:UIControlEventValueChanged];
+//    [view addSubview:swith];
+//    
+//    return view;
+//}
 -(void)swithActon {
     
 }

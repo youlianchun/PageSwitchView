@@ -95,6 +95,7 @@
 		A907ECBE1DEED09400D8C5CF /* TwoScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwoScrollView.m; sourceTree = "<group>"; };
 		A907ECC01DEED09400D8C5CF /* UIContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIContentView.h; sourceTree = "<group>"; };
 		A907ECC11DEED09400D8C5CF /* UIContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIContentView.m; sourceTree = "<group>"; };
+		A907ECC71DEEE47A00D8C5CF /* _TwoScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _TwoScrollView.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -279,6 +280,7 @@
 		A907ECBC1DEED09400D8C5CF /* TwoScrollView */ = {
 			isa = PBXGroup;
 			children = (
+				A907ECC71DEEE47A00D8C5CF /* _TwoScrollView.h */,
 				A907ECBD1DEED09400D8C5CF /* TwoScrollView.h */,
 				A907ECBE1DEED09400D8C5CF /* TwoScrollView.m */,
 			);
@@ -678,6 +680,7 @@
 				A907EC3E1DEECE7A00D8C5CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A907EC3F1DEECE7A00D8C5CF /* Build configuration list for PBXNativeTarget "PageSwitchViewTests" */ = {
 			isa = XCConfigurationList;
@@ -686,6 +689,7 @@
 				A907EC411DEECE7A00D8C5CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A907EC421DEECE7A00D8C5CF /* Build configuration list for PBXNativeTarget "PageSwitchViewUITests" */ = {
 			isa = XCConfigurationList;
@@ -694,6 +698,7 @@
 				A907EC441DEECE7A00D8C5CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
