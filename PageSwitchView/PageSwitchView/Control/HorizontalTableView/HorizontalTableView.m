@@ -194,7 +194,7 @@
     }
     if (self.initPageIndex == indexPath.section) {
         [self performSelector:@selector(scrollViewDidEndDecelerating:) withObject:tableView afterDelay:0.001];
-        self.initPageIndex = 9999999999;
+        self.initPageIndex = 999999999;
     }
 }
 

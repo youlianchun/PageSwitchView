@@ -10,41 +10,7 @@
 #import <UIKit/UIKit.h>
 #import <Accelerate/Accelerate.h>
 
-@interface _StretchingHeaderPanelView:UIView
-@property (nonatomic) void(^heightChange)(CGFloat height);
-//-(void)display;
-
-@end
-
-@implementation _StretchingHeaderPanelView
-
--(void)setBounds:(CGRect)bounds {
-    [super setBounds:bounds];
-    if (self.heightChange) {
-        self.heightChange(bounds.size.height);
-    }
-}
-//
-//-(void)display {
-//    self.translatesAutoresizingMaskIntoConstraints = false;
-//    UIView *superview = self.superview;
-//    UIView *ssuperview = superview.superview;
-//    
-//    [self addConstraint:[NSLayoutConstraint constraintWithItem:superview attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
-//    
-//    [self addConstraint:[NSLayoutConstraint constraintWithItem:superview attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
-//    
-//    [ssuperview addConstraint: [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:ssuperview attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
-//    
-//    [self addConstraint: [NSLayoutConstraint constraintWithItem:superview attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
-//}
-
-@end
-
 @interface StretchingHeaderView()
-@property (nonatomic) _StretchingHeaderPanelView *panelView;
-@property (nonatomic) void(^didMoveToSuperviewBlock)();
-
 @property (nonatomic) UIView *contentBgView;
 @property (nonatomic, strong) NSLayoutConstraint *contentBgView_CH;
 @property (nonatomic) UIImageView *imageView;
@@ -62,29 +28,6 @@
 @implementation StretchingHeaderView
 
 #pragma mark - Get Set
-
--(_StretchingHeaderPanelView *)panelView {
-    if (!_panelView) {
-        _panelView = [[_StretchingHeaderPanelView alloc]init];
-        __weak typeof(self) wself = self;
-        _panelView.heightChange = ^(CGFloat height) {
-            [wself heightChange:height];
-        };
-        [self addSubview:_panelView];
-        _panelView.translatesAutoresizingMaskIntoConstraints = false;
-        
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
-        
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
-        
-        [self addConstraint: [NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
-        
-        self.didMoveToSuperviewBlock = ^{
-            [wself.superview addConstraint: [NSLayoutConstraint constraintWithItem:wself.panelView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:wself.superview attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
-        };
-    }
-    return _panelView;
-}
 
 -(UIColor *)tintColor {
     if (!_tintColor) {
@@ -159,52 +102,13 @@
     return _makeImageView;
 }
 
-//-(void)setBounds:(CGRect)bounds{//上滑，下拉时候的视觉样式处理
-//    [super setBounds:bounds];
-////    self.contentView.userInteractionEnabled = CGRectGetHeight(bounds)==self.contentBgView_CH.constant;
-////
-////    self.imageView.hidden = CGRectGetHeight(bounds)<=self.contentBgView_CH.constant;
-////    if (!self.imageView.hidden && !self.didUpdateImage) {//每次下啦时候更新一次image
-////        self.imageView.image = [self imageWithUIView:self.contentView];
-////        self.didUpdateImage = true;
-////    }else if (self.imageView.image){
-////        //didUpdateImage 在bounds初始化时候过滤
-////        self.didUpdateImage = !self.imageView.hidden;
-////    }
-////    
-////    self.makeImageView.hidden = CGRectGetHeight(bounds)>=self.contentBgView_CH.constant;
-////    if (!self.makeImageView.hidden && !self.didUpdateMakeImage) {//每次下啦时候更新一次makeImage
-////        UIImage *image = [self imageWithUIView:self.contentView];
-//////        self.makeImageView.image = image;
-////        __weak typeof(self) wself = self;
-////        [self applyBlurWithImage:image Radius:5 tintColor:self.tintColor saturationDeltaFactor:1.0  resImage:^(UIImage *image) {
-////            wself.makeImageView.image = image;
-////        }];
-////        self.didUpdateMakeImage = true;
-////    }else if (self.makeImageView.image){
-////        //didUpdateMakeImage 在bounds初始化时候过滤
-////        self.didUpdateMakeImage = !self.makeImageView.hidden;
-////    }
-////    
-////    if (!self.makeImageView.hidden) {
-////        self.makeImageView.alpha = 1-CGRectGetHeight(bounds)/CGRectGetHeight(self.contentView.bounds);
-////    }
-//}
 
-#pragma mark -
 
--(void)didMoveToSuperview {
-    [super didMoveToSuperview];
-    [self panelView];
-    if (self.didMoveToSuperviewBlock) {
-        self.didMoveToSuperviewBlock();
-    }
-}
+-(void)setBounds:(CGRect)bounds{//上滑，下拉时候的视觉样式处理
+    [super setBounds:bounds];
+    self.contentView.userInteractionEnabled = CGRectGetHeight(bounds)==self.contentBgView_CH.constant;
 
--(void)heightChange:(CGFloat)height {
-    self.contentView.userInteractionEnabled = height==self.contentBgView_CH.constant;
-    
-    self.imageView.hidden = height<=self.contentBgView_CH.constant;
+    self.imageView.hidden = CGRectGetHeight(bounds)<=self.contentBgView_CH.constant;
     if (!self.imageView.hidden && !self.didUpdateImage) {//每次下啦时候更新一次image
         self.imageView.image = [self imageWithUIView:self.contentView];
         self.didUpdateImage = true;
@@ -213,10 +117,10 @@
         self.didUpdateImage = !self.imageView.hidden;
     }
     
-    self.makeImageView.hidden = height>=self.contentBgView_CH.constant;
+    self.makeImageView.hidden = CGRectGetHeight(bounds)>=self.contentBgView_CH.constant;
     if (!self.makeImageView.hidden && !self.didUpdateMakeImage) {//每次下啦时候更新一次makeImage
         UIImage *image = [self imageWithUIView:self.contentView];
-        //        self.makeImageView.image = image;
+//        self.makeImageView.image = image;
         __weak typeof(self) wself = self;
         [self applyBlurWithImage:image Radius:5 tintColor:self.tintColor saturationDeltaFactor:1.0  resImage:^(UIImage *image) {
             wself.makeImageView.image = image;
@@ -228,10 +132,11 @@
     }
     
     if (!self.makeImageView.hidden) {
-        self.makeImageView.alpha = 1-height/CGRectGetHeight(self.contentView.bounds);
+        self.makeImageView.alpha = 1-CGRectGetHeight(bounds)/CGRectGetHeight(self.contentView.bounds);
     }
- 
 }
+
+#pragma mark -
 
 -(UIImage*)imageWithUIView:(UIView*)view{
     // 下面方法，第一个参数表示区域大小。第二个参数表示是否是非透明的。如果需要显示半透明效果，需要传NO，否则传YES。第三个参数就是屏幕密度了

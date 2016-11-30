@@ -29,6 +29,7 @@
 		A907ECC41DEED09400D8C5CF /* StretchingHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = A907ECBB1DEED09400D8C5CF /* StretchingHeaderView.m */; };
 		A907ECC51DEED09400D8C5CF /* TwoScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = A907ECBE1DEED09400D8C5CF /* TwoScrollView.m */; };
 		A907ECC61DEED09400D8C5CF /* UIContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = A907ECC11DEED09400D8C5CF /* UIContentView.m */; };
+		A9B05C581DEF06D600872223 /* StretchingHeaderView的副本.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B05C571DEF06D600872223 /* StretchingHeaderView的副本.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +97,8 @@
 		A907ECC01DEED09400D8C5CF /* UIContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIContentView.h; sourceTree = "<group>"; };
 		A907ECC11DEED09400D8C5CF /* UIContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIContentView.m; sourceTree = "<group>"; };
 		A907ECC71DEEE47A00D8C5CF /* _TwoScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _TwoScrollView.h; sourceTree = "<group>"; };
+		A9B05C561DEF06D600872223 /* StretchingHeaderView的副本.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "StretchingHeaderView的副本.h"; sourceTree = "<group>"; };
+		A9B05C571DEF06D600872223 /* StretchingHeaderView的副本.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "StretchingHeaderView的副本.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -271,6 +274,8 @@
 		A907ECB91DEED09400D8C5CF /* StretchingHeaderView */ = {
 			isa = PBXGroup;
 			children = (
+				A9B05C561DEF06D600872223 /* StretchingHeaderView的副本.h */,
+				A9B05C571DEF06D600872223 /* StretchingHeaderView的副本.m */,
 				A907ECBA1DEED09400D8C5CF /* StretchingHeaderView.h */,
 				A907ECBB1DEED09400D8C5CF /* StretchingHeaderView.m */,
 			);
@@ -436,6 +441,7 @@
 				A907ECC31DEED09400D8C5CF /* SegmentTableView.m in Sources */,
 				A907ECAA1DEECECD00D8C5CF /* PageSwitchView.m in Sources */,
 				A907ECA41DEECECD00D8C5CF /* UIGestureRecognizer+Group.m in Sources */,
+				A9B05C581DEF06D600872223 /* StretchingHeaderView的副本.m in Sources */,
 				A907ECC51DEED09400D8C5CF /* TwoScrollView.m in Sources */,
 				A907EC811DEECEAF00D8C5CF /* TwoScrollViewController.m in Sources */,
 				A907ECAB1DEECECD00D8C5CF /* DelegateInterceptor.m in Sources */,
