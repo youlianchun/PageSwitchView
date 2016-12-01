@@ -61,6 +61,7 @@ static const NSInteger kNull_PageIndex = 999999999;
 @property (nonatomic) UIView *headerView;
 @property (nonatomic) CGFloat topeSpace;
 //@property (nonatomic) BOOL isScrolling;
+@property (nonatomic) UIView *navigationBar_placeholderView;
 @end
 
 @implementation PageSwitchView
@@ -148,6 +149,21 @@ static const NSInteger kNull_PageIndex = 999999999;
 
 -(void)setTopeSpace:(CGFloat)topeSpace {
     _topeSpace = ABS(topeSpace);
+}
+
+-(UIView *)navigationBar_placeholderView {
+    if (!_navigationBar_placeholderView) {
+        _navigationBar_placeholderView = [[UIView alloc]init];
+        [self insertSubview:_navigationBar_placeholderView atIndex:0];
+        _navigationBar_placeholderView.backgroundColor = [UIColor whiteColor];
+        _navigationBar_placeholderView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:_navigationBar_placeholderView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:_navigationBar_placeholderView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
+        [self addConstraint: [NSLayoutConstraint constraintWithItem:_navigationBar_placeholderView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:-64]];
+        [self addConstraint: [NSLayoutConstraint constraintWithItem:_navigationBar_placeholderView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+        self.clipsToBounds = NO;
+    }
+    return _navigationBar_placeholderView;
 }
 
 #pragma mark - UITableViewDataSource
@@ -437,6 +453,14 @@ static const NSInteger kNull_PageIndex = 999999999;
         [pageSwitchItem.contentViewController pageScrolling];
     }
     self.segmentTableView.currentIndex = newIndex;
+}
+
+-(void)didMoveToSuperview {
+    [super didMoveToSuperview];
+    self.selfViewController.edgesForExtendedLayout =  UIRectEdgeLeft | UIRectEdgeBottom | UIRectEdgeRight;
+    self.selfViewController.extendedLayoutIncludesOpaqueBars = NO;
+    self.selfViewController.modalPresentationCapturesStatusBarAppearance = NO;
+    [self navigationBar_placeholderView];
 }
 
 @end

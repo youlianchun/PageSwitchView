@@ -248,8 +248,6 @@
     }
 }
 
-
-
 -(void)adjustCurrentIndex:(NSUInteger)currentIndex{
     _currentIndex = currentIndex;
 }

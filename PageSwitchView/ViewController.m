@@ -20,7 +20,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.pageSwitchView = [[PageSwitchView alloc]initWithFrame:self.view.bounds];
+    
+    CGRect frame = self.view.bounds;
+//    frame.origin.y = 64;
+//    frame.size.height -= 64;
+    self.pageSwitchView = [[PageSwitchView alloc]initWithFrame:frame];
     self.pageSwitchView.clipsToBounds = YES;
     [self.view addSubview:self.pageSwitchView];
     
