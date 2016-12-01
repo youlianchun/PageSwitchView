@@ -78,22 +78,22 @@ static void *kScrollContext = &kScrollContext;
         
         [self addConstraint:[NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
         
-        [self addConstraint: [NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:wself attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+//        [self addConstraint: [NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+//
+//        self.panelView_CH = [NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:1 constant:self.bounds.size.height];
+//
+//        [self.panelView addConstraint:self.panelView_CH];
 
-        self.panelView_CH = [NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:1 constant:self.bounds.size.height];
 
-        [self.panelView addConstraint:self.panelView_CH];
-
-
-//        if (self.stretching) {//拉伸头部
-//            self.didMoveToSuperviewBlock = ^{
-//                [wself.superview addConstraint: [NSLayoutConstraint constraintWithItem:wself.panelView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:wself attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
-//                [wself.superview.superview addConstraint: [NSLayoutConstraint constraintWithItem:wself.panelView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:wself.superview.superview attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
-//            };
-//        }else {//普通头部
-//            [self addConstraint: [NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:wself attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
-//            [self addConstraint: [NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
-//        }
+        if (self.stretching) {//拉伸头部
+            self.didMoveToSuperviewBlock = ^{
+                [wself.superview addConstraint: [NSLayoutConstraint constraintWithItem:wself.panelView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:wself attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+                [wself.superview.superview addConstraint: [NSLayoutConstraint constraintWithItem:wself.panelView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:wself.superview.superview attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+            };
+        }else {//普通头部
+            [self addConstraint: [NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:wself attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+            [self addConstraint: [NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+        }
     }
     return _panelView;
 }
@@ -145,7 +145,7 @@ static void *kScrollContext = &kScrollContext;
     UIScrollView *superview = (UIScrollView*)self.superview;
     BOOL b = [superview isKindOfClass:[UIScrollView class]];
     NSAssert(b, @"must be add to UIScrollView");
-    [self scrollView:(UIScrollView*)self.superview contextObserver:YES];
+//    [self scrollView:(UIScrollView*)self.superview contextObserver:YES];
     
     [self panelView];
     if (self.didMoveToSuperviewBlock) {
@@ -162,37 +162,40 @@ static void *kScrollContext = &kScrollContext;
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
 }
 
--(void)removeFromSuperview {
-    [self scrollView:(UIScrollView*)self.superview contextObserver:NO];
-    [super removeFromSuperview];
-}
-
--(void)scrollView:(UIScrollView*)scrollView contextObserver:(BOOL)b {
-    if (![scrollView isKindOfClass:[UIScrollView class]]) {
-        return;
-    }
-    static BOOL didObserver = NO;
-    if (b) {
-        if (self.stretching) {
-            [scrollView addObserver:self forKeyPath:NSStringFromSelector(@selector(contentOffset)) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:&kScrollContext];
-            didObserver = true;
-        }
-    }else{
-        if (didObserver) {
-            [scrollView removeObserver:self forKeyPath:NSStringFromSelector(@selector(contentOffset)) context:&kScrollContext];
-        }
-    }
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(__unused id)object change:(NSDictionary *)change context:(void *)context {
-    if(context == &kScrollContext) {
-        CGFloat newOffsetY = [change[NSKeyValueChangeNewKey] CGPointValue].y;
-        static CGFloat oldOffsetY = 0;
-        self.panelView_CH.constant = self.bounds.size.height - newOffsetY;
-        NSLog(@"%f",newOffsetY);
-        oldOffsetY = newOffsetY;
-    }
-}
+//-(void)removeFromSuperview {
+//    [self scrollView:(UIScrollView*)self.superview contextObserver:NO];
+//    [super removeFromSuperview];
+//}
+//
+//-(void)scrollView:(UIScrollView*)scrollView contextObserver:(BOOL)b {
+//    if (![scrollView isKindOfClass:[UIScrollView class]]) {
+//        return;
+//    }
+//    static BOOL didObserver = NO;
+//    if (b) {
+//        if (self.stretching) {
+//            [scrollView addObserver:self forKeyPath:NSStringFromSelector(@selector(contentOffset)) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:&kScrollContext];
+//            didObserver = true;
+//        }
+//    }else{
+//        if (didObserver) {
+//            [scrollView removeObserver:self forKeyPath:NSStringFromSelector(@selector(contentOffset)) context:&kScrollContext];
+//        }
+//    }
+//}
+//
+//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(__unused id)object change:(NSDictionary *)change context:(void *)context {
+//    if(context == &kScrollContext) {
+//        CGFloat newOffsetY = [change[NSKeyValueChangeNewKey] CGPointValue].y;
+//        static CGFloat oldOffsetY = 0;
+////        if (oldOffsetY != newOffsetY) {            
+//            self.panelView_CH.constant = self.bounds.size.height - newOffsetY;
+//            [self heightChange:self.panelView_CH.constant];
+////        }
+//        
+//        oldOffsetY = newOffsetY;
+//    }
+//}
 
 -(void)heightChange:(CGFloat)height {
     CGFloat sHeight = self.bounds.size.height;
