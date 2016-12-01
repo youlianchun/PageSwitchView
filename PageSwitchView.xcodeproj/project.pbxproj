@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A9047ECC1DF03A4F0057BCCE /* UIBarBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9047EC91DF03A4F0057BCCE /* UIBarBackgroundView.m */; };
+		A9047ECD1DF03A4F0057BCCE /* UINavigationBar_back.png in Resources */ = {isa = PBXBuildFile; fileRef = A9047ECA1DF03A4F0057BCCE /* UINavigationBar_back.png */; };
 		A907EC141DEECE7A00D8C5CF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A907EC131DEECE7A00D8C5CF /* main.m */; };
 		A907EC1D1DEECE7A00D8C5CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A907EC1B1DEECE7A00D8C5CF /* Main.storyboard */; };
 		A907EC1F1DEECE7A00D8C5CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A907EC1E1DEECE7A00D8C5CF /* Assets.xcassets */; };
@@ -50,6 +52,9 @@
 
 /* Begin PBXFileReference section */
 		A9047EC41DF00E340057BCCE /* PageViewControllerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PageViewControllerProtocol.h; sourceTree = "<group>"; };
+		A9047EC81DF03A4F0057BCCE /* UIBarBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBarBackgroundView.h; sourceTree = "<group>"; };
+		A9047EC91DF03A4F0057BCCE /* UIBarBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIBarBackgroundView.m; sourceTree = "<group>"; };
+		A9047ECA1DF03A4F0057BCCE /* UINavigationBar_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UINavigationBar_back.png; sourceTree = "<group>"; };
 		A907EC0F1DEECE7A00D8C5CF /* PageSwitchView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PageSwitchView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A907EC131DEECE7A00D8C5CF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A907EC1C1DEECE7A00D8C5CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -123,6 +128,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A9047EC51DF03A4F0057BCCE /* NavigationBar */ = {
+			isa = PBXGroup;
+			children = (
+				A9047EC81DF03A4F0057BCCE /* UIBarBackgroundView.h */,
+				A9047EC91DF03A4F0057BCCE /* UIBarBackgroundView.m */,
+				A9047ECA1DF03A4F0057BCCE /* UINavigationBar_back.png */,
+			);
+			path = NavigationBar;
+			sourceTree = "<group>";
+		};
 		A907EC061DEECE7A00D8C5CF = {
 			isa = PBXGroup;
 			children = (
@@ -146,6 +161,7 @@
 		A907EC111DEECE7A00D8C5CF /* PageSwitchView */ = {
 			isa = PBXGroup;
 			children = (
+				A9047EC51DF03A4F0057BCCE /* NavigationBar */,
 				A907EC831DEECECD00D8C5CF /* PageSwitchView */,
 				A907EC451DEECEAF00D8C5CF /* AppDelegate.h */,
 				A907EC461DEECEAF00D8C5CF /* AppDelegate.m */,
@@ -405,6 +421,7 @@
 			files = (
 				A907EC221DEECE7A00D8C5CF /* LaunchScreen.storyboard in Resources */,
 				A907EC1F1DEECE7A00D8C5CF /* Assets.xcassets in Resources */,
+				A9047ECD1DF03A4F0057BCCE /* UINavigationBar_back.png in Resources */,
 				A907EC1D1DEECE7A00D8C5CF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -444,6 +461,7 @@
 				A907ECC41DEED09400D8C5CF /* StretchingHeaderView.m in Sources */,
 				A907ECC21DEED09400D8C5CF /* HorizontalTableView.m in Sources */,
 				A907ECC61DEED09400D8C5CF /* UIContentView.m in Sources */,
+				A9047ECC1DF03A4F0057BCCE /* UIBarBackgroundView.m in Sources */,
 				A907EC741DEECEAF00D8C5CF /* SimpleViewController.m in Sources */,
 				A907EC141DEECE7A00D8C5CF /* main.m in Sources */,
 				A907ECA61DEECECD00D8C5CF /* PageSwitchItem.m in Sources */,

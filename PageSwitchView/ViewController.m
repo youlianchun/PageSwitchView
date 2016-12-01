@@ -22,12 +22,9 @@
     [super viewDidLoad];
     
     CGRect frame = self.view.bounds;
-//    frame.origin.y = 64;
-//    frame.size.height -= 64;
     self.pageSwitchView = [[PageSwitchView alloc]initWithFrame:frame];
     self.pageSwitchView.clipsToBounds = YES;
     [self.view addSubview:self.pageSwitchView];
-    
     
     self.pageSwitchView.translatesAutoresizingMaskIntoConstraints = NO;
     
