@@ -34,7 +34,6 @@ static void *kScrollContext = &kScrollContext;
 @interface StretchingHeaderView()
 @property (nonatomic, assign) BOOL stretching;
 @property (nonatomic) _StretchingHeaderPanelView *panelView;
-@property (nonatomic) NSLayoutConstraint *panelView_CH;
 
 @property (nonatomic) void(^didMoveToSuperviewBlock)();
 @property (nonatomic) UIView *contentView;
@@ -77,18 +76,18 @@ static void *kScrollContext = &kScrollContext;
         [self addConstraint:[NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
         
         [self addConstraint:[NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
-        
-//        [self addConstraint: [NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
-//
-//        self.panelView_CH = [NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:1 constant:self.bounds.size.height];
-//
-//        [self.panelView addConstraint:self.panelView_CH];
-
 
         if (self.stretching) {//拉伸头部
             self.didMoveToSuperviewBlock = ^{
-                [wself.superview addConstraint: [NSLayoutConstraint constraintWithItem:wself.panelView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:wself attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
-                [wself.superview.superview addConstraint: [NSLayoutConstraint constraintWithItem:wself.panelView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:wself.superview.superview attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+                NSLayoutConstraint * panelView_CT = [NSLayoutConstraint constraintWithItem:wself.panelView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:wself.superview.superview attribute:NSLayoutAttributeTop multiplier:1 constant:0];
+                panelView_CT.priority = UILayoutPriorityRequired;
+//                panelView_CT.active = YES;
+                [wself.superview.superview addConstraint: panelView_CT];
+                
+                NSLayoutConstraint * panelView_CB = [NSLayoutConstraint constraintWithItem:wself.panelView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:wself attribute:NSLayoutAttributeBottom multiplier:1 constant:0];
+                panelView_CB.priority = UILayoutPriorityRequired-1;
+//                panelView_CB.active = YES;
+                [wself.superview addConstraint: panelView_CB];
             };
         }else {//普通头部
             [self addConstraint: [NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:wself attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
@@ -114,8 +113,6 @@ static void *kScrollContext = &kScrollContext;
         [self addConstraint:[NSLayoutConstraint constraintWithItem:_imageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.panelView attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
         
         [self addConstraint:[NSLayoutConstraint constraintWithItem:_imageView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.panelView attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
-        
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:_imageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.panelView attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
 
         CGFloat m = self.bounds.size.height/self.bounds.size.width;
         [_imageView addConstraint:[NSLayoutConstraint constraintWithItem:_imageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_imageView attribute:NSLayoutAttributeWidth multiplier:m constant:0]];
@@ -161,41 +158,6 @@ static void *kScrollContext = &kScrollContext;
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
 }
-
-//-(void)removeFromSuperview {
-//    [self scrollView:(UIScrollView*)self.superview contextObserver:NO];
-//    [super removeFromSuperview];
-//}
-//
-//-(void)scrollView:(UIScrollView*)scrollView contextObserver:(BOOL)b {
-//    if (![scrollView isKindOfClass:[UIScrollView class]]) {
-//        return;
-//    }
-//    static BOOL didObserver = NO;
-//    if (b) {
-//        if (self.stretching) {
-//            [scrollView addObserver:self forKeyPath:NSStringFromSelector(@selector(contentOffset)) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:&kScrollContext];
-//            didObserver = true;
-//        }
-//    }else{
-//        if (didObserver) {
-//            [scrollView removeObserver:self forKeyPath:NSStringFromSelector(@selector(contentOffset)) context:&kScrollContext];
-//        }
-//    }
-//}
-//
-//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(__unused id)object change:(NSDictionary *)change context:(void *)context {
-//    if(context == &kScrollContext) {
-//        CGFloat newOffsetY = [change[NSKeyValueChangeNewKey] CGPointValue].y;
-//        static CGFloat oldOffsetY = 0;
-////        if (oldOffsetY != newOffsetY) {            
-//            self.panelView_CH.constant = self.bounds.size.height - newOffsetY;
-//            [self heightChange:self.panelView_CH.constant];
-////        }
-//        
-//        oldOffsetY = newOffsetY;
-//    }
-//}
 
 -(void)heightChange:(CGFloat)height {
     CGFloat sHeight = self.bounds.size.height;
