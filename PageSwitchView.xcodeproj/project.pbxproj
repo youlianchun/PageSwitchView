@@ -49,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A9047EC41DF00E340057BCCE /* PageViewControllerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PageViewControllerProtocol.h; sourceTree = "<group>"; };
 		A907EC0F1DEECE7A00D8C5CF /* PageSwitchView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PageSwitchView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A907EC131DEECE7A00D8C5CF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A907EC1C1DEECE7A00D8C5CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -80,7 +81,6 @@
 		A907EC8A1DEECECD00D8C5CF /* GradientColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradientColor.m; sourceTree = "<group>"; };
 		A907EC8B1DEECECD00D8C5CF /* PageSwitchItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageSwitchItem.h; sourceTree = "<group>"; };
 		A907EC8C1DEECECD00D8C5CF /* PageSwitchItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageSwitchItem.m; sourceTree = "<group>"; };
-		A907EC8D1DEECECD00D8C5CF /* PageViewControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageViewControllerProtocol.h; sourceTree = "<group>"; };
 		A907EC961DEECECD00D8C5CF /* PageSwitchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageSwitchView.h; sourceTree = "<group>"; };
 		A907EC971DEECECD00D8C5CF /* PageSwitchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageSwitchView.m; sourceTree = "<group>"; };
 		A907EC991DEECECD00D8C5CF /* DelegateInterceptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelegateInterceptor.h; sourceTree = "<group>"; };
@@ -199,6 +199,7 @@
 			children = (
 				A907EC961DEECECD00D8C5CF /* PageSwitchView.h */,
 				A907EC971DEECECD00D8C5CF /* PageSwitchView.m */,
+				A9047EC41DF00E340057BCCE /* PageViewControllerProtocol.h */,
 				A907ECB21DEED09400D8C5CF /* Control */,
 				A907EC841DEECECD00D8C5CF /* Category */,
 				A907EC871DEECECD00D8C5CF /* Class */,
@@ -224,7 +225,6 @@
 				A907EC8A1DEECECD00D8C5CF /* GradientColor.m */,
 				A907EC8B1DEECECD00D8C5CF /* PageSwitchItem.h */,
 				A907EC8C1DEECECD00D8C5CF /* PageSwitchItem.m */,
-				A907EC8D1DEECECD00D8C5CF /* PageViewControllerProtocol.h */,
 			);
 			path = Class;
 			sourceTree = "<group>";
