@@ -27,10 +27,13 @@
 @end
 
 #pragma mark - StretchingHeaderView
+static void *kScrollContext = &kScrollContext;
 
 @interface StretchingHeaderView()
 @property (nonatomic, assign) BOOL stretching;
 @property (nonatomic) _StretchingHeaderPanelView *panelView;
+@property (nonatomic) NSLayoutConstraint *panelView_CH;
+
 @property (nonatomic) void(^didMoveToSuperviewBlock)();
 @property (nonatomic) UIView *contentView;
 
@@ -73,15 +76,22 @@
         
         [self addConstraint:[NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
         
-        if (self.stretching) {//拉伸头部
-            self.didMoveToSuperviewBlock = ^{
-                [wself.superview addConstraint: [NSLayoutConstraint constraintWithItem:wself.panelView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:wself attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
-                [wself.superview.superview addConstraint: [NSLayoutConstraint constraintWithItem:wself.panelView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:wself.superview.superview attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
-            };
-        }else {//普通头部
-            [self addConstraint: [NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:wself attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
-            [self addConstraint: [NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
-        }
+        [self addConstraint: [NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:wself attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+
+        self.panelView_CH = [NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:1 constant:self.bounds.size.height];
+
+        [self.panelView addConstraint:self.panelView_CH];
+
+
+//        if (self.stretching) {//拉伸头部
+//            self.didMoveToSuperviewBlock = ^{
+//                [wself.superview addConstraint: [NSLayoutConstraint constraintWithItem:wself.panelView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:wself attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+//                [wself.superview.superview addConstraint: [NSLayoutConstraint constraintWithItem:wself.panelView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:wself.superview.superview attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+//            };
+//        }else {//普通头部
+//            [self addConstraint: [NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:wself attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+//            [self addConstraint: [NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+//        }
     }
     return _panelView;
 }
@@ -130,6 +140,11 @@
 
 -(void)didMoveToSuperview {
     [super didMoveToSuperview];
+    UIScrollView *superview = (UIScrollView*)self.superview;
+    BOOL b = [superview isKindOfClass:[UIScrollView class]];
+    NSAssert(b, @"must be add to UIScrollView");
+    [self scrollView:(UIScrollView*)self.superview contextObserver:YES];
+    
     [self panelView];
     if (self.didMoveToSuperviewBlock) {
         self.didMoveToSuperviewBlock();
@@ -143,6 +158,38 @@
     
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
+}
+
+-(void)removeFromSuperview {
+    [self scrollView:(UIScrollView*)self.superview contextObserver:NO];
+    [super removeFromSuperview];
+}
+
+-(void)scrollView:(UIScrollView*)scrollView contextObserver:(BOOL)b {
+    if (![scrollView isKindOfClass:[UIScrollView class]]) {
+        return;
+    }
+    static BOOL didObserver = NO;
+    if (b) {
+        if (self.stretching) {
+            [scrollView addObserver:self forKeyPath:NSStringFromSelector(@selector(contentOffset)) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:&kScrollContext];
+            didObserver = true;
+        }
+    }else{
+        if (didObserver) {
+            [scrollView removeObserver:self forKeyPath:NSStringFromSelector(@selector(contentOffset)) context:&kScrollContext];
+        }
+    }
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(__unused id)object change:(NSDictionary *)change context:(void *)context {
+    if(context == &kScrollContext) {
+        CGFloat newOffsetY = [change[NSKeyValueChangeNewKey] CGPointValue].y;
+        static CGFloat oldOffsetY = 0;
+        self.panelView_CH.constant = self.bounds.size.height - newOffsetY;
+        NSLog(@"%f",newOffsetY);
+        oldOffsetY = newOffsetY;
+    }
 }
 
 -(void)heightChange:(CGFloat)height {
@@ -173,7 +220,6 @@
     if (!self.makeImageView.hidden) {
         self.makeImageView.alpha = 1 - height / sHeight;
     }
- 
 }
 
 -(UIImage*)imageWithUIView:(UIView*)view{
