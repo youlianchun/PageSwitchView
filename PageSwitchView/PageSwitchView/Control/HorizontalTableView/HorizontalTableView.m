@@ -46,9 +46,9 @@
     if (!_view) {
         _view = [[UIContentView alloc]init];
         _view.backgroundColor = [UIColor clearColor];
-        _view.opaque = false;
+        _view.opaque = NO;
         [self.contentView addSubview:_view];
-        _view.translatesAutoresizingMaskIntoConstraints = false;
+        _view.translatesAutoresizingMaskIntoConstraints = NO;
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
         [self.contentView addConstraint: [NSLayoutConstraint constraintWithItem:_view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
@@ -83,27 +83,27 @@
 }
 
 -(void)initialization {
-    self.clipsToBounds = true;
+    self.clipsToBounds = YES;
     self.initPageIndex = 0;
     self.tableView = [[_HorizontalTableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.tableView.backgroundColor = self.backgroundColor;
     self.tableView.opaque = self.opaque;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.showsHorizontalScrollIndicator = false;
-    self.tableView.showsVerticalScrollIndicator = false;
-    self.tableView.scrollsToTop = false;
-    self.tableView.bounces = false;
+    self.tableView.showsHorizontalScrollIndicator = NO;
+    self.tableView.showsVerticalScrollIndicator = NO;
+    self.tableView.scrollsToTop = NO;
+    self.tableView.bounces = NO;
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
     [self addSubview:self.tableView];
 
-    self.tableView.pagingEnabled = true;
+    self.tableView.pagingEnabled = YES;
     self.tableView.transform = CGAffineTransformIdentity;//在设置frame前将transform重置
     self.tableView.transform = CGAffineTransformMakeRotation(M_PI/-2);
     
-    self.tableView.translatesAutoresizingMaskIntoConstraints = false;
+    self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.panelView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
@@ -115,9 +115,9 @@
 -(UIView *)panelView {
     if (!_panelView) {
         _panelView = [[UIView alloc]init];
-        _panelView.hidden = true;
+        _panelView.hidden = YES;
         [self addSubview:_panelView];
-        _panelView.translatesAutoresizingMaskIntoConstraints = false;
+        _panelView.translatesAutoresizingMaskIntoConstraints = NO;
         self.horizontalTableView_CL = [NSLayoutConstraint constraintWithItem:_panelView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:0];
         self.horizontalTableView_CR = [NSLayoutConstraint constraintWithItem:_panelView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:0];
         [self addConstraint: [NSLayoutConstraint constraintWithItem:_panelView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
@@ -152,11 +152,11 @@
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier = [NSString stringWithFormat:@"HorizontalTableViewCellIdentifier_%ld",(long)indexPath.section];
-    BOOL isReuse = true;
+    BOOL isReuse = YES;
     _HorizontalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
         cell = [[_HorizontalTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        isReuse = false;
+        isReuse = NO;
         cell.backgroundColor = self.backgroundColor;
         cell.opaque = self.opaque;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -181,11 +181,11 @@
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
-    view.hidden = true;
+    view.hidden = YES;
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
-    view.hidden = true;
+    view.hidden = YES;
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(_HorizontalTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {

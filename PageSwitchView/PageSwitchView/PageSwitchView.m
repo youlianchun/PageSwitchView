@@ -30,9 +30,9 @@
         }else {
             self.otherScrollView = nil;
         }
-        return true;
+        return YES;
     }else{
-        return false;
+        return NO;
     }
 }
 
@@ -92,14 +92,14 @@ static const NSInteger kNull_PageIndex = 999999999;
 -(_PageSwitchView *)pageTableView {
     if (!_pageTableView) {
         _pageTableView = [[_PageSwitchView alloc]initWithFrame:self.bounds style:UITableViewStylePlain];
-        _pageTableView.showsVerticalScrollIndicator = false;
+        _pageTableView.showsVerticalScrollIndicator = NO;
         _pageTableView.delegate = self;
         _pageTableView.dataSource = self;
         _pageTableView.panGestureRecognizer.groupTag = kUIGestureRecognizer;
         [self addSubview:_pageTableView];
 //        _pageTableView.rowHeight = CGRectGetHeight(self.bounds)-CGRectGetHeight(self.segmentTableView.bounds)-self.topeSpace;
         _pageTableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, self.topeSpace)];
-        _pageTableView.translatesAutoresizingMaskIntoConstraints = false;
+        _pageTableView.translatesAutoresizingMaskIntoConstraints = NO;
         [self addConstraint:[NSLayoutConstraint constraintWithItem:_pageTableView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
         [self addConstraint:[NSLayoutConstraint constraintWithItem:_pageTableView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
         [self addConstraint: [NSLayoutConstraint constraintWithItem:_pageTableView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
@@ -298,19 +298,19 @@ static const NSInteger kNull_PageIndex = 999999999;
 
 -(void)tableView:(HorizontalTableView *)tableView willDisplayCellView:(UIContentView *)contentView atRowIndex:(NSUInteger )rowIndex {
     PageSwitchItem * pageSwitchItem = self.pageSwitchItemArray[rowIndex];
-    pageSwitchItem.isVisible = true;
+    pageSwitchItem.isVisible = YES;
     if (pageSwitchItem.didLoad) {
         if (pageSwitchItem.isScroll) {
             UIScrollView *scrollView = (UIScrollView*)pageSwitchItem.contentView;
             if (self.pageTableView.contentOffset.y < self.pageTableView.tableHeaderView.bounds.size.height-self.topeSpace) {
-                [scrollView setContentOffset:CGPointZero animated:false];
+                [scrollView setContentOffset:CGPointZero animated:NO];
             }
         }
         if (pageSwitchItem.is2Scroll) {
             TwoScrollView *twoScrollView = (TwoScrollView*)pageSwitchItem.contentView;
             if (self.pageTableView.contentOffset.y < self.pageTableView.tableHeaderView.bounds.size.height-self.topeSpace) {
-                [twoScrollView.scrollView_l setContentOffset:CGPointZero animated:false];
-                [twoScrollView.scrollView_r setContentOffset:CGPointZero animated:false];
+                [twoScrollView.scrollView_l setContentOffset:CGPointZero animated:NO];
+                [twoScrollView.scrollView_r setContentOffset:CGPointZero animated:NO];
             }
         }
     }
@@ -318,8 +318,8 @@ static const NSInteger kNull_PageIndex = 999999999;
 
 -(void)tableView:(HorizontalTableView *)tableView didEndDisplayingCellView:(UIContentView *)contentView atRowIndex:(NSUInteger )rowIndex {
     PageSwitchItem * pageSwitchItem = self.pageSwitchItemArray[rowIndex];
-    pageSwitchItem.isVisible = false;
-    pageSwitchItem.isCurrent = false;
+    pageSwitchItem.isVisible = NO;
+    pageSwitchItem.isCurrent = NO;
 }
 
 -(void)tableView:(HorizontalTableView *)tableView didScrollWithLeftPageIndex:(NSUInteger)leftPageIndex leftScale:(CGFloat)leftScale rightPageIndex:(NSUInteger)rightPageIndex rightScale:(CGFloat)rightScale {
@@ -331,7 +331,7 @@ static const NSInteger kNull_PageIndex = 999999999;
 
 -(void)tableView:(HorizontalTableView *)tableView didScrollToPageIndex:(NSUInteger)index {
     [self.segmentTableView handoverWithLeftPageIndex:index leftScale:1.0 rightPageIndex:kNull_PageIndex rightScale:0.0];
-    self.pageSwitchItemArray[index].isCurrent = true;
+    self.pageSwitchItemArray[index].isCurrent = YES;
     [self.segmentTableView adjustCurrentIndex:index];
 }
 
@@ -347,7 +347,7 @@ static const NSInteger kNull_PageIndex = 999999999;
 
 #pragma mark - SegmentTableViewDelegate
 -(void)segmentTableView:(SegmentTableView *)tableView didSelectAtIndex:(NSUInteger)index {
-    [self.hTableView scrollToRowAtIndex:index animated:false];
+    [self.hTableView scrollToRowAtIndex:index animated:NO];
     self.initPageIndex = index;
 }
 
@@ -355,7 +355,7 @@ static const NSInteger kNull_PageIndex = 999999999;
 
 -(void)addConstraint:(UIView*)view inserts:(UIEdgeInsets)inserts {
     UIView *superview = view.superview;
-    view.translatesAutoresizingMaskIntoConstraints = false;
+    view.translatesAutoresizingMaskIntoConstraints = NO;
     [superview addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeLeft multiplier:1 constant:inserts.left]];
     [superview addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeRight multiplier:1 constant:inserts.right]];
     [superview addConstraint: [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeTop multiplier:1 constant:inserts.top]];
@@ -369,7 +369,7 @@ static const NSInteger kNull_PageIndex = 999999999;
 //       CGRect segmentTableViewRect = [self.segmentTableView convertRect:self.segmentTableView.bounds toView:self];
 //        if (point.y >= segmentTableViewRect.origin.y && point.y <= segmentTableViewRect.size.height+segmentTableViewRect.origin.y) {
 //
-//            [self.pageTableView.otherScrollView setContentOffset:self.pageTableView.otherScrollView.contentOffset animated:false];
+//            [self.pageTableView.otherScrollView setContentOffset:self.pageTableView.otherScrollView.contentOffset animated:NO];
 //
 //            CGPoint p = [self convertPoint:point toView:self.segmentTableView];
 //            UIView *v = [self.segmentTableView hitTest:p withEvent:event];
@@ -382,9 +382,9 @@ static const NSInteger kNull_PageIndex = 999999999;
 //            if (indexPath.row == indexPath2.row) {
 //                return nil;
 //            }
-//            [self.hTableView.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:false];
+//            [self.hTableView.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
 //            ;
-////            [self.segmentTableView.tableView selectRowAtIndexPath:[self.segmentTableView.tableView indexPathForCell:cell] animated:false scrollPosition:UITableViewScrollPositionNone];
+////            [self.segmentTableView.tableView selectRowAtIndexPath:[self.segmentTableView.tableView indexPathForCell:cell] animated:NO scrollPosition:UITableViewScrollPositionNone];
 //            return v;
 //        }
 //    }
@@ -402,22 +402,11 @@ static const NSInteger kNull_PageIndex = 999999999;
     
     self.headerView = nil;
     if (self.headerView) {
-        self.pageTableView.scrollEnabled = true;
-        
-        UIView *view = [[UIView alloc]initWithFrame:self.headerView.bounds];
-        self.pageTableView.tableHeaderView = view;
-        [view addSubview:self.headerView];
-        StretchingHeaderView *sHeaderView = [[StretchingHeaderView alloc]initWithFrame:self.headerView.bounds];
-        [view addSubview:sHeaderView];
-        sHeaderView.translatesAutoresizingMaskIntoConstraints = false;
-        [view addConstraint:[NSLayoutConstraint constraintWithItem:sHeaderView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
-        [view addConstraint:[NSLayoutConstraint constraintWithItem:sHeaderView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
-        [self addConstraint: [NSLayoutConstraint constraintWithItem:sHeaderView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
-        [view addConstraint: [NSLayoutConstraint constraintWithItem:sHeaderView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
-        sHeaderView.contentView = self.headerView;
-        
+        self.pageTableView.scrollEnabled = YES;
+        StretchingHeaderView *sHeaderView = [[StretchingHeaderView alloc]initWithContentView:self.headerView stretching:YES];
+        self.pageTableView.tableHeaderView = sHeaderView;
     }else {
-        self.pageTableView.scrollEnabled = false;
+        self.pageTableView.scrollEnabled = NO;
     }
     
     [self.pageTableView reloadData];

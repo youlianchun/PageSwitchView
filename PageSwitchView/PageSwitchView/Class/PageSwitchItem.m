@@ -41,7 +41,7 @@ static const CGFloat waitTimer = 0.05;
             _contentViewController = viewController;
         };
         self.newPage(doReturn);
-        self.didConfig = false;
+        self.didConfig = NO;
         [_contentView removeFromSuperview];
     }
     return _contentView;
@@ -67,7 +67,7 @@ static const CGFloat waitTimer = 0.05;
             wself.is2Scroll = [view isKindOfClass:[TwoScrollView class]];
         };
         self.newPage(doReturn);
-        self.didConfig = false;
+        self.didConfig = NO;
     }
     return _contentViewController;
 }
@@ -121,7 +121,7 @@ static const CGFloat waitTimer = 0.05;
 
 
 -(void)loadFunction {
-    self.didLoad = true;
+    self.didLoad = YES;
     if (self.didLoadBock) {
         self.didLoadBock();
     }

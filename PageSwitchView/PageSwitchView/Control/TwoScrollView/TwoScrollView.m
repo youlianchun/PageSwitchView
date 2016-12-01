@@ -73,7 +73,7 @@
             [self.dI_l.receiver scrollViewDidScroll:scrollView];
         }
         if (scrollView.contentOffset.y <= 0 && self.haveHeader) {
-            [self.scrollView_r setContentOffset:scrollView.contentOffset animated:false];
+            [self.scrollView_r setContentOffset:scrollView.contentOffset animated:NO];
         }
     }
     
@@ -82,7 +82,7 @@
             [self.dI_r.receiver scrollViewDidScroll:scrollView];
         }
         if (scrollView.contentOffset.y <= 0 && self.haveHeader) {
-            [self.scrollView_l setContentOffset:scrollView.contentOffset animated:false];
+            [self.scrollView_l setContentOffset:scrollView.contentOffset animated:NO];
         }
     }
     
@@ -94,8 +94,8 @@
 #pragma mark -
 -(void)lauout{
     
-    self.scrollView_l.translatesAutoresizingMaskIntoConstraints = false;
-    self.scrollView_r.translatesAutoresizingMaskIntoConstraints = false;
+    self.scrollView_l.translatesAutoresizingMaskIntoConstraints = NO;
+    self.scrollView_r.translatesAutoresizingMaskIntoConstraints = NO;
     
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.scrollView_l attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
     

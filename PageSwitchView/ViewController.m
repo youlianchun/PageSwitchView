@@ -21,11 +21,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.pageSwitchView = [[PageSwitchView alloc]initWithFrame:self.view.bounds];
-    self.pageSwitchView.clipsToBounds = true;
+    self.pageSwitchView.clipsToBounds = YES;
     [self.view addSubview:self.pageSwitchView];
     
     
-    self.pageSwitchView.translatesAutoresizingMaskIntoConstraints = false;
+    self.pageSwitchView.translatesAutoresizingMaskIntoConstraints = NO;
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pageSwitchView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pageSwitchView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1 constant:0]];

@@ -36,7 +36,7 @@
         _textLabel.textColor = [UIColor blackColor];
         _textLabel.textAlignment = NSTextAlignmentCenter;
         _textLabel.layer.cornerRadius = 2;
-        _textLabel.layer.masksToBounds = true;
+        _textLabel.layer.masksToBounds = YES;
         [self.contentView addSubview:_textLabel];
         [self addConstraint:_textLabel inserts:UIEdgeInsetsMake(5, 0, -5, 0)];
     }
@@ -45,7 +45,7 @@
 
 -(void)addConstraint:(UIView*)view inserts:(UIEdgeInsets)inserts {
     UIView *superview = view.superview;
-    view.translatesAutoresizingMaskIntoConstraints = false;
+    view.translatesAutoresizingMaskIntoConstraints = NO;
     [superview addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeLeft multiplier:1 constant:inserts.left]];
     [superview addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeRight multiplier:1 constant:inserts.right]];
     [superview addConstraint: [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeTop multiplier:1 constant:inserts.top]];
@@ -82,14 +82,14 @@
     if (!_tableView) {
         _tableView = [[UITableView alloc]initWithFrame:self.bounds style:UITableViewStylePlain];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _tableView.showsVerticalScrollIndicator = false;
+        _tableView.showsVerticalScrollIndicator = NO;
         _tableView.delegate = self;
         _tableView.dataSource = self;
 //        _tableView.backgroundColor = [UIColor grayColor];
         [self addSubview:_tableView];
         _tableView.transform = CGAffineTransformIdentity;//在设置frame前将transform重置
         _tableView.transform = CGAffineTransformMakeRotation(M_PI/-2);
-        _tableView.translatesAutoresizingMaskIntoConstraints = false;
+        _tableView.translatesAutoresizingMaskIntoConstraints = NO;
         [self addConstraint:[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
         [self addConstraint:[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
         [self addConstraint:[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
@@ -134,7 +134,7 @@
         [self.delegate segmentTableView:self didSelectAtIndex:currentIndex];
     }
     if (currentIndex < self.titleArray.count) {
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:currentIndex] atScrollPosition:UITableViewScrollPositionMiddle animated:true];
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:currentIndex] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
         [self.tableView reloadData];
     }
 }
@@ -176,11 +176,11 @@
     }
 }
 -(void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
-    view.hidden = true;
+    view.hidden = YES;
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
-    view.hidden = true;
+    view.hidden = YES;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -206,7 +206,7 @@
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    BOOL canSelect = true;
+    BOOL canSelect = YES;
     if ([self.delegate respondsToSelector:@selector(segmentTableView:willSelectAtIndex:)]) {
         canSelect = [self.delegate segmentTableView:self willSelectAtIndex:indexPath.section];
     }
@@ -244,7 +244,7 @@
         rightCell.textLabel.backgroundColor = [self.gradientColor_bg colorAChangeToColorB:scale];
     }
     if (leftScale >= 0.8) {
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:leftPageIndex] atScrollPosition:UITableViewScrollPositionMiddle animated:true];
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:leftPageIndex] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
     }
 }
 

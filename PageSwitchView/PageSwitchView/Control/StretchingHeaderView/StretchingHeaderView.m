@@ -10,78 +10,78 @@
 #import <UIKit/UIKit.h>
 #import <Accelerate/Accelerate.h>
 
+#pragma mark - _StretchingHeaderPanelView
+
 @interface _StretchingHeaderPanelView:UIView
 @property (nonatomic) void(^heightChange)(CGFloat height);
-//-(void)display;
-
 @end
 
 @implementation _StretchingHeaderPanelView
-
 -(void)setBounds:(CGRect)bounds {
     [super setBounds:bounds];
     if (self.heightChange) {
         self.heightChange(bounds.size.height);
     }
 }
-//
-//-(void)display {
-//    self.translatesAutoresizingMaskIntoConstraints = false;
-//    UIView *superview = self.superview;
-//    UIView *ssuperview = superview.superview;
-//    
-//    [self addConstraint:[NSLayoutConstraint constraintWithItem:superview attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
-//    
-//    [self addConstraint:[NSLayoutConstraint constraintWithItem:superview attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
-//    
-//    [ssuperview addConstraint: [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:ssuperview attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
-//    
-//    [self addConstraint: [NSLayoutConstraint constraintWithItem:superview attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
-//}
 
 @end
 
+#pragma mark - StretchingHeaderView
+
 @interface StretchingHeaderView()
+@property (nonatomic, assign) BOOL stretching;
 @property (nonatomic) _StretchingHeaderPanelView *panelView;
 @property (nonatomic) void(^didMoveToSuperviewBlock)();
+@property (nonatomic) UIView *contentView;
 
-@property (nonatomic) UIView *contentBgView;
-@property (nonatomic, strong) NSLayoutConstraint *contentBgView_CH;
 @property (nonatomic) UIImageView *imageView;
 @property (nonatomic) UIImageView *makeImageView;
-
-@property (nonatomic, strong) NSLayoutConstraint *imageView_CHW;
 
 @property (nonatomic, assign) BOOL didUpdateImage;
 @property (nonatomic, assign) BOOL didUpdateMakeImage;
 
 @property (nonatomic) UIColor *tintColor;
-
 @end
 
 @implementation StretchingHeaderView
+
+-(instancetype)initWithContentView:(UIView*)contentView stretching:(BOOL)stretching {
+    self = [super initWithFrame:contentView.bounds];
+    if (self) {
+        self.clipsToBounds = NO;
+        self.contentView = contentView;
+        self.stretching = stretching;
+    }
+    return self;
+}
 
 #pragma mark - Get Set
 
 -(_StretchingHeaderPanelView *)panelView {
     if (!_panelView) {
         _panelView = [[_StretchingHeaderPanelView alloc]init];
+        _panelView.clipsToBounds = YES;
+        _panelView.backgroundColor = [UIColor orangeColor];
         __weak typeof(self) wself = self;
         _panelView.heightChange = ^(CGFloat height) {
             [wself heightChange:height];
         };
         [self addSubview:_panelView];
-        _panelView.translatesAutoresizingMaskIntoConstraints = false;
+        _panelView.translatesAutoresizingMaskIntoConstraints = NO;
         
         [self addConstraint:[NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
         
         [self addConstraint:[NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
         
-        [self addConstraint: [NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
-        
-        self.didMoveToSuperviewBlock = ^{
-            [wself.superview addConstraint: [NSLayoutConstraint constraintWithItem:wself.panelView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:wself.superview attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
-        };
+        if (self.stretching) {//拉伸头部
+            self.didMoveToSuperviewBlock = ^{
+                [wself.superview addConstraint: [NSLayoutConstraint constraintWithItem:wself.panelView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:wself attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+                [wself.superview.superview addConstraint: [NSLayoutConstraint constraintWithItem:wself.panelView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:wself.superview.superview attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+            };
+        }else {//普通头部
+            [self addConstraint: [NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:wself attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+            [self addConstraint: [NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+        }
     }
     return _panelView;
 }
@@ -93,54 +93,20 @@
     return _tintColor;
 }
 
-
--(UIView *)contentBgView {
-    if (!_contentBgView) {
-        self.clipsToBounds = true;
-        _contentBgView = [[UIView alloc]initWithFrame:CGRectZero];
-        [self addSubview:_contentBgView];
-        _contentBgView.translatesAutoresizingMaskIntoConstraints = false;
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:_contentBgView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:_contentBgView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:_contentBgView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
-        self.contentBgView_CH = [NSLayoutConstraint constraintWithItem:_contentBgView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:1 constant:0];
-        [self addConstraint:self.contentBgView_CH];
-        _contentBgView.backgroundColor = [UIColor greenColor];
-    }
-    return _contentBgView;
-}
-
--(void)setContentView:(UIView *)contentView {
-    _contentView = contentView;
-    CGRect frame = contentView.bounds;
-    frame.size.width = self.bounds.size.width;
-    contentView.frame = frame;
-    [self.contentBgView addSubview:contentView];
-    self.contentBgView_CH.constant = CGRectGetHeight(frame);
-    contentView.translatesAutoresizingMaskIntoConstraints = false;
-    [self.contentBgView addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentBgView attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
-    [self.contentBgView addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentBgView attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
-    [self.contentBgView addConstraint: [NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentBgView attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
-    [self.contentBgView addConstraint: [NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentBgView attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
-    
-    
-}
 -(UIImageView *)imageView{
     if (!_imageView) {
         _imageView = [[UIImageView alloc]init];
-        [self addSubview:_imageView];
-        _imageView.translatesAutoresizingMaskIntoConstraints = false;
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:_imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:_imageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+        [self.panelView addSubview:_imageView];
+        _imageView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:_imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.panelView attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:_imageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.panelView attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
         
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:_imageView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:_imageView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.panelView attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
         
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:_imageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:_imageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.panelView attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
 
-        CGFloat m = self.contentBgView_CH.constant/self.bounds.size.width;
-        self.imageView_CHW = [NSLayoutConstraint constraintWithItem:_imageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_imageView attribute:NSLayoutAttributeWidth multiplier:m constant:0];
-
-        [_imageView addConstraint:self.imageView_CHW];
+        CGFloat m = self.bounds.size.height/self.bounds.size.width;
+        [_imageView addConstraint:[NSLayoutConstraint constraintWithItem:_imageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_imageView attribute:NSLayoutAttributeWidth multiplier:m constant:0]];
     }
     return _imageView;
 }
@@ -149,47 +115,16 @@
     if (!_makeImageView) {
         _makeImageView = [[UIImageView alloc]init];
         _makeImageView.contentMode = UIViewContentModeCenter;
-        [self addSubview:_makeImageView];
-        _makeImageView.translatesAutoresizingMaskIntoConstraints = false;
+        [self.panelView addSubview:_makeImageView];
+        _makeImageView.translatesAutoresizingMaskIntoConstraints = NO;
         [self addConstraint:[NSLayoutConstraint constraintWithItem:_makeImageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
         [self addConstraint:[NSLayoutConstraint constraintWithItem:_makeImageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:_makeImageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:_makeImageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:_makeImageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:_makeImageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
     }
     return _makeImageView;
 }
 
-//-(void)setBounds:(CGRect)bounds{//上滑，下拉时候的视觉样式处理
-//    [super setBounds:bounds];
-////    self.contentView.userInteractionEnabled = CGRectGetHeight(bounds)==self.contentBgView_CH.constant;
-////
-////    self.imageView.hidden = CGRectGetHeight(bounds)<=self.contentBgView_CH.constant;
-////    if (!self.imageView.hidden && !self.didUpdateImage) {//每次下啦时候更新一次image
-////        self.imageView.image = [self imageWithUIView:self.contentView];
-////        self.didUpdateImage = true;
-////    }else if (self.imageView.image){
-////        //didUpdateImage 在bounds初始化时候过滤
-////        self.didUpdateImage = !self.imageView.hidden;
-////    }
-////    
-////    self.makeImageView.hidden = CGRectGetHeight(bounds)>=self.contentBgView_CH.constant;
-////    if (!self.makeImageView.hidden && !self.didUpdateMakeImage) {//每次下啦时候更新一次makeImage
-////        UIImage *image = [self imageWithUIView:self.contentView];
-//////        self.makeImageView.image = image;
-////        __weak typeof(self) wself = self;
-////        [self applyBlurWithImage:image Radius:5 tintColor:self.tintColor saturationDeltaFactor:1.0  resImage:^(UIImage *image) {
-////            wself.makeImageView.image = image;
-////        }];
-////        self.didUpdateMakeImage = true;
-////    }else if (self.makeImageView.image){
-////        //didUpdateMakeImage 在bounds初始化时候过滤
-////        self.didUpdateMakeImage = !self.makeImageView.hidden;
-////    }
-////    
-////    if (!self.makeImageView.hidden) {
-////        self.makeImageView.alpha = 1-CGRectGetHeight(bounds)/CGRectGetHeight(self.contentView.bounds);
-////    }
-//}
 
 #pragma mark -
 
@@ -199,36 +134,44 @@
     if (self.didMoveToSuperviewBlock) {
         self.didMoveToSuperviewBlock();
     }
+
+    [self.panelView addSubview:self.contentView];
+    self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
+
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
 }
 
 -(void)heightChange:(CGFloat)height {
-    self.contentView.userInteractionEnabled = height==self.contentBgView_CH.constant;
-    
-    self.imageView.hidden = height<=self.contentBgView_CH.constant;
-    if (!self.imageView.hidden && !self.didUpdateImage) {//每次下啦时候更新一次image
+    CGFloat sHeight = self.bounds.size.height;
+    self.contentView.userInteractionEnabled = height == sHeight;
+    self.imageView.hidden = height <= sHeight;
+    if (!self.imageView.hidden && !self.didUpdateImage) {//每次下拉时候更新一次image
         self.imageView.image = [self imageWithUIView:self.contentView];
-        self.didUpdateImage = true;
+        self.didUpdateImage = YES;
     }else if (self.imageView.image){
         //didUpdateImage 在bounds初始化时候过滤
         self.didUpdateImage = !self.imageView.hidden;
     }
     
-    self.makeImageView.hidden = height>=self.contentBgView_CH.constant;
-    if (!self.makeImageView.hidden && !self.didUpdateMakeImage) {//每次下啦时候更新一次makeImage
+    self.makeImageView.hidden = height >= sHeight;
+    if (!self.makeImageView.hidden && !self.didUpdateMakeImage) {//每次上拉时候更新一次makeImage
         UIImage *image = [self imageWithUIView:self.contentView];
-        //        self.makeImageView.image = image;
         __weak typeof(self) wself = self;
         [self applyBlurWithImage:image Radius:5 tintColor:self.tintColor saturationDeltaFactor:1.0  resImage:^(UIImage *image) {
             wself.makeImageView.image = image;
         }];
-        self.didUpdateMakeImage = true;
+        self.didUpdateMakeImage = YES;
     }else if (self.makeImageView.image){
         //didUpdateMakeImage 在bounds初始化时候过滤
         self.didUpdateMakeImage = !self.makeImageView.hidden;
     }
     
     if (!self.makeImageView.hidden) {
-        self.makeImageView.alpha = 1-height/CGRectGetHeight(self.contentView.bounds);
+        self.makeImageView.alpha = 1 - height / sHeight;
     }
  
 }
