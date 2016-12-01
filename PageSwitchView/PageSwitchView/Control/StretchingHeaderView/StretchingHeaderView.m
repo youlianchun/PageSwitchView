@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 #import <Accelerate/Accelerate.h>
 
+#pragma mark -
 #pragma mark - _StretchingHeaderPanelView
 
 @interface _StretchingHeaderPanelView:UIView
@@ -26,6 +27,7 @@
 
 @end
 
+#pragma mark -
 #pragma mark - StretchingHeaderView
 static void *kScrollContext = &kScrollContext;
 
