@@ -11,7 +11,7 @@
 #import "PageViewControllerProtocol.h"
 
 
-typedef void (^DoReturn)(UIViewController*viewController, id view);
+typedef void (^DoReturn)(UIViewController*viewController, UIView* view);
 
 @interface PageSwitchItem : NSObject
 
@@ -19,16 +19,15 @@ typedef void (^DoReturn)(UIViewController*viewController, id view);
 
 @property (nonatomic, readonly) void(^newPage)(DoReturn doReturn);
 
-@property (nonatomic, readonly) id contentView;
+@property (nonatomic, readonly) UIView* contentView;
 
 @property (nonatomic, readonly) BOOL didLoad;
 
 @property (nonatomic, readonly) UIViewController<PageViewControllerProtocol> *contentViewController;
 
+
 +(PageSwitchItem*)itemWithTitle:(NSString*)title page:(void(^)(DoReturn doReturn))newPage ;
 
-
 -(instancetype)init NS_UNAVAILABLE;
-
 
 @end

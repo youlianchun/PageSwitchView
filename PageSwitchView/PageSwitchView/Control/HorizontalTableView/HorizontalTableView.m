@@ -233,7 +233,7 @@
 
 - (void)reloadData {
     if ([self.delegate respondsToSelector:@selector(cellSpaceInTableView:)]) {
-        self.cellSpace_2 = [self.delegate cellSpaceInTableView:self]/2.0;
+        self.cellSpace_2 = ABS([self.delegate cellSpaceInTableView:self])/2.0;
     }else {
         self.cellSpace_2 = 0;
     }

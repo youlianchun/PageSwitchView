@@ -281,15 +281,12 @@ static const NSInteger kNull_PageIndex = 999999999;
                 [pageSwitchItem.contentViewController viewDidAdjustRect];
             }
             if (pageSwitchItem.contentViewController.view != pageSwitchItem.contentView) {
-                [((UIView *)pageSwitchItem.contentView) removeFromSuperview];
+                [pageSwitchItem.contentView removeFromSuperview];
                 [pageSwitchItem.contentViewController.view addSubview:pageSwitchItem.contentView];
-            }
-            if (pageSwitchItem.contentViewController.view != pageSwitchItem.contentView) {
                 [wself addConstraint:pageSwitchItem.contentView inserts:UIEdgeInsetsMake(0, 0, 0, 0)];
             }
         };
     }
-
 }
 
 -(CGFloat)cellSpaceInTableView:(HorizontalTableView*)tableView {

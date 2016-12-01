@@ -10,8 +10,6 @@
 #import "PageSwitchItem.h"
 @class PageSwitchView;
 
-
-
 @protocol PageSwitchViewDataSource<NSObject>
 
 @required

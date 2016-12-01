@@ -13,7 +13,7 @@ static const CGFloat waitTimer = 0.05;
 
 @interface PageSwitchItem()
 @property (nonatomic, copy) NSString *title;
-@property (nonatomic) id contentView;
+@property (nonatomic) UIView* contentView;
 @property (nonatomic) UIViewController<PageViewControllerProtocol> *contentViewController;
 @property (nonatomic, copy) void(^newPage)(DoReturn doReturn);
 @property (nonatomic, retain) DelegateInterceptor<id<UIScrollViewDelegate>> *delegateInterceptor;
@@ -34,7 +34,7 @@ static const CGFloat waitTimer = 0.05;
 }
 
 
--(id)contentView{
+-(UIView*)contentView{
     if (!_contentView) {//懒加载调用控制器创建，获取分页滑动视图
         DoReturn doReturn = ^(UIViewController<PageViewControllerProtocol>*viewController, id view){
             _contentView = view;

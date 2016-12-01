@@ -305,9 +305,7 @@ static void *kScrollContext = &kScrollContext;
         // Output image is ready.
         UIImage *outputImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
-        
-        
-        
+
         dispatch_async(dispatch_get_main_queue(), ^{
             resImage(outputImage);
         });
