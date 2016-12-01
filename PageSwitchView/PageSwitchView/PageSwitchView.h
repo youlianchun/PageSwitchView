@@ -14,28 +14,24 @@
 
 @required
 
-
-//- (UIView *)viewForSegmentInPageSwitchView:(PageSwitchView *)pageSwitchView;
-
-//- (UIView *)pageSwitchView:(PageSwitchView *)pageSwitchView pageAtIndex:(NSUInteger)index;
-//
-//- (NSInteger)numberOfSectionsInPageSwitchView:(PageSwitchView *)pageSwitchView;
-
 - (NSArray<PageSwitchItem*> *)pageSwitchItemsInPageSwitchView:(PageSwitchView *)pageSwitchView;
-
 
 @optional
 
 - (UIView *)viewForHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView;
+
+- (CGFloat)topeSpaceInPageSwitchView:(PageSwitchView *)pageSwitchView;
 
 @end
 
 @protocol PageSwitchViewDelegate<NSObject>
 
 @optional
+
 - (void)pageSwitchView:(PageSwitchView *)pageSwitchView movedToPageIndex:(NSUInteger)index;
 
 - (void)pageSwitchView:(PageSwitchView *)pageSwitchView movingAtPageIndex:(NSUInteger)index;
+
 @end
 
 @interface PageSwitchView : UIView

@@ -9,4 +9,5 @@
 @protocol PageViewControllerProtocol<NSObject>
 @optional
 -(void)viewDidAdjustRect;
+-(void)pageScrolling;
 @end

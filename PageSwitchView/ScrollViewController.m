@@ -26,7 +26,9 @@
     [self.scrollView addSubview:view];
     // Do any additional setup after loading the view.
 }
-
+-(void)pageScrolling {
+    NSLog(@"pageScrolling");
+}
 -(UIScrollView *)scrollView {
     if (!_scrollView) {
         _scrollView = [[UIScrollView alloc]init];

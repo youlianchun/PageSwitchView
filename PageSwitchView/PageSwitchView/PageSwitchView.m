@@ -50,18 +50,17 @@ static const NSInteger kNull_PageIndex = 999999999;
 
 @property (nonatomic) _PageSwitchView *pageTableView;
 
+@property (nonatomic) StretchingHeaderView *stretchingHeaderView;
 @property (nonatomic, retain) HorizontalTableView *hTableView ;
 
 @property (nonatomic, strong) NSMutableArray<PageSwitchItem *>*pageSwitchItemArray;
 @property (nonatomic) UIViewController *selfViewController;
 
 @property (nonatomic) SegmentTableView *segmentTableView;
-@property (nonatomic) NSUInteger initPageIndex;
-@property (nonatomic) NSUInteger currentPageIndex;
+//@property (nonatomic, readonly) NSUInteger currentPageIndex;
 @property (nonatomic) UIView *headerView;
 @property (nonatomic) CGFloat topeSpace;
-@property (nonatomic) BOOL isScrolling;
-@property (nonatomic) StretchingHeaderView *stretchingHeaderView;
+//@property (nonatomic) BOOL isScrolling;
 @end
 
 @implementation PageSwitchView
@@ -69,8 +68,7 @@ static const NSInteger kNull_PageIndex = 999999999;
 -(instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        _topeSpace = 40;
-        self.initPageIndex = 0;
+        self.topeSpace = 0;
     }
     return self;
 }
@@ -97,8 +95,6 @@ static const NSInteger kNull_PageIndex = 999999999;
         _pageTableView.dataSource = self;
         _pageTableView.panGestureRecognizer.groupTag = kUIGestureRecognizer;
         [self addSubview:_pageTableView];
-//        _pageTableView.rowHeight = CGRectGetHeight(self.bounds)-CGRectGetHeight(self.segmentTableView.bounds)-self.topeSpace;
-        _pageTableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, self.topeSpace)];
         _pageTableView.translatesAutoresizingMaskIntoConstraints = NO;
         [self addConstraint:[NSLayoutConstraint constraintWithItem:_pageTableView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
         [self addConstraint:[NSLayoutConstraint constraintWithItem:_pageTableView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
@@ -150,6 +146,10 @@ static const NSInteger kNull_PageIndex = 999999999;
     return  self.pageSwitchItemArray[currentPageIndex];
 }
 
+-(void)setTopeSpace:(CGFloat)topeSpace {
+    _topeSpace = ABS(topeSpace);
+}
+
 #pragma mark - UITableViewDataSource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -193,10 +193,9 @@ static const NSInteger kNull_PageIndex = 999999999;
             UIScrollView *contentScrollView =  self.pageTableView.otherScrollView;//(UIScrollView*)item.contentView;
             
             if (scrollView == self.pageTableView) {//滚动外部视图
-                [NSObject cancelPreviousPerformRequestsWithTarget:self];
-                [self performSelector:@selector(scrollViewDidEndScrollingAnimation:) withObject:nil afterDelay:0.2];
-                //NSLog(@"滑动中");
-                self.isScrolling = YES ;
+//                [NSObject cancelPreviousPerformRequestsWithTarget:self];
+//                [self performSelector:@selector(scrollViewDidEndScrollingAnimation:) withObject:nil afterDelay:0.2];
+//                self.isScrolling = YES ;
                 
                 static CGFloat lastContentOffset_y=0;
                 if (scrollView.contentOffset.y<lastContentOffset_y) {//向下
@@ -227,10 +226,9 @@ static const NSInteger kNull_PageIndex = 999999999;
                 }
             }
         }else{//普通视图
-            [NSObject cancelPreviousPerformRequestsWithTarget:self];
-            [self performSelector:@selector(scrollViewDidEndScrollingAnimation:) withObject:nil afterDelay:0.2];
-            //NSLog(@"滑动中");
-            self.isScrolling = YES ;
+//            [NSObject cancelPreviousPerformRequestsWithTarget:self];
+//            [self performSelector:@selector(scrollViewDidEndScrollingAnimation:) withObject:nil afterDelay:0.2];
+//            self.isScrolling = YES ;
             static CGFloat lastContentOffset_y=0;
             if (scrollView.contentOffset.y<lastContentOffset_y) {//向下
                 
@@ -245,10 +243,10 @@ static const NSInteger kNull_PageIndex = 999999999;
     }
 }
 
-- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
-    [NSObject cancelPreviousPerformRequestsWithTarget:self];
-    self.isScrolling = NO ;
-}
+//- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
+//    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+//    self.isScrolling = NO ;
+//}
 
 #pragma mark - HorizontalTableViewDataSource
 
@@ -320,10 +318,17 @@ static const NSInteger kNull_PageIndex = 999999999;
 }
 
 -(void)tableView:(HorizontalTableView *)tableView didScrollWithLeftPageIndex:(NSUInteger)leftPageIndex leftScale:(CGFloat)leftScale rightPageIndex:(NSUInteger)rightPageIndex rightScale:(CGFloat)rightScale {
+    if (rightScale !=0 && leftScale!= 0) {
+        PageSwitchItem *pageSwitchItem = self.pageSwitchItemArray[tableView.currentPageIndex];
+        if (pageSwitchItem.didLoad && [pageSwitchItem.contentViewController respondsToSelector:@selector(pageScrolling)]) {
+            [pageSwitchItem.contentViewController pageScrolling];
+        }
+    }
     [self.segmentTableView handoverWithLeftPageIndex:leftPageIndex leftScale:leftScale rightPageIndex:rightPageIndex rightScale:rightScale];
     if ([self.delegate respondsToSelector:@selector(pageSwitchView:movingAtPageIndex:)]) {
         [self.delegate pageSwitchView:self movingAtPageIndex:tableView.currentPageIndex];
     }
+    
 }
 
 -(void)tableView:(HorizontalTableView *)tableView didScrollToPageIndex:(NSUInteger)index {
@@ -344,8 +349,14 @@ static const NSInteger kNull_PageIndex = 999999999;
 
 #pragma mark - SegmentTableViewDelegate
 -(void)segmentTableView:(SegmentTableView *)tableView didSelectAtIndex:(NSUInteger)index {
+    if (index == self.hTableView.currentPageIndex) {
+        
+    }
+    PageSwitchItem *pageSwitchItem = self.pageSwitchItemArray[self.hTableView.currentPageIndex];
+    if (pageSwitchItem.didLoad && [pageSwitchItem.contentViewController respondsToSelector:@selector(pageScrolling)]) {
+        [pageSwitchItem.contentViewController pageScrolling];
+    }
     [self.hTableView scrollToRowAtIndex:index animated:NO];
-    self.initPageIndex = index;
 }
 
 #pragma mark -
@@ -406,22 +417,26 @@ static const NSInteger kNull_PageIndex = 999999999;
         self.pageTableView.scrollEnabled = NO;
     }
     
+    if ([self.delegate respondsToSelector:@selector(topeSpaceInPageSwitchView:)]) {
+        self.topeSpace = [self.dataSource topeSpaceInPageSwitchView:self];
+        self.pageTableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, self.topeSpace)];
+    }else{
+        self.pageTableView.tableFooterView = nil;
+    }
+    
     [self.pageTableView reloadData];
 }
 
 
 -(void)switchNewPageWithNewIndex:(NSUInteger)newIndex {
-    if (self.currentPageIndex == newIndex || newIndex >= self.pageSwitchItemArray.count) {
+    if (self.hTableView.currentPageIndex == newIndex || newIndex >= self.pageSwitchItemArray.count) {
         return;
     }
-    self.segmentTableView.currentIndex = newIndex;
-}
-
--(void)setTopeSpace:(CGFloat)topeSpace {
-    if (topeSpace < 0) {
-        topeSpace = 0;
+    PageSwitchItem *pageSwitchItem = self.pageSwitchItemArray[self.hTableView.currentPageIndex];
+    if (pageSwitchItem.didLoad && [pageSwitchItem.contentViewController respondsToSelector:@selector(pageScrolling)]) {
+        [pageSwitchItem.contentViewController pageScrolling];
     }
-    _topeSpace = topeSpace;
+    self.segmentTableView.currentIndex = newIndex;
 }
 
 @end

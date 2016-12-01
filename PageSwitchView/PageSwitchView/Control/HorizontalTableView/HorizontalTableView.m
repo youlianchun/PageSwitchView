@@ -193,8 +193,8 @@
         [self.delegate tableView:self willDisplayCellView:cell.view atRowIndex:indexPath.section];
     }
     if (self.initPageIndex == indexPath.section) {
-        [self performSelector:@selector(scrollViewDidEndDecelerating:) withObject:tableView afterDelay:0.001];
-        self.initPageIndex = 999999999;
+        [self performSelector:@selector(scrollViewDidEndDecelerating:) withObject:tableView afterDelay:0.001];//延迟处理，等待界面显示完成
+        self.initPageIndex = 999999999;//用极大值表示不存在
     }
 }
 
