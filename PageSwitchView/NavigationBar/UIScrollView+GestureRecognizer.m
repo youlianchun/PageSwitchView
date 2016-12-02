@@ -50,24 +50,31 @@ BOOL gestureRecognizer(UIScrollView *self, SEL _cmd, UIGestureRecognizer *gestur
     return true;
 }
 
-static inline BOOL swizzleNewClassMethod(Class class, SEL originalSelector, IMP imp, const char *types, SEL swizzledSelector) {
-    BOOL success = [class resolveInstanceMethod:originalSelector];
+static inline BOOL addClassMethod(Class class, SEL selector, IMP imp, const char *types) {
+    BOOL success = [class resolveInstanceMethod:selector];
     if (!success) {
-        success = class_addMethod(class, originalSelector, imp, types);
-    }
-    if (success) {
-        Method originalMethod = class_getInstanceMethod(class, originalSelector);
-        Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
-        
-         success = class_addMethod(class, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod));
-        if (success) {
-            class_replaceMethod(class, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
-        } else {
-            method_exchangeImplementations(originalMethod, swizzledMethod);
-        }
+        success = class_addMethod(class, selector, imp, types);
     }
     return success;
 }
+
+//static inline BOOL swizzleNewClassMethod(Class class, SEL originalSelector, IMP imp, const char *types, SEL swizzledSelector) {
+//    BOOL success = addClassMethod(class, originalSelector, imp, types);
+//    if (success) {
+//        Method originalMethod = class_getInstanceMethod(class, originalSelector);
+//        Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
+//        
+//         success = class_addMethod(class, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod));
+//        if (success) {
+//            class_replaceMethod(class, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
+//        } else {
+//            method_exchangeImplementations(originalMethod, swizzledMethod);
+//        }
+//    }
+//    return success;
+//}
+
+
 
 @implementation UIScrollView (GestureRecognizer)
 
@@ -76,28 +83,30 @@ static inline BOOL swizzleNewClassMethod(Class class, SEL originalSelector, IMP 
     dispatch_once(&onceToken, ^{
         Class class = [self class];
         
-        SEL originalSelector;
+        SEL selector;
         IMP imp = (IMP)gestureRecognizer;
         const char *types = "B@:@:@";
-        SEL swizzledSelector;
+//        SEL swizzledSelector;
         
-        originalSelector = NSSelectorFromString(@"gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:");
-        swizzledSelector = @selector(gr_gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:);
-        swizzleNewClassMethod(class, originalSelector, imp, types, swizzledSelector);
+        selector = NSSelectorFromString(@"gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:");
+        addClassMethod(class, selector, imp, types);
+//        swizzledSelector = @selector(gr_gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:);
+//        swizzleNewClassMethod(class, selector, imp, types, swizzledSelector);
         
-        originalSelector = NSSelectorFromString(@"gestureRecognizer:shouldRequireFailureOfGestureRecognizer:");
-        swizzledSelector = @selector(gr_gestureRecognizer:shouldRequireFailureOfGestureRecognizer:);
-        swizzleNewClassMethod(class, originalSelector, imp, types, swizzledSelector);
+        selector = NSSelectorFromString(@"gestureRecognizer:shouldRequireFailureOfGestureRecognizer:");
+        addClassMethod(class, selector, imp, types);
+//        swizzledSelector = @selector(gr_gestureRecognizer:shouldRequireFailureOfGestureRecognizer:);
+//        swizzleNewClassMethod(class, selector, imp, types, swizzledSelector);
     });
 }
 
 
-- (BOOL)gr_gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    return [self gr_gestureRecognizer:gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:otherGestureRecognizer];
-}
-
-- (BOOL)gr_gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    return [self gr_gestureRecognizer:gestureRecognizer shouldRequireFailureOfGestureRecognizer:otherGestureRecognizer];
-}
+//- (BOOL)gr_gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+//    return [self gr_gestureRecognizer:gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:otherGestureRecognizer];
+//}
+//
+//- (BOOL)gr_gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+//    return [self gr_gestureRecognizer:gestureRecognizer shouldRequireFailureOfGestureRecognizer:otherGestureRecognizer];
+//}
 
 @end
