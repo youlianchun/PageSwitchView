@@ -12,15 +12,21 @@
 #import "TwoScrollViewController.h"
 #import "SimpleViewController.h"
 #import "ScrollViewController.h"
+#import "NavigationBarTitleView.h"
+
 @interface ViewController()<PageSwitchViewDelegate, PageSwitchViewDataSource, UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic) PageSwitchView *pageSwitchView;
+@property (nonatomic) NavigationBarTitleView *titleView;
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.title = @"subView";
+    self.navigationItem.titleView = self.titleView;
+    self.titleView.titleLabel.text = self.title;
+    self.titleView.titleView.backgroundColor = [UIColor redColor];
     CGRect frame = self.view.bounds;
     self.pageSwitchView = [[PageSwitchView alloc]initWithFrame:frame];
     self.pageSwitchView.clipsToBounds = YES;
@@ -44,6 +50,15 @@
     });
 }
 
+-(NavigationBarTitleView *)titleView {
+    if (!_titleView) {
+        _titleView = [[NavigationBarTitleView alloc]initWithFrame:CGRectMake(0, 0, 200, 44)];
+    }
+    return _titleView;
+}
+- (void)pageSwitchView:(PageSwitchView *)pageSwitchView headerDisplayProgress:(CGFloat)progress {
+    self.titleView.labelShowRatio = progress;
+}
 
 - (UIView *)viewForHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView{
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 150)];

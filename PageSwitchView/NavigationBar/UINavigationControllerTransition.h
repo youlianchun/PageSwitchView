@@ -10,6 +10,6 @@
 
 @interface UINavigationControllerTransition : NSObject<UIViewControllerAnimatedTransitioning>
 @property (nonatomic, strong) UIPercentDrivenInteractiveTransition *interactiveTransition;
-
+@property (nonatomic) CGFloat shadowOpacity;
 -(instancetype)initWithOperation:(UINavigationControllerOperation)operation;
 @end

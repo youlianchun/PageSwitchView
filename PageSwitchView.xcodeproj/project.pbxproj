@@ -37,6 +37,7 @@
 		A981F7D51DF132E6002A44D6 /* UINavigationBar+Background.m in Sources */ = {isa = PBXBuildFile; fileRef = A981F7D41DF132E6002A44D6 /* UINavigationBar+Background.m */; };
 		A981F7D81DF14EF8002A44D6 /* UINavigationControllerTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = A981F7D71DF14EF8002A44D6 /* UINavigationControllerTransition.m */; };
 		A981F7DB1DF16422002A44D6 /* UIScrollView+GestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = A981F7DA1DF16422002A44D6 /* UIScrollView+GestureRecognizer.m */; };
+		A99F6AF61DF2A4D200919A81 /* NavigationBarTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = A99F6AF51DF2A4D200919A81 /* NavigationBarTitleView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,6 +120,8 @@
 		A981F7D71DF14EF8002A44D6 /* UINavigationControllerTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UINavigationControllerTransition.m; sourceTree = "<group>"; };
 		A981F7D91DF16422002A44D6 /* UIScrollView+GestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+GestureRecognizer.h"; sourceTree = "<group>"; };
 		A981F7DA1DF16422002A44D6 /* UIScrollView+GestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+GestureRecognizer.m"; sourceTree = "<group>"; };
+		A99F6AF41DF2A4D200919A81 /* NavigationBarTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationBarTitleView.h; sourceTree = "<group>"; };
+		A99F6AF51DF2A4D200919A81 /* NavigationBarTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationBarTitleView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +195,8 @@
 				A907EC831DEECECD00D8C5CF /* PageSwitchView */,
 				A907EC451DEECEAF00D8C5CF /* AppDelegate.h */,
 				A907EC461DEECEAF00D8C5CF /* AppDelegate.m */,
+				A99F6AF41DF2A4D200919A81 /* NavigationBarTitleView.h */,
+				A99F6AF51DF2A4D200919A81 /* NavigationBarTitleView.m */,
 				A907EC471DEECEAF00D8C5CF /* ScrollViewController.h */,
 				A907EC481DEECEAF00D8C5CF /* ScrollViewController.m */,
 				A907EC491DEECEAF00D8C5CF /* SimpleViewController.h */,
@@ -501,6 +506,7 @@
 				A981F7D81DF14EF8002A44D6 /* UINavigationControllerTransition.m in Sources */,
 				A907ECC21DEED09400D8C5CF /* HorizontalTableView.m in Sources */,
 				A981F7CF1DF119CF002A44D6 /* RootViewController.m in Sources */,
+				A99F6AF61DF2A4D200919A81 /* NavigationBarTitleView.m in Sources */,
 				A981F7D51DF132E6002A44D6 /* UINavigationBar+Background.m in Sources */,
 				A907ECC61DEED09400D8C5CF /* UIContentView.m in Sources */,
 				A981F7DB1DF16422002A44D6 /* UIScrollView+GestureRecognizer.m in Sources */,

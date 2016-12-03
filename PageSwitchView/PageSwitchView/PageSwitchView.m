@@ -44,6 +44,7 @@
 static NSString *kUIGestureRecognizer = @"kUIGestureRecognizer";
 static const NSInteger kNull_PageIndex = 999999999;
 @interface PageSwitchView ()< UIGestureRecognizerDelegate,
+                            StretchingHeaderViewDelegate,
                             UITableViewDelegate, UITableViewDataSource,
                             SegmentTableViewDelegate, SegmentTableViewDataSource,
                             HorizontalTableViewDelegate, HorizontalTableViewDataSource >
@@ -166,6 +167,12 @@ static const NSInteger kNull_PageIndex = 999999999;
     return _navigationBar_placeholderView;
 }
 
+#pragma mark - StretchingHeaderViewDelegate
+-(void)stretchingHeaderView:(StretchingHeaderView*)stretchingHeaderView displayProgress:(CGFloat)progress{
+    if ([self.delegate respondsToSelector:@selector(pageSwitchView:headerDisplayProgress:)]) {
+        [self.delegate pageSwitchView:self headerDisplayProgress:progress];
+    }
+}
 #pragma mark - UITableViewDataSource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -429,6 +436,7 @@ static const NSInteger kNull_PageIndex = 999999999;
         self.pageTableView.scrollEnabled = YES;
         StretchingHeaderView *sHeaderView = [[StretchingHeaderView alloc]initWithContentView:self.headerView stretching:YES];
         self.pageTableView.tableHeaderView = sHeaderView;
+        sHeaderView.delegate = self;
     }else {
         self.pageTableView.scrollEnabled = NO;
     }

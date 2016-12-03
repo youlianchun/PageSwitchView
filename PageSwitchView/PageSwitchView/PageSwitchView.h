@@ -22,6 +22,7 @@
 
 - (CGFloat)topeSpaceInPageSwitchView:(PageSwitchView *)pageSwitchView;
 
+
 @end
 
 @protocol PageSwitchViewDelegate<NSObject>
@@ -31,6 +32,8 @@
 - (void)pageSwitchView:(PageSwitchView *)pageSwitchView movedToPageIndex:(NSUInteger)index;
 
 - (void)pageSwitchView:(PageSwitchView *)pageSwitchView movingAtPageIndex:(NSUInteger)index;
+
+- (void)pageSwitchView:(PageSwitchView *)pageSwitchView headerDisplayProgress:(CGFloat)progress;
 
 @end
 

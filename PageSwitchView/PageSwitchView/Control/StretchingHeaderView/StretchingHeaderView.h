@@ -7,8 +7,12 @@
 //  
 
 #import <UIKit/UIKit.h>
-
+@class StretchingHeaderView;
+@protocol StretchingHeaderViewDelegate<NSObject>
+@optional
+-(void)stretchingHeaderView:(StretchingHeaderView*)stretchingHeaderView displayProgress:(CGFloat)progress;
+@end
 @interface StretchingHeaderView : UIView
-
+@property (nonatomic, weak) id<StretchingHeaderViewDelegate> delegate;
 -(instancetype)initWithContentView:(UIView*)contentView stretching:(BOOL)stretching;
 @end

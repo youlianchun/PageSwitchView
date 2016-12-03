@@ -54,7 +54,7 @@
     for (UIView* view in self.subviews) {
         if ([view isKindOfClass:NSClassFromString(@"_UIBarBackground")]) {
             for (UIView *v in view.subviews) {
-                v.hidden = YES;
+                v.alpha = 0;
             }
             [view addSubview:self.barBackgroundView];
             break;
@@ -72,7 +72,7 @@
     if (!_barBackgroundView) {
         _barBackgroundView = [[UIBarBackgroundView alloc]init];
 //        [self _addSubview:_barBackgroundView];
-        _barBackgroundView.backgroundColor = [UIColor redColor];
+        _barBackgroundView.backgroundColor = [UIColor clearColor];
         self.barBackgroundView = _barBackgroundView;
     }
    return  _barBackgroundView;

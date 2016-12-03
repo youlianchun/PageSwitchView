@@ -33,6 +33,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationBar.translucent = NO;
     self.delegate = self;
     [self popGestureRecognizer];
 }
@@ -67,6 +68,7 @@
         [self popViewControllerAnimated:YES];
     } else if (recognizer.state == UIGestureRecognizerStateChanged) {
         [self.popTransition.interactiveTransition updateInteractiveTransition:progress];
+        self.popTransition.shadowOpacity = 1-progress;
     }
     else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateCancelled) {
         if (progress > 0.5) {
