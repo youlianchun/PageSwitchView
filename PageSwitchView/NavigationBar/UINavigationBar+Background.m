@@ -7,6 +7,7 @@
 //
 
 #import "UINavigationBar+Background.h"
+#import <objc/runtime.h>
 #import "UIBarBackgroundView.h"
 
 @interface UINavigationBar()
@@ -71,7 +72,6 @@
     UIBarBackgroundView *_barBackgroundView = objc_getAssociatedObject(self, @selector(barBackgroundView));
     if (!_barBackgroundView) {
         _barBackgroundView = [[UIBarBackgroundView alloc]init];
-//        [self _addSubview:_barBackgroundView];
         _barBackgroundView.backgroundColor = [UIColor clearColor];
         self.barBackgroundView = _barBackgroundView;
     }

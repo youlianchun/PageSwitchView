@@ -9,6 +9,8 @@
 #import "_PageSwitchItem.h"
 #import "_TwoScrollView.h"
 #import "DelegateInterceptor.h"
+//#import "NCTimer.h"
+
 static const CGFloat waitTimer = 0.05;
 
 @interface PageSwitchItem()
@@ -18,7 +20,7 @@ static const CGFloat waitTimer = 0.05;
 @property (nonatomic, copy) void(^newPage)(DoReturn doReturn);
 @property (nonatomic, retain) DelegateInterceptor<id<UIScrollViewDelegate>> *delegateInterceptor;
 @property (nonatomic) BOOL didLoad;
-
+//@property (nonatomic) NCTimer *timer;
 
 -(instancetype)initSelf;
 
@@ -109,8 +111,10 @@ static const CGFloat waitTimer = 0.05;
     if (!self.didLoad) {
         if (waitTimer>0.005) {
             if (isCurrent) {
+//                [self.timer resume];
                 [self performSelector:@selector(loadFunction) withObject:nil afterDelay:waitTimer];//停留waitTimer后加载，否则取消加载
             }else{
+//                [self.timer cancel];
                 [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(loadFunction) object:nil];
             }
         }else {
@@ -119,6 +123,12 @@ static const CGFloat waitTimer = 0.05;
     }
 }
 
+//-(NCTimer *)timer {
+//    if (!_timer) {
+//        _timer = [NCTimer timerWithCount:1 interval:waitTimer target:self selector:@selector(loadFunction)];
+//    }
+//    return _timer;
+//}
 
 -(void)loadFunction {
     self.didLoad = YES;

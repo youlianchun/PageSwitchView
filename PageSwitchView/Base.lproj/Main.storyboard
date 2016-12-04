@@ -59,7 +59,7 @@
         <!--Navigation Controller-->
         <scene sceneID="bd4-Os-HWa">
             <objects>
-                <navigationController id="Uxt-6X-U1n" sceneMemberID="viewController">
+                <navigationController id="Uxt-6X-U1n" customClass="NavigationController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="6tq-xU-l0D">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

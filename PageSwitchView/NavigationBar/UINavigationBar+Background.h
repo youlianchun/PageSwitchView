@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <objc/runtime.h>
+
 @interface UINavigationBar (Background)
 @property (nonatomic, readonly) UIView* shadowView;
 @property (nonatomic) UIImage   *backgroundImage;

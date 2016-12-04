@@ -7,8 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "NavigationController.h"
-#import "RootViewController.h"
 @interface AppDelegate ()
 
 @end
@@ -25,9 +23,7 @@
     [[UINavigationBar appearance] setBarStyle:UIBarStyleBlack];// 电池条，白色
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-//    UIWindow *win = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
-//    self.window = win;
-//    win.rootViewController = [[NavigationController alloc]initWithRootViewController:[[RootViewController alloc]init]];
+
     return YES;
 }
 
