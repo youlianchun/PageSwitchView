@@ -14,7 +14,7 @@
 #import "ScrollViewController.h"
 #import "NavigationBarTitleView.h"
 
-@interface ViewController()<PageSwitchViewDelegate, PageSwitchViewDataSource, UITableViewDelegate, UITableViewDataSource>
+@interface ViewController()<PageSwitchViewDelegate, PageSwitchViewDataSource>
 @property (nonatomic) PageSwitchView *pageSwitchView;
 @property (nonatomic) NavigationBarTitleView *titleView;
 @end
@@ -45,7 +45,6 @@
     
     __weak typeof(self) wself = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
         [wself.pageSwitchView switchNewPageWithNewIndex:2];
     });
 }
@@ -56,6 +55,7 @@
     }
     return _titleView;
 }
+
 - (void)pageSwitchView:(PageSwitchView *)pageSwitchView headerDisplayProgress:(CGFloat)progress {
     self.titleView.labelShowRatio = progress;
 }
@@ -69,24 +69,15 @@
     [view addSubview:lab];
     
     UISwitch *swith =[ [UISwitch alloc]init];
-    swith.frame = CGRectMake(0, 120, 100, 40);
+    swith.frame = CGRectMake(0, 110, 100, 40);
     [swith addTarget:self action:@selector(swithActon) forControlEvents:UIControlEventValueChanged];
     [view addSubview:swith];
     
     return view;
 }
+
 -(void)swithActon {
     
-}
-
-- (UIView *)pageSwitchView:(PageSwitchView *)pageSwitchView pageAtIndex:(NSUInteger)index{
-    UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain];
-    tableView.delegate = self;
-    tableView.tag = 1001101;
-    tableView.dataSource = self;
-    [tableView reloadData];
-    return tableView;
-
 }
 
 -(NSArray<PageSwitchItem *> *)pageSwitchItemsInPageSwitchView:(PageSwitchView *)pageSwitchView {
@@ -128,30 +119,7 @@
     return @[item1,item2,item3,item4,item5,item6,item7];
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-    }
-    cell.textLabel.text = [NSString stringWithFormat:@"%ld",indexPath.row];
-    return cell;
-}
 
 
-//-(NSInteger)numberOfSectionsInPageSwitchView:(PageSwitchView *)pageSwitchView{
-//    return 10;
-//}
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
-    return 100;
-}
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 40;
-}
 
 @end

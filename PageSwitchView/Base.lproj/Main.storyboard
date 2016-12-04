@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--  -->
+        <!--subView-->
         <scene sceneID="cfH-Sr-NpK">
             <objects>
                 <tableViewController id="vqa-zr-I66" sceneMemberID="viewController">
@@ -50,11 +50,11 @@
                             <outlet property="delegate" destination="vqa-zr-I66" id="DcB-Kf-Xsy"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="  " id="Hs2-4Z-PVz"/>
+                    <navigationItem key="navigationItem" title="subView" id="Hs2-4Z-PVz"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gwK-cd-RDV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-268" y="55"/>
+            <point key="canvasLocation" x="-268" y="54.422788605697157"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="bd4-Os-HWa">

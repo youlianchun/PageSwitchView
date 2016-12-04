@@ -23,7 +23,6 @@
 		A907ECA41DEECECD00D8C5CF /* UIGestureRecognizer+Group.m in Sources */ = {isa = PBXBuildFile; fileRef = A907EC861DEECECD00D8C5CF /* UIGestureRecognizer+Group.m */; };
 		A907ECA51DEECECD00D8C5CF /* GradientColor.m in Sources */ = {isa = PBXBuildFile; fileRef = A907EC8A1DEECECD00D8C5CF /* GradientColor.m */; };
 		A907ECA61DEECECD00D8C5CF /* PageSwitchItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A907EC8C1DEECECD00D8C5CF /* PageSwitchItem.m */; };
-		A907ECAA1DEECECD00D8C5CF /* PageSwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = A907EC971DEECECD00D8C5CF /* PageSwitchView.m */; };
 		A907ECAB1DEECECD00D8C5CF /* DelegateInterceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = A907EC9A1DEECECD00D8C5CF /* DelegateInterceptor.m */; };
 		A907ECC21DEED09400D8C5CF /* HorizontalTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A907ECB51DEED09400D8C5CF /* HorizontalTableView.m */; };
 		A907ECC31DEED09400D8C5CF /* SegmentTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A907ECB81DEED09400D8C5CF /* SegmentTableView.m */; };
@@ -34,6 +33,9 @@
 		A99F6AF61DF2A4D200919A81 /* NavigationBarTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = A99F6AF51DF2A4D200919A81 /* NavigationBarTitleView.m */; };
 		A99F6B481DF43F1E00919A81 /* UIViewController+FullScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = A99F6B471DF43F1E00919A81 /* UIViewController+FullScreen.m */; };
 		A99F6B4C1DF4401800919A81 /* NCTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = A99F6B4B1DF4401800919A81 /* NCTimer.m */; };
+		A99F6B501DF4598700919A81 /* PageSwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = A99F6B4E1DF4598700919A81 /* PageSwitchView.m */; };
+		A99F6B531DF459DE00919A81 /* PageSwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99F6B521DF459DE00919A81 /* PageSwitchViewController.m */; };
+		A99F6B561DF45A1100919A81 /* PageSwitchItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99F6B551DF45A1100919A81 /* PageSwitchItemViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +56,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A9047EC41DF00E340057BCCE /* PageViewControllerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PageViewControllerProtocol.h; sourceTree = "<group>"; };
 		A9047EC81DF03A4F0057BCCE /* UIBarBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBarBackgroundView.h; sourceTree = "<group>"; };
 		A9047EC91DF03A4F0057BCCE /* UIBarBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIBarBackgroundView.m; sourceTree = "<group>"; };
 		A907EC0F1DEECE7A00D8C5CF /* PageSwitchView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PageSwitchView.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,8 +89,6 @@
 		A907EC8A1DEECECD00D8C5CF /* GradientColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradientColor.m; sourceTree = "<group>"; };
 		A907EC8B1DEECECD00D8C5CF /* PageSwitchItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageSwitchItem.h; sourceTree = "<group>"; };
 		A907EC8C1DEECECD00D8C5CF /* PageSwitchItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageSwitchItem.m; sourceTree = "<group>"; };
-		A907EC961DEECECD00D8C5CF /* PageSwitchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageSwitchView.h; sourceTree = "<group>"; };
-		A907EC971DEECECD00D8C5CF /* PageSwitchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageSwitchView.m; sourceTree = "<group>"; };
 		A907EC991DEECECD00D8C5CF /* DelegateInterceptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelegateInterceptor.h; sourceTree = "<group>"; };
 		A907EC9A1DEECECD00D8C5CF /* DelegateInterceptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DelegateInterceptor.m; sourceTree = "<group>"; };
 		A907ECB41DEED09400D8C5CF /* HorizontalTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalTableView.h; sourceTree = "<group>"; };
@@ -111,6 +110,13 @@
 		A99F6B471DF43F1E00919A81 /* UIViewController+FullScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+FullScreen.m"; sourceTree = "<group>"; };
 		A99F6B4A1DF4401800919A81 /* NCTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCTimer.h; sourceTree = "<group>"; };
 		A99F6B4B1DF4401800919A81 /* NCTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCTimer.m; sourceTree = "<group>"; };
+		A99F6B4D1DF4598700919A81 /* PageSwitchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageSwitchView.h; sourceTree = "<group>"; };
+		A99F6B4E1DF4598700919A81 /* PageSwitchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageSwitchView.m; sourceTree = "<group>"; };
+		A99F6B4F1DF4598700919A81 /* PageViewControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageViewControllerProtocol.h; sourceTree = "<group>"; };
+		A99F6B511DF459DE00919A81 /* PageSwitchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageSwitchViewController.h; sourceTree = "<group>"; };
+		A99F6B521DF459DE00919A81 /* PageSwitchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageSwitchViewController.m; sourceTree = "<group>"; };
+		A99F6B541DF45A1100919A81 /* PageSwitchItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageSwitchItemViewController.h; sourceTree = "<group>"; };
+		A99F6B551DF45A1100919A81 /* PageSwitchItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageSwitchItemViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,9 +233,10 @@
 		A907EC831DEECECD00D8C5CF /* PageSwitchView */ = {
 			isa = PBXGroup;
 			children = (
-				A907EC961DEECECD00D8C5CF /* PageSwitchView.h */,
-				A907EC971DEECECD00D8C5CF /* PageSwitchView.m */,
-				A9047EC41DF00E340057BCCE /* PageViewControllerProtocol.h */,
+				A99F6B511DF459DE00919A81 /* PageSwitchViewController.h */,
+				A99F6B521DF459DE00919A81 /* PageSwitchViewController.m */,
+				A99F6B541DF45A1100919A81 /* PageSwitchItemViewController.h */,
+				A99F6B551DF45A1100919A81 /* PageSwitchItemViewController.m */,
 				A907ECB21DEED09400D8C5CF /* Control */,
 				A907EC841DEECECD00D8C5CF /* Category */,
 				A907EC871DEECECD00D8C5CF /* Class */,
@@ -272,6 +279,9 @@
 		A907ECB21DEED09400D8C5CF /* Control */ = {
 			isa = PBXGroup;
 			children = (
+				A99F6B4D1DF4598700919A81 /* PageSwitchView.h */,
+				A99F6B4E1DF4598700919A81 /* PageSwitchView.m */,
+				A99F6B4F1DF4598700919A81 /* PageViewControllerProtocol.h */,
 				A907ECB31DEED09400D8C5CF /* HorizontalTableView */,
 				A907ECB61DEED09400D8C5CF /* SegmentTableView */,
 				A907ECB91DEED09400D8C5CF /* StretchingHeaderView */,
@@ -483,7 +493,6 @@
 				A907EC731DEECEAF00D8C5CF /* ScrollViewController.m in Sources */,
 				A907EC721DEECEAF00D8C5CF /* AppDelegate.m in Sources */,
 				A907ECC31DEED09400D8C5CF /* SegmentTableView.m in Sources */,
-				A907ECAA1DEECECD00D8C5CF /* PageSwitchView.m in Sources */,
 				A907ECA41DEECECD00D8C5CF /* UIGestureRecognizer+Group.m in Sources */,
 				A907ECC51DEED09400D8C5CF /* TwoScrollView.m in Sources */,
 				A99F6B481DF43F1E00919A81 /* UIViewController+FullScreen.m in Sources */,
@@ -499,7 +508,10 @@
 				A907ECC61DEED09400D8C5CF /* UIContentView.m in Sources */,
 				A9047ECC1DF03A4F0057BCCE /* UIBarBackgroundView.m in Sources */,
 				A907EC741DEECEAF00D8C5CF /* SimpleViewController.m in Sources */,
+				A99F6B531DF459DE00919A81 /* PageSwitchViewController.m in Sources */,
 				A907EC141DEECE7A00D8C5CF /* main.m in Sources */,
+				A99F6B501DF4598700919A81 /* PageSwitchView.m in Sources */,
+				A99F6B561DF45A1100919A81 /* PageSwitchItemViewController.m in Sources */,
 				A907ECA61DEECECD00D8C5CF /* PageSwitchItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

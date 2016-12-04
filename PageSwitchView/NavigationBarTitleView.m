@@ -14,17 +14,24 @@
 @end
 
 @implementation NavigationBarTitleView
-//-(instancetype)init {
-//    
-//}
-//-(void)didMoveToSuperview {
-//    [super didMoveToSuperview];
-//    self.center = CGPointMake(self.superview.center.x, self.center.y);
-//}
+
+-(void)didMoveToSuperview {
+    [super didMoveToSuperview];
+    if ([self.superview isKindOfClass:[UINavigationBar class]]) {
+        UINavigationBar *bar =  (UINavigationBar*)self.superview;
+        UIColor *tintColor = [UINavigationBar appearance].tintColor;
+        if (!tintColor) {
+            tintColor = bar.tintColor;
+        }
+        self.titleLabel.textColor = tintColor;
+    }
+}
+
 -(UILabel *)titleLabel {
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc]init];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
+        _titleLabel.font = [UIFont boldSystemFontOfSize:17];
         _titleLabel.alpha = 1;
         [self addSubview:_titleLabel];
         [self addConstraint:_titleLabel inserts:UIEdgeInsetsMake(0, 0, 0, 0)];
