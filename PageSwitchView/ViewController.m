@@ -26,7 +26,7 @@
     self.title = @"subView";
     self.navigationItem.titleView = self.titleView;
     self.titleView.titleLabel.text = self.title;
-    self.titleView.titleView.backgroundColor = [UIColor redColor];
+    self.titleView.titleView.backgroundColor = [UIColor orangeColor];
     
     self.pageSwitchView = [[PageSwitchView alloc]initWithFrame:self.view.bounds];
     [self.view addSubview:self.pageSwitchView];
@@ -50,6 +50,10 @@
     }
     return _titleView;
 }
+
+//-(CGFloat)topeSpaceInPageSwitchView:(PageSwitchView *)pageSwitchView {
+//    return 30;
+//}
 
 - (void)pageSwitchView:(PageSwitchView *)pageSwitchView headerDisplayProgress:(CGFloat)progress {
     self.titleView.labelShowRatio = progress;
@@ -76,53 +80,20 @@
 }
 
 -(NSArray<PageSwitchItem *> *)pageSwitchItemsInPageSwitchView:(PageSwitchView *)pageSwitchView {
-//    PageSwitchItem *item1 = [PageSwitchItem itemWithTitle:@"1" page:^(DoReturn doReturn) {
-//        TwoScrollViewController *vc = [[TwoScrollViewController alloc]init];
-//        vc.title = @"1";
-//        doReturn(vc, vc.twoScrollView);
-//    }];
-//    PageSwitchItem *item2 = [PageSwitchItem itemWithTitle:@"2" page:^(DoReturn doReturn) {
-//        TableViewController *vc = [[TableViewController alloc]init];
-//        vc.title = @"2";
-//        doReturn(vc, vc.tableView);
-//    }];
-//    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" page:^(DoReturn doReturn) {
-//        SimpleViewController *vc = [[SimpleViewController alloc]init];
-//        vc.title = @"3";
-//        doReturn(vc, vc.view);
-//    }];
-//    PageSwitchItem *item4 = [PageSwitchItem itemWithTitle:@"4" page:^(DoReturn doReturn) {
-//        ScrollViewController *vc = [[ScrollViewController alloc]init];
-//        vc.title = @"4";
-//        doReturn(vc, vc.scrollView);
-//    }];
-//    PageSwitchItem *item5 = [PageSwitchItem itemWithTitle:@"5" page:^(DoReturn doReturn) {
-//        TableViewController *vc = [[TableViewController alloc]init];
-//        vc.title = @"5";
-//        doReturn(vc, vc.tableView);
-//    }];
-//    PageSwitchItem *item6 = [PageSwitchItem itemWithTitle:@"6" page:^(DoReturn doReturn) {
-//        TableViewController *vc = [[TableViewController alloc]init];
-//        vc.title = @"6";
-//        doReturn(vc, vc.tableView);
-//    }];
-//    PageSwitchItem *item7 = [PageSwitchItem itemWithTitle:@"7" page:^(DoReturn doReturn) {
-//        TableViewController *vc = [[TableViewController alloc]init];
-//        vc.title = @"7";
-//        doReturn(vc, vc.tableView);
-//    }];
-    
-
     PageSwitchItem *item1 = [PageSwitchItem itemWithTitle:@"1" key:@"TwoScrollViewController.twoScrollView"];
     PageSwitchItem *item2 = [PageSwitchItem itemWithTitle:@"2" vcClsKey:@"TableViewController" viewKey:@"tableView"];
 //    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" vcClsKey:@"SimpleViewController" viewKey:@"view"];
-//    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"1" key:@"SimpleViewController."];
-//    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"1" key:@"SimpleViewController.view"];
-    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"1" key:@"SimpleViewController"];
+//    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" key:@"SimpleViewController."];
+//    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" key:@"SimpleViewController.view"];
+    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" key:@"SimpleViewController"];
     PageSwitchItem *item4 = [PageSwitchItem itemWithTitle:@"4" vcClsKey:@"ScrollViewController" viewKey:@"scrollView"];
     PageSwitchItem *item5 = [PageSwitchItem itemWithTitle:@"5" vcClsKey:@"TableViewController" viewKey:@"tableView"];
     PageSwitchItem *item6 = [PageSwitchItem itemWithTitle:@"6" vcClsKey:@"TableViewController" viewKey:@"tableView"];
-    PageSwitchItem *item7 = [PageSwitchItem itemWithTitle:@"7" vcClsKey:@"TableViewController" viewKey:@"tableView"];
+    PageSwitchItem *item7 = [PageSwitchItem itemWithTitle:@"7" page:^(DoReturn doReturn) {
+        TableViewController *vc = [[TableViewController alloc]init];
+        vc.title = @"7";
+        doReturn(vc, vc.tableView);
+    }];
     return @[item1,item2,item3,item4,item5,item6,item7];
 }
 
