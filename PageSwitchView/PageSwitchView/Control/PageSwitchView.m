@@ -95,7 +95,7 @@ static const NSInteger kNull_PageIndex = 999999999;
 }
 -(_PageSwitchView *)pageTableView {
     if (!_pageTableView) {
-        _pageTableView = [[_PageSwitchView alloc]initWithFrame:self.bounds style:UITableViewStyleGrouped];
+        _pageTableView = [[_PageSwitchView alloc]initWithFrame:self.bounds style:UITableViewStylePlain];
         _pageTableView.showsVerticalScrollIndicator = NO;
         _pageTableView.backgroundColor = [UIColor clearColor];
         _pageTableView.opaque = NO;
@@ -212,15 +212,7 @@ static const NSInteger kNull_PageIndex = 999999999;
     if (self.segmentTableView) {
         return  CGRectGetHeight(self.segmentTableView.bounds);
     }
-    return 0.001;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 0.001;
-}
-
--(void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
-    view.alpha = 0;
+    return 0;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -230,6 +222,14 @@ static const NSInteger kNull_PageIndex = 999999999;
 #pragma mark UITableViewDelegate_Scroll
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (self.pageTableView.scrollEnabled) {
+        if (scrollView == self.pageTableView) {
+            CGFloat sectionHeaderHeight = self.titleHeight;
+            if (scrollView.contentOffset.y <= sectionHeaderHeight && scrollView.contentOffset.y >= 0) {
+                scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
+            } else if (scrollView.contentOffset.y >= sectionHeaderHeight) {
+                scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
+            }
+        }
         PageSwitchItem *item = self.contentPageSwitchItem;
         if (item.isScroll || item.is2Scroll) {//滚动视图
             UIScrollView *contentScrollView =  self.pageTableView.otherScrollView;//(UIScrollView*)item.contentView;

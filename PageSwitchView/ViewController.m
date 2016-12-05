@@ -56,7 +56,7 @@
 }
 
 -(CGFloat)topeSpaceInPageSwitchView:(PageSwitchView *)pageSwitchView {
-    return 0;
+    return -1;
 }
 
 - (void)pageSwitchView:(PageSwitchView *)pageSwitchView headerDisplayProgress:(CGFloat)progress {
