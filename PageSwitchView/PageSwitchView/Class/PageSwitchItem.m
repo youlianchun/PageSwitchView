@@ -183,5 +183,4 @@ static const CGFloat waitTimer = 0.05;
     Class vcCls = NSClassFromString(clsKey);
     return [PageSwitchItem itemWithTitle:title vcCls:vcCls viewKey:viewKey];
 }
-
 @end

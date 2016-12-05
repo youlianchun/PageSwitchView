@@ -37,7 +37,7 @@ typedef void (^DoReturn)(UIViewController*viewController, UIView* view);
  创建PageSwitchItem
 
  @param title 标题
- @param key “类名.属性名”；“类名”；“.”；“类名.”；“.属性名”
+ @param key “类名.属性名”；默认UIViewController.view
  @return PageSwitchItem
  */
 +(PageSwitchItem*)itemWithTitle:(NSString*)title key:(NSString*)key;
