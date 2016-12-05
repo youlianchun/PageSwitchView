@@ -51,8 +51,12 @@
     return _titleView;
 }
 
+- (BOOL)stretchingHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView {
+    return YES;
+}
+
 -(CGFloat)topeSpaceInPageSwitchView:(PageSwitchView *)pageSwitchView {
-    return -44;
+    return 0;
 }
 
 - (void)pageSwitchView:(PageSwitchView *)pageSwitchView headerDisplayProgress:(CGFloat)progress {

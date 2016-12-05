@@ -134,14 +134,6 @@ static const NSInteger kNull_PageIndex = 999999999;
     if (!_headerView) {
         if ([self.dataSource respondsToSelector:@selector(viewForHeaderInPageSwitchView:)]) {
             _headerView = [self.dataSource viewForHeaderInPageSwitchView:self];
-            if (_headerView) {
-               CGFloat hh = _headerView.bounds.size.height;
-                self.topeSpace = self.topeSpace <= hh ? self.topeSpace : hh;
-            }else {
-                self.topeSpace = 0;
-            }
-        }else {
-            self.topeSpace = 0;
         }
     }
     return _headerView;
@@ -153,13 +145,17 @@ static const NSInteger kNull_PageIndex = 999999999;
     return  self.pageSwitchItemArray[currentPageIndex];
 }
 
--(void)setTopeSpace:(CGFloat)topeSpace {
-    if (topeSpace<0) {
-        _topeSpace = -self.titleHeight;
-    }else{
-        _topeSpace = topeSpace;
+-(CGFloat)topeSpace {
+    if (_topeSpace <0 ) {
+        return -self.titleHeight;
     }
-
+    if (self.headerView) {
+            CGFloat h = CGRectGetHeight(self.headerView.bounds);
+            if (_topeSpace > h) {
+                return h;
+            }
+    }
+    return _topeSpace;
 }
 
 -(UIView *)navigationBar_placeholderView {
@@ -459,6 +455,9 @@ static const NSInteger kNull_PageIndex = 999999999;
 //}
 
 -(void)reloadData {
+    if ([self.delegate respondsToSelector:@selector(topeSpaceInPageSwitchView:)]) {
+        self.topeSpace = [self.dataSource topeSpaceInPageSwitchView:self];
+    }
     if ([self.dataSource respondsToSelector:@selector(titleHeightInPageSwitchView:)]) {
         self.titleHeight = MIN([self.dataSource titleHeightInPageSwitchView:self], 44);
     }
@@ -484,9 +483,7 @@ static const NSInteger kNull_PageIndex = 999999999;
         self.pageTableView.scrollEnabled = NO;
     }
     
-    if ([self.delegate respondsToSelector:@selector(topeSpaceInPageSwitchView:)]) {
-        self.topeSpace = [self.dataSource topeSpaceInPageSwitchView:self];
-    }
+    
     
     [self.pageTableView reloadData];
 }
@@ -518,7 +515,6 @@ static const NSInteger kNull_PageIndex = 999999999;
 //    self.selfViewController.modalPresentationCapturesStatusBarAppearance = NO;
     self.selfViewController.automaticallyAdjustsScrollViewInsets = NO;
 //    [self navigationBar_placeholderView];
-    self.pageTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     if (self.layoutBlock) {
         self.layoutBlock(self.superview);
     }
