@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PageSwitchView.h"
 
 @interface PageSwitchViewController : UIViewController
+@property (nonatomic, readonly) PageSwitchView *pageSwitchView;
 -(void)reload;
 @end

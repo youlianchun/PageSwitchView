@@ -7,7 +7,6 @@
 //
 
 #import "PageSwitchViewController.h"
-#import "PageSwitchView.h"
 #import "PageSwitchItemViewController.h"
 
 @interface PageSwitchViewController ()<PageSwitchViewDelegate, PageSwitchViewDataSource>
@@ -19,7 +18,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.pageSwitchView = [[PageSwitchView alloc]initWithFrame:self.view.bounds];
-    self.pageSwitchView.clipsToBounds = YES;
     [self.view addSubview:self.pageSwitchView];
     
     self.pageSwitchView.translatesAutoresizingMaskIntoConstraints = NO;

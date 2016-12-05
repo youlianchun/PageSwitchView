@@ -28,6 +28,10 @@ typedef void (^DoReturn)(UIViewController*viewController, UIView* view);
 
 +(PageSwitchItem*)itemWithTitle:(NSString*)title page:(void(^)(DoReturn doReturn))newPage ;
 
++(PageSwitchItem*)itemWithTitle:(NSString*)title vcCls:(Class)vcCls viewKey:(NSString*)key;
+
++(PageSwitchItem*)itemWithTitle:(NSString*)title vcClsKey:(NSString*)clsKey viewKey:(NSString*)key;
+
 -(instancetype)init NS_UNAVAILABLE;
 
 @end

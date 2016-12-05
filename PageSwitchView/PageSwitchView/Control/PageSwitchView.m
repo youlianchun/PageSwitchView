@@ -63,6 +63,9 @@ static const NSInteger kNull_PageIndex = 999999999;
 @property (nonatomic) CGFloat topeSpace;
 //@property (nonatomic) BOOL isScrolling;
 @property (nonatomic) UIView *navigationBar_placeholderView;
+@property (nonatomic) void(^layoutBlock)(UIView *superView);
+
+@property (nonatomic) NSMutableArray<NSString*> *titleArray;
 @end
 
 @implementation PageSwitchView
@@ -367,6 +370,7 @@ static const NSInteger kNull_PageIndex = 999999999;
     for (PageSwitchItem *item in self.pageSwitchItemArray) {
         [titleArray addObject:item.title];
     }
+    self.titleArray = titleArray;
     return titleArray;
 }
 
@@ -393,7 +397,21 @@ static const NSInteger kNull_PageIndex = 999999999;
     [superview addConstraint: [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeBottom multiplier:1 constant:inserts.bottom]];
 }
 
-
+-(void)layoutWithinserts:(UIEdgeInsets)inserts {
+    __weak typeof(self) wself = self;
+    UIView *superview = wself.superview;
+    self.layoutBlock = ^(UIView* superView){
+        wself.translatesAutoresizingMaskIntoConstraints = NO;
+        [superview addConstraint:[NSLayoutConstraint constraintWithItem:wself attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeLeft multiplier:1 constant:inserts.left]];
+        [superview addConstraint:[NSLayoutConstraint constraintWithItem:wself attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeRight multiplier:1 constant:inserts.right]];
+        [superview addConstraint: [NSLayoutConstraint constraintWithItem:wself attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeTop multiplier:1 constant:inserts.top]];
+        [superview addConstraint: [NSLayoutConstraint constraintWithItem:wself attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeBottom multiplier:1 constant:inserts.bottom]];
+        wself.layoutBlock = nil;
+    };
+    if (superview) {
+        self.layoutBlock(superview);
+    }
+}
 
 //-(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
 //    if (self.isScrolling) {
@@ -463,12 +481,22 @@ static const NSInteger kNull_PageIndex = 999999999;
     self.segmentTableView.currentIndex = newIndex;
 }
 
+-(void)switchNewPageWithTitle:(NSString*)title {
+    if (self.titleArray && self.titleArray.count>0 && [self.titleArray containsObject:title]) {
+        NSUInteger index = [self.titleArray indexOfObject:title];
+        [self switchNewPageWithNewIndex:index];
+    }
+}
+
 -(void)didMoveToSuperview {
-    [super didMoveToSuperview];
+    [super didMoveToSuperview]; 
     self.selfViewController.edgesForExtendedLayout =  UIRectEdgeLeft | UIRectEdgeBottom | UIRectEdgeRight;
     self.selfViewController.extendedLayoutIncludesOpaqueBars = NO;
     self.selfViewController.modalPresentationCapturesStatusBarAppearance = NO;
     [self navigationBar_placeholderView];
+    if (self.layoutBlock) {
+        self.layoutBlock(self.superview);
+    }
 }
 
 @end

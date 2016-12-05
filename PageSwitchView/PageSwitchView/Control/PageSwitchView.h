@@ -40,7 +40,13 @@
 @interface PageSwitchView : UIView
 @property (nonatomic,weak) id<PageSwitchViewDataSource>dataSource;
 @property (nonatomic,weak) id<PageSwitchViewDelegate>delegate;
+
+-(void)layoutWithinserts:(UIEdgeInsets)inserts;
+
 -(void)switchNewPageWithNewIndex:(NSUInteger)newIndex;
+
+-(void)switchNewPageWithTitle:(NSString*)title;
+
 -(void)reloadData;
 
 @end

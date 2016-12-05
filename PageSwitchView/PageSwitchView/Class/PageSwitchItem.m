@@ -144,4 +144,25 @@ static const CGFloat waitTimer = 0.05;
     return item;
 }
 
++(PageSwitchItem*)itemWithTitle:(NSString*)title vcCls:(Class)vcCls viewKey:(NSString*)key {
+    BOOL b = [vcCls isSubclassOfClass:[UIViewController class]];
+    NSAssert(b, @"％@不是UIViewController", vcCls);
+    PageSwitchItem *item = [[PageSwitchItem alloc]initSelf];
+    item.title = title;
+    item.newPage = ^(DoReturn doReturn){
+        id vc = [[vcCls alloc]init];
+        id view = [vc valueForKey:key];
+        BOOL b = view != nil && ![view isMemberOfClass:[UIView class]];
+        NSAssert(b, @"%@ 属性: %@不正确", key, vcCls);
+        doReturn (vc, view);
+    };
+    return item;
+}
+
++(PageSwitchItem*)itemWithTitle:(NSString*)title vcClsKey:(NSString*)clsKey viewKey:(NSString*)key {
+    Class vcCls = NSClassFromString(clsKey);
+    return [PageSwitchItem itemWithTitle:title vcCls:vcCls viewKey:key];
+}
+
+
 @end

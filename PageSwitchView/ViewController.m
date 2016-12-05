@@ -45,7 +45,8 @@
     
     __weak typeof(self) wself = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [wself.pageSwitchView switchNewPageWithNewIndex:2];
+//        [wself.pageSwitchView switchNewPageWithNewIndex:2];
+        [wself.pageSwitchView switchNewPageWithTitle:@"4"];
     });
 }
 
@@ -81,11 +82,13 @@
 }
 
 -(NSArray<PageSwitchItem *> *)pageSwitchItemsInPageSwitchView:(PageSwitchView *)pageSwitchView {
-    PageSwitchItem *item1 = [PageSwitchItem itemWithTitle:@"1" page:^(DoReturn doReturn) {
-        TwoScrollViewController *vc = [[TwoScrollViewController alloc]init];
-        vc.title = @"1";
-        doReturn(vc, vc.twoScrollView);
-    }];
+//    PageSwitchItem *item1 = [PageSwitchItem itemWithTitle:@"1" page:^(DoReturn doReturn) {
+//        TwoScrollViewController *vc = [[TwoScrollViewController alloc]init];
+//        vc.title = @"1";
+//        doReturn(vc, vc.twoScrollView);
+//    }];
+    PageSwitchItem *item1 = [PageSwitchItem itemWithTitle:@"1" vcClsKey:@"TwoScrollViewController" viewKey:@"twoScrollView"];
+    
     PageSwitchItem *item2 = [PageSwitchItem itemWithTitle:@"2" page:^(DoReturn doReturn) {
         TableViewController *vc = [[TableViewController alloc]init];
         vc.title = @"2";
