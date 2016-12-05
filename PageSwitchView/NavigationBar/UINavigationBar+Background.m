@@ -5,7 +5,7 @@
 //  Created by YLCHUN on 16/12/2.
 //  Copyright © 2016年 ylchun. All rights reserved.
 //
-
+#if Background_enabled
 #import "UINavigationBar+Background.h"
 #import <objc/runtime.h>
 #import "UIBarBackgroundView.h"
@@ -116,3 +116,4 @@ static inline BOOL bg_swizzleClassMethod(Class class, SEL originalSelector, SEL 
 }
 
 @end
+#endif
