@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface UINavigationBar (Background)
-@property (nonatomic, readonly) UIView* shadowView;
-@property (nonatomic) UIImage   *backgroundImage;
-@property (nonatomic,readonly) UIImageView *backImageView;
+@property (nonatomic, readonly) UIView *shadowView;
+@property (nonatomic, retain)   UIImage *backgroundImage;
+@property (nonatomic, readonly) UIImageView *backImageView;
 @end

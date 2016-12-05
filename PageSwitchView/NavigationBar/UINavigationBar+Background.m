@@ -10,6 +10,20 @@
 #import <objc/runtime.h>
 #import "UIBarBackgroundView.h"
 
+#pragma mark - swizzleClassMethod
+static inline BOOL bg_swizzleClassMethod(Class class, SEL originalSelector, SEL swizzledSelector) {
+    Method originalMethod = class_getInstanceMethod(class, originalSelector);
+    Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
+    BOOL success = class_addMethod(class, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod));
+    if (success) {
+        class_replaceMethod(class, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
+    } else {
+        method_exchangeImplementations(originalMethod, swizzledMethod);
+    }
+    return success;
+}
+
+
 @interface UINavigationBar()
 
 @property (nonatomic) UIBarBackgroundView *barBackgroundView;
@@ -17,36 +31,12 @@
 @end
 
 @implementation UINavigationBar (Background)
-+ (void)load
-{
++ (void)load {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         Class class = [self class];
-        
-        SEL originalSelector = @selector(didMoveToSuperview);
-        SEL swizzledSelector = @selector(_didMoveToSuperview);
-        
-        Method originalMethod = class_getInstanceMethod(class, originalSelector);
-        Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
-        
-        BOOL success = class_addMethod(class, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod));
-        if (success) {
-            class_replaceMethod(class, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
-        } else {
-            method_exchangeImplementations(originalMethod, swizzledMethod);
-        }
-        originalSelector = @selector(setTranslucent:);
-        swizzledSelector = @selector(_setTranslucent:);
-        
-        originalMethod = class_getInstanceMethod(class, originalSelector);
-        swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
-        
-        success = class_addMethod(class, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod));
-        if (success) {
-            class_replaceMethod(class, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
-        } else {
-            method_exchangeImplementations(originalMethod, swizzledMethod);
-        }
+        bg_swizzleClassMethod(class, @selector(didMoveToSuperview), @selector(_didMoveToSuperview));
+        bg_swizzleClassMethod(class, @selector(setTranslucent:), @selector(_setTranslucent:));
     });
 }
 
