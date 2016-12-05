@@ -60,7 +60,7 @@ static dispatch_queue_t NCTimer_Queue;//计时器并发队列
     self.tCount = (int)self.count;
     __weak typeof(self) wself = self;
     dispatch_async(self.queue, ^{
-        wself.timer = [NSTimer scheduledTimerWithTimeInterval:wself.interval target:wself selector:@selector(_timerAction) userInfo:nil repeats:true];
+        wself.timer = [NSTimer scheduledTimerWithTimeInterval:wself.interval target:wself selector:@selector(_timerAction) userInfo:nil repeats:YES];
         wself.runLoop = [NSRunLoop currentRunLoop];
         [wself.runLoop addTimer:wself.timer forMode:NSDefaultRunLoopMode];
         [wself.runLoop run];
@@ -88,23 +88,23 @@ static dispatch_queue_t NCTimer_Queue;//计时器并发队列
     if (self.status == NCTimerCancel) {
         [self _initTimer];
         self.status = NCTimerResume;
-        return true;
+        return YES;
     }
     if (self.status == NCTimerSuspend) {
         [self.timer setFireDate:[NSDate date]];
         self.status = NCTimerResume;
-        return true;
+        return YES;
     }
-    return false;
+    return NO;
 }
 
 -(BOOL)suspend {
     if (self.status == NCTimerResume) {
         [self.timer setFireDate:[NSDate distantFuture]];//暂停
         self.status = NCTimerSuspend;
-        return true;
+        return YES;
     }
-    return false;
+    return NO;
 }
 
 -(BOOL)cancel {
@@ -116,9 +116,9 @@ static dispatch_queue_t NCTimer_Queue;//计时器并发队列
             self.timer = nil;
         }
         self.status = NCTimerCancel;
-        return true;
+        return YES;
     }
-    return false;
+    return NO;
 }
 
 @end

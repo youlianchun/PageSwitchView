@@ -88,7 +88,7 @@ static inline BOOL bg_swizzleClassMethod(Class class, SEL originalSelector, SEL 
     UIImageView *_backImageView = objc_getAssociatedObject(self, @selector(backImageView));
     if (!_backImageView) {
         _backImageView = [[UIImageView alloc]initWithFrame:CGRectMake(12, 11.6667, 13, 21)];
-        _backImageView.userInteractionEnabled = false;
+        _backImageView.userInteractionEnabled = NO;
         [self addSubview:_backImageView];
         CAShapeLayer *lineLayer = [[CAShapeLayer alloc]init];
         CGMutablePathRef path = CGPathCreateMutable();

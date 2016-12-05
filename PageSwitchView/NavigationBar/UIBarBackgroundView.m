@@ -70,7 +70,7 @@
         [self addSubview:_shadowView_t];
         
         _shadowView_t.hidden = NO;
-        _shadowView_t.translatesAutoresizingMaskIntoConstraints = false;
+        _shadowView_t.translatesAutoresizingMaskIntoConstraints = NO;
         [self addConstraint:[NSLayoutConstraint constraintWithItem:_shadowView_t attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
         [self addConstraint:[NSLayoutConstraint constraintWithItem:_shadowView_t attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
         [_shadowView_t addConstraint:[NSLayoutConstraint constraintWithItem:_shadowView_t attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.5]];
@@ -90,7 +90,7 @@
         [self addSubview:_shadowView_b];
         
         _shadowView_b.hidden = NO;
-        _shadowView_b.translatesAutoresizingMaskIntoConstraints = false;
+        _shadowView_b.translatesAutoresizingMaskIntoConstraints = NO;
         [self addConstraint:[NSLayoutConstraint constraintWithItem:_shadowView_b attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
         [self addConstraint:[NSLayoutConstraint constraintWithItem:_shadowView_b attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
         [_shadowView_b addConstraint:[NSLayoutConstraint constraintWithItem:_shadowView_b attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.5]];
