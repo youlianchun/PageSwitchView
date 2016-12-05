@@ -23,6 +23,7 @@
 - (BOOL)stretchingHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView;
 
 - (CGFloat)topeSpaceInPageSwitchView:(PageSwitchView *)pageSwitchView;
+- (CGFloat)titleHeightInPageSwitchView:(PageSwitchView *)pageSwitchView;
 
 
 @end

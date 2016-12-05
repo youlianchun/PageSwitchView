@@ -61,6 +61,7 @@ static const NSInteger kNull_PageIndex = 999999999;
 //@property (nonatomic, readonly) NSUInteger currentPageIndex;
 @property (nonatomic) UIView *headerView;
 @property (nonatomic) CGFloat topeSpace;
+@property (nonatomic) CGFloat titleHeight;
 //@property (nonatomic) BOOL isScrolling;
 @property (nonatomic) UIView *navigationBar_placeholderView;
 @property (nonatomic) void(^layoutBlock)(UIView *superView);
@@ -74,6 +75,7 @@ static const NSInteger kNull_PageIndex = 999999999;
     self = [super initWithFrame:frame];
     if (self) {
         self.topeSpace = 0;
+        self.titleHeight = 44;
     }
     return self;
 }
@@ -119,7 +121,7 @@ static const NSInteger kNull_PageIndex = 999999999;
 }
 -(SegmentTableView *)segmentTableView {
     if (!_segmentTableView) {
-        _segmentTableView = [[SegmentTableView alloc]initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 44)];
+        _segmentTableView = [[SegmentTableView alloc]initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.titleHeight)];
         _segmentTableView.titleLabelWidth = self.bounds.size.width/MIN(self.pageSwitchItemArray.count, 5);
         _segmentTableView.backgroundColor = [UIColor orangeColor];
         _segmentTableView.delegate = self;
@@ -152,8 +154,11 @@ static const NSInteger kNull_PageIndex = 999999999;
 }
 
 -(void)setTopeSpace:(CGFloat)topeSpace {
-//    _topeSpace = ABS(topeSpace);
-    _topeSpace = topeSpace;
+    if (topeSpace<0) {
+        _topeSpace = -self.titleHeight;
+    }else{
+        _topeSpace = topeSpace;
+    }
 
 }
 
@@ -511,6 +516,9 @@ static const NSInteger kNull_PageIndex = 999999999;
 //}
 
 -(void)reloadData {
+    if ([self.dataSource respondsToSelector:@selector(titleHeightInPageSwitchView:)]) {
+        self.titleHeight = MIN([self.dataSource titleHeightInPageSwitchView:self], 44);
+    }
     self.pageSwitchItemArray = [[self.dataSource pageSwitchItemsInPageSwitchView:self] mutableCopy];
     self.segmentTableView.selectedTitleColor = [UIColor whiteColor];//[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1];
     self.segmentTableView.normalTitleColor =  [UIColor lightGrayColor];
@@ -535,9 +543,6 @@ static const NSInteger kNull_PageIndex = 999999999;
     
     if ([self.delegate respondsToSelector:@selector(topeSpaceInPageSwitchView:)]) {
         self.topeSpace = [self.dataSource topeSpaceInPageSwitchView:self];
-//        self.pageTableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, self.topeSpace)];
-    }else{
-        self.pageTableView.tableFooterView = nil;
     }
     
     [self.pageTableView reloadData];
