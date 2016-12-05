@@ -117,6 +117,9 @@
     [self addConstraint: [NSLayoutConstraint constraintWithItem:self.scrollView_r attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.scrollView_l attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
 }
 
-
+-(void)stopScroll {
+    [self.scrollView_l setContentOffset:self.scrollView_l.contentOffset animated:NO];
+    [self.scrollView_l setContentOffset:self.scrollView_l.contentOffset animated:NO];
+}
 
 @end

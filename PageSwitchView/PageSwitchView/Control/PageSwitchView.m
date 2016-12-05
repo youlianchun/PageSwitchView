@@ -478,6 +478,7 @@ static const NSInteger kNull_PageIndex = 999999999;
     if (pageSwitchItem.didLoad && [pageSwitchItem.contentViewController respondsToSelector:@selector(pageScrolling)]) {
         [pageSwitchItem.contentViewController pageScrolling];
     }
+
     self.segmentTableView.currentIndex = newIndex;
 }
 

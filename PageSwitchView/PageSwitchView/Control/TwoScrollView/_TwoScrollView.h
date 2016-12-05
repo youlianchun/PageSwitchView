@@ -14,6 +14,8 @@
 
 @property (nonatomic, copy) NSString* panGestureRecognizerGroupTag;
 
-@property(nonatomic,weak) id<UIScrollViewDelegate> delegate;
+@property (nonatomic,weak) id<UIScrollViewDelegate> delegate;
+
+-(void)stopScroll;
 
 @end

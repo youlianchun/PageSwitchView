@@ -27,27 +27,21 @@
     self.navigationItem.titleView = self.titleView;
     self.titleView.titleLabel.text = self.title;
     self.titleView.titleView.backgroundColor = [UIColor redColor];
-    CGRect frame = self.view.bounds;
-    self.pageSwitchView = [[PageSwitchView alloc]initWithFrame:frame];
-    self.pageSwitchView.clipsToBounds = YES;
+    
+    self.pageSwitchView = [[PageSwitchView alloc]initWithFrame:self.view.bounds];
     [self.view addSubview:self.pageSwitchView];
     
-    self.pageSwitchView.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pageSwitchView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pageSwitchView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
-    [self.view addConstraint: [NSLayoutConstraint constraintWithItem:self.pageSwitchView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
-    [self.view addConstraint: [NSLayoutConstraint constraintWithItem:self.pageSwitchView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+    [self.pageSwitchView layoutWithinserts:UIEdgeInsetsMake(0, 0, 0, 0)];
     
     self.pageSwitchView.delegate = self;
     self.pageSwitchView.dataSource = self;
     [self.pageSwitchView reloadData];
     
-    __weak typeof(self) wself = self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [wself.pageSwitchView switchNewPageWithNewIndex:2];
-        [wself.pageSwitchView switchNewPageWithTitle:@"4"];
-    });
+//    __weak typeof(self) wself = self;
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+////        [wself.pageSwitchView switchNewPageWithNewIndex:2];
+//        [wself.pageSwitchView switchNewPageWithTitle:@"4"];
+//    });
 }
 
 -(NavigationBarTitleView *)titleView {
@@ -87,38 +81,48 @@
 //        vc.title = @"1";
 //        doReturn(vc, vc.twoScrollView);
 //    }];
-    PageSwitchItem *item1 = [PageSwitchItem itemWithTitle:@"1" vcClsKey:@"TwoScrollViewController" viewKey:@"twoScrollView"];
+//    PageSwitchItem *item2 = [PageSwitchItem itemWithTitle:@"2" page:^(DoReturn doReturn) {
+//        TableViewController *vc = [[TableViewController alloc]init];
+//        vc.title = @"2";
+//        doReturn(vc, vc.tableView);
+//    }];
+//    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" page:^(DoReturn doReturn) {
+//        SimpleViewController *vc = [[SimpleViewController alloc]init];
+//        vc.title = @"3";
+//        doReturn(vc, vc.view);
+//    }];
+//    PageSwitchItem *item4 = [PageSwitchItem itemWithTitle:@"4" page:^(DoReturn doReturn) {
+//        ScrollViewController *vc = [[ScrollViewController alloc]init];
+//        vc.title = @"4";
+//        doReturn(vc, vc.scrollView);
+//    }];
+//    PageSwitchItem *item5 = [PageSwitchItem itemWithTitle:@"5" page:^(DoReturn doReturn) {
+//        TableViewController *vc = [[TableViewController alloc]init];
+//        vc.title = @"5";
+//        doReturn(vc, vc.tableView);
+//    }];
+//    PageSwitchItem *item6 = [PageSwitchItem itemWithTitle:@"6" page:^(DoReturn doReturn) {
+//        TableViewController *vc = [[TableViewController alloc]init];
+//        vc.title = @"6";
+//        doReturn(vc, vc.tableView);
+//    }];
+//    PageSwitchItem *item7 = [PageSwitchItem itemWithTitle:@"7" page:^(DoReturn doReturn) {
+//        TableViewController *vc = [[TableViewController alloc]init];
+//        vc.title = @"7";
+//        doReturn(vc, vc.tableView);
+//    }];
     
-    PageSwitchItem *item2 = [PageSwitchItem itemWithTitle:@"2" page:^(DoReturn doReturn) {
-        TableViewController *vc = [[TableViewController alloc]init];
-        vc.title = @"2";
-        doReturn(vc, vc.tableView);
-    }];
-    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" page:^(DoReturn doReturn) {
-        SimpleViewController *vc = [[SimpleViewController alloc]init];
-        vc.title = @"3";
-        doReturn(vc, vc.view);
-    }];
-    PageSwitchItem *item4 = [PageSwitchItem itemWithTitle:@"4" page:^(DoReturn doReturn) {
-        ScrollViewController *vc = [[ScrollViewController alloc]init];
-        vc.title = @"4";
-        doReturn(vc, vc.scrollView);
-    }];
-    PageSwitchItem *item5 = [PageSwitchItem itemWithTitle:@"5" page:^(DoReturn doReturn) {
-        TableViewController *vc = [[TableViewController alloc]init];
-        vc.title = @"5";
-        doReturn(vc, vc.tableView);
-    }];
-    PageSwitchItem *item6 = [PageSwitchItem itemWithTitle:@"6" page:^(DoReturn doReturn) {
-        TableViewController *vc = [[TableViewController alloc]init];
-        vc.title = @"6";
-        doReturn(vc, vc.tableView);
-    }];
-    PageSwitchItem *item7 = [PageSwitchItem itemWithTitle:@"7" page:^(DoReturn doReturn) {
-        TableViewController *vc = [[TableViewController alloc]init];
-        vc.title = @"7";
-        doReturn(vc, vc.tableView);
-    }];
+
+    PageSwitchItem *item1 = [PageSwitchItem itemWithTitle:@"1" key:@"TwoScrollViewController.twoScrollView"];
+    PageSwitchItem *item2 = [PageSwitchItem itemWithTitle:@"2" vcClsKey:@"TableViewController" viewKey:@"tableView"];
+//    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" vcClsKey:@"SimpleViewController" viewKey:@"view"];
+//    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"1" key:@"SimpleViewController."];
+//    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"1" key:@"SimpleViewController.view"];
+    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"1" key:@"SimpleViewController"];
+    PageSwitchItem *item4 = [PageSwitchItem itemWithTitle:@"4" vcClsKey:@"ScrollViewController" viewKey:@"scrollView"];
+    PageSwitchItem *item5 = [PageSwitchItem itemWithTitle:@"5" vcClsKey:@"TableViewController" viewKey:@"tableView"];
+    PageSwitchItem *item6 = [PageSwitchItem itemWithTitle:@"6" vcClsKey:@"TableViewController" viewKey:@"tableView"];
+    PageSwitchItem *item7 = [PageSwitchItem itemWithTitle:@"7" vcClsKey:@"TableViewController" viewKey:@"tableView"];
     return @[item1,item2,item3,item4,item5,item6,item7];
 }
 

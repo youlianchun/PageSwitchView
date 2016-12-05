@@ -112,10 +112,10 @@ static const CGFloat waitTimer = 0.05;
         if (waitTimer>0.005) {
             if (isCurrent) {
 //                [self.timer resume];
-                [self performSelector:@selector(loadFunction) withObject:nil afterDelay:waitTimer];//停留waitTimer后加载，否则取消加载
+                [self performSelector:@selector(loadFunction) withObject:nil afterDelay:waitTimer inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];//停留waitTimer后加载，否则取消加载
             }else{
 //                [self.timer cancel];
-                [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(loadFunction) object:nil];
+                [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(loadFunction) object:nil ];
             }
         }else {
             [self loadFunction];
@@ -150,10 +150,13 @@ static const CGFloat waitTimer = 0.05;
     PageSwitchItem *item = [[PageSwitchItem alloc]initSelf];
     item.title = title;
     item.newPage = ^(DoReturn doReturn){
-        id vc = [[vcCls alloc]init];
+        UIViewController* vc = [[vcCls alloc]init];
         id view = [vc valueForKey:key];
-        BOOL b = view != nil && ![view isMemberOfClass:[UIView class]];
+        BOOL b = view != nil;
+        NSAssert(b, @"%@ 属性: %@不存在", key, vcCls);
+        b = ([view isMemberOfClass:[UIView class]] || [view isKindOfClass:[UIView class]]);
         NSAssert(b, @"%@ 属性: %@不正确", key, vcCls);
+        vc.title = title;
         doReturn (vc, view);
     };
     return item;
@@ -164,5 +167,21 @@ static const CGFloat waitTimer = 0.05;
     return [PageSwitchItem itemWithTitle:title vcCls:vcCls viewKey:key];
 }
 
++(PageSwitchItem*)itemWithTitle:(NSString*)title key:(NSString*)key {
+    NSString *clsKey = @"UIViewController";
+    NSString *viewKey = @"view";
+    if (key.length>1) {
+        NSArray<NSString*> *keys = [[key stringByReplacingOccurrencesOfString:@" " withString:@"" ] componentsSeparatedByString:@"."];
+        NSAssert(keys.count != 0, @"类参数名不存在");
+        if (keys[0].length>0) {
+            clsKey = keys[0];
+        }
+        if (keys.count > 1 && keys[1].length>0) {
+            viewKey = keys[1];
+        }
+    }
+    Class vcCls = NSClassFromString(clsKey);
+    return [PageSwitchItem itemWithTitle:title vcCls:vcCls viewKey:viewKey];
+}
 
 @end
