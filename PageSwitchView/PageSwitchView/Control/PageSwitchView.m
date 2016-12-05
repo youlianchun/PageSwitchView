@@ -58,7 +58,6 @@ static const NSInteger kNull_PageIndex = 999999999;
 @property (nonatomic) UIViewController *selfViewController;
 
 @property (nonatomic) SegmentTableView *segmentTableView;
-//@property (nonatomic, readonly) NSUInteger currentPageIndex;
 @property (nonatomic) UIView *headerView;
 @property (nonatomic) CGFloat topeSpace;
 @property (nonatomic) CGFloat titleHeight;
@@ -98,6 +97,8 @@ static const NSInteger kNull_PageIndex = 999999999;
     if (!_pageTableView) {
         _pageTableView = [[_PageSwitchView alloc]initWithFrame:self.bounds style:UITableViewStyleGrouped];
         _pageTableView.showsVerticalScrollIndicator = NO;
+        _pageTableView.backgroundColor = [UIColor clearColor];
+        _pageTableView.opaque = NO;
         _pageTableView.delegate = self;
         _pageTableView.dataSource = self;
         _pageTableView.panGestureRecognizer.groupTag = kUIGestureRecognizer;
