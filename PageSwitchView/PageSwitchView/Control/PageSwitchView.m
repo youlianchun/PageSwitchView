@@ -152,7 +152,7 @@ static const NSInteger kNull_PageIndex = 999999999;
 }
 
 -(void)setTopeSpace:(CGFloat)topeSpace {
-    _topeSpace = topeSpace;
+    _topeSpace = ABS(topeSpace);
 }
 
 -(UIView *)navigationBar_placeholderView {
@@ -236,6 +236,7 @@ static const NSInteger kNull_PageIndex = 999999999;
                 } else if (scrollView.contentOffset.y>lastContentOffset_y) {//向上
                     if (self.pageTableView.contentOffset.y >= self.pageTableView.contentSize.height-self.pageTableView.bounds.size.height-self.topeSpace) {
                         self.pageTableView.contentOffset = CGPointMake(0.0f, self.pageTableView.contentSize.height-self.pageTableView.bounds.size.height-self.topeSpace);
+                        
                     }
                 }
                 lastContentOffset_y = scrollView.contentOffset.y;
