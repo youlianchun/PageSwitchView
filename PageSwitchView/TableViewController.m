@@ -46,7 +46,7 @@
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [[UITableViewCell alloc]init];
-    cell.textLabel.text=[NSString stringWithFormat:@"page: %@      %ld",self.title,(long)indexPath.row];
+    cell.textLabel.text=[NSString stringWithFormat:@"page: %@      %ld, %ld",self.title,(long)indexPath.section,(long)indexPath.row];
     return cell;
 }
 

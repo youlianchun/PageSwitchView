@@ -52,7 +52,7 @@
 }
 
 -(CGFloat)topeSpaceInPageSwitchView:(PageSwitchView *)pageSwitchView {
-    return 0;
+    return -44;
 }
 
 - (void)pageSwitchView:(PageSwitchView *)pageSwitchView headerDisplayProgress:(CGFloat)progress {
@@ -80,8 +80,8 @@
 }
 
 -(NSArray<PageSwitchItem *> *)pageSwitchItemsInPageSwitchView:(PageSwitchView *)pageSwitchView {
-    PageSwitchItem *item1 = [PageSwitchItem itemWithTitle:@"1" key:@"TwoScrollViewController.twoScrollView"];
-    PageSwitchItem *item2 = [PageSwitchItem itemWithTitle:@"2" vcClsKey:@"TableViewController" viewKey:@"tableView"];
+    PageSwitchItem *item1 = [PageSwitchItem itemWithTitle:@"1" vcClsKey:@"TableViewController" viewKey:@"tableView"];
+    PageSwitchItem *item2 = [PageSwitchItem itemWithTitle:@"2" key:@"TwoScrollViewController.twoScrollView"];
 //    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" vcClsKey:@"SimpleViewController" viewKey:@"view"];
 //    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" key:@"SimpleViewController."];
 //    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" key:@"SimpleViewController.view"];
