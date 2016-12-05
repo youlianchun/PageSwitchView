@@ -114,6 +114,11 @@ static inline BOOL bg_swizzleClassMethod(Class class, SEL originalSelector, SEL 
 -(void)setBackImageView:(UIImageView *)backImageView {
     objc_setAssociatedObject(self, @selector(backImageView), backImageView, OBJC_ASSOCIATION_RETAIN);
 }
-
+-(void)setEffectEnabled:(BOOL)effectEnabled {
+    self.barBackgroundView.translucent = effectEnabled;
+}
+-(BOOL)effectEnabled {
+    return self.barBackgroundView.translucent;
+}
 @end
 #endif

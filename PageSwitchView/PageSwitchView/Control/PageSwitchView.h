@@ -20,6 +20,8 @@
 
 - (UIView *)viewForHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView;
 
+- (BOOL)stretchingHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView;
+
 - (CGFloat)topeSpaceInPageSwitchView:(PageSwitchView *)pageSwitchView;
 
 

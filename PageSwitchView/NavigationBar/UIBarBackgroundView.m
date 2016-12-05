@@ -131,6 +131,7 @@
     self.backgroundEffectView.hidden = !translucent;
 }
 
+
 -(void)addConstraint:(UIView*)view inserts:(UIEdgeInsets)inserts {
     UIView *superview = view.superview;
     view.translatesAutoresizingMaskIntoConstraints = NO;

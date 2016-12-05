@@ -17,6 +17,5 @@
 @property (nonatomic, readonly) UIImageView            *backgroundImageView;
 @property (nonatomic, readonly) UIView                 *shadowView;
 @property (nonatomic, readonly) UIVisualEffectView     *backgroundEffectView;
-
 @end
 

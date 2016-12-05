@@ -51,9 +51,9 @@
     return _titleView;
 }
 
-//-(CGFloat)topeSpaceInPageSwitchView:(PageSwitchView *)pageSwitchView {
-//    return 30;
-//}
+-(CGFloat)topeSpaceInPageSwitchView:(PageSwitchView *)pageSwitchView {
+    return -64;
+}
 
 - (void)pageSwitchView:(PageSwitchView *)pageSwitchView headerDisplayProgress:(CGFloat)progress {
     self.titleView.labelShowRatio = progress;

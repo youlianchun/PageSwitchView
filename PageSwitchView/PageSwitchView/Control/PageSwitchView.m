@@ -152,7 +152,7 @@ static const NSInteger kNull_PageIndex = 999999999;
 }
 
 -(void)setTopeSpace:(CGFloat)topeSpace {
-    _topeSpace = ABS(topeSpace);
+    _topeSpace = topeSpace;
 }
 
 -(UIView *)navigationBar_placeholderView {
@@ -236,7 +236,6 @@ static const NSInteger kNull_PageIndex = 999999999;
                 } else if (scrollView.contentOffset.y>lastContentOffset_y) {//向上
                     if (self.pageTableView.contentOffset.y >= self.pageTableView.contentSize.height-self.pageTableView.bounds.size.height-self.topeSpace) {
                         self.pageTableView.contentOffset = CGPointMake(0.0f, self.pageTableView.contentSize.height-self.pageTableView.bounds.size.height-self.topeSpace);
-                        
                     }
                 }
                 lastContentOffset_y = scrollView.contentOffset.y;
@@ -452,7 +451,11 @@ static const NSInteger kNull_PageIndex = 999999999;
     self.headerView = nil;
     if (self.headerView) {
         self.pageTableView.scrollEnabled = YES;
-        StretchingHeaderView *sHeaderView = [[StretchingHeaderView alloc]initWithContentView:self.headerView stretching:YES];
+        BOOL stretching = NO;
+        if ([self.dataSource respondsToSelector:@selector(stretchingHeaderInPageSwitchView:)]) {
+            stretching = [self.dataSource stretchingHeaderInPageSwitchView:self];
+        }
+        StretchingHeaderView *sHeaderView = [[StretchingHeaderView alloc]initWithContentView:self.headerView stretching:stretching];
         self.pageTableView.tableHeaderView = sHeaderView;
         sHeaderView.delegate = self;
     }else {
@@ -491,10 +494,12 @@ static const NSInteger kNull_PageIndex = 999999999;
 
 -(void)didMoveToSuperview {
     [super didMoveToSuperview]; 
-    self.selfViewController.edgesForExtendedLayout =  UIRectEdgeLeft | UIRectEdgeBottom | UIRectEdgeRight;
-    self.selfViewController.extendedLayoutIncludesOpaqueBars = NO;
-    self.selfViewController.modalPresentationCapturesStatusBarAppearance = NO;
-    [self navigationBar_placeholderView];
+//    self.selfViewController.edgesForExtendedLayout =  UIRectEdgeLeft | UIRectEdgeBottom | UIRectEdgeRight;
+//    self.selfViewController.extendedLayoutIncludesOpaqueBars = NO;
+//    self.selfViewController.modalPresentationCapturesStatusBarAppearance = NO;
+    self.selfViewController.automaticallyAdjustsScrollViewInsets = NO;
+//    [self navigationBar_placeholderView];
+    self.pageTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     if (self.layoutBlock) {
         self.layoutBlock(self.superview);
     }

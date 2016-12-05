@@ -17,7 +17,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    UIColor *tintColor = [UIColor colorWithRed:3/255.0 green:56/255.0 blue:147/255.0 alpha:1];
+    UIColor *tintColor = [UIColor colorWithRed:3/255.0 green:56/255.0 blue:147/255.0 alpha:0];
     [[UINavigationBar appearance] setBarTintColor:tintColor];
     [[UINavigationBar appearance] setTranslucent:NO];
     [[UINavigationBar appearance] setBarStyle:UIBarStyleBlack];// 电池条，白色
