@@ -9,6 +9,8 @@
 #import "HorizontalTableView.h"
 #import "UIGestureRecognizer+Group.h"
 #import "UIScrollView+Other.h"
+#import "PageSwitchViewStatic.h"
+
 #pragma mark -
 #pragma mark - _HorizontalTableView
 @interface _HorizontalTableView:UITableView <UIGestureRecognizerDelegate>
@@ -52,7 +54,7 @@
 
 #pragma mark -
 #pragma mark - _HorizontalTableViewCell
-static NSString *kUIGestureRecognizer_H = @"kUIGestureRecognizer_H";
+
 
 @interface _HorizontalTableViewCell : UITableViewCell
 @property (nonatomic) UIContentView *view;
@@ -214,7 +216,7 @@ static NSString *kUIGestureRecognizer_H = @"kUIGestureRecognizer_H";
     }
     if (self.initPageIndex == indexPath.section) {
         [self performSelector:@selector(scrollViewDidEndDecelerating:) withObject:tableView afterDelay:0.001 inModes: [NSArray arrayWithObject:NSRunLoopCommonModes]];//延迟处理，等待界面显示完成,需要切换到应用主RunLoop
-        self.initPageIndex = 999999999;//用极大值表示不存在
+        self.initPageIndex = kNull_PageIndex;
     }
 }
 

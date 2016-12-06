@@ -109,6 +109,7 @@
 		A99EE6AF1DF64AC70032D271 /* PSViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSViewController.m; sourceTree = "<group>"; };
 		A99EE6B11DF653CD0032D271 /* UIScrollView+Other.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+Other.h"; sourceTree = "<group>"; };
 		A99EE6B21DF653CD0032D271 /* UIScrollView+Other.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+Other.m"; sourceTree = "<group>"; };
+		A99EE6B41DF6B39C0032D271 /* PageSwitchViewStatic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PageSwitchViewStatic.h; sourceTree = "<group>"; };
 		A99F6AF41DF2A4D200919A81 /* NavigationBarTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationBarTitleView.h; sourceTree = "<group>"; };
 		A99F6AF51DF2A4D200919A81 /* NavigationBarTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationBarTitleView.m; sourceTree = "<group>"; };
 		A99F6B461DF43F1E00919A81 /* UIViewController+FullScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+FullScreen.h"; sourceTree = "<group>"; };
@@ -264,6 +265,7 @@
 		A907EC871DEECECD00D8C5CF /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				A99EE6B41DF6B39C0032D271 /* PageSwitchViewStatic.h */,
 				A907EC881DEECECD00D8C5CF /* _PageSwitchItem.h */,
 				A907EC891DEECECD00D8C5CF /* GradientColor.h */,
 				A907EC8A1DEECECD00D8C5CF /* GradientColor.m */,

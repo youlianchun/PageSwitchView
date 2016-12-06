@@ -13,6 +13,7 @@
 #import "SegmentTableView.h"
 #import "StretchingHeaderView.h"
 #import "_TwoScrollView.h"
+#import "PageSwitchViewStatic.h"
 
 #pragma mark -
 #pragma mark - _PageSwitchView
@@ -41,8 +42,7 @@
 #pragma mark -
 #pragma mark - PageSwitchView
 
-static NSString *kUIGestureRecognizer_V = @"kUIGestureRecognizer_V";
-static const NSInteger kNull_PageIndex = 999999999;
+
 @interface PageSwitchView ()< UIGestureRecognizerDelegate,
                             StretchingHeaderViewDelegate,
                             UITableViewDelegate, UITableViewDataSource,
@@ -375,6 +375,7 @@ static const NSInteger kNull_PageIndex = 999999999;
 
 -(void)tableView:(HorizontalTableView *)tableView didScrollToPageIndex:(NSUInteger)index {
     [self.segmentTableView handoverWithLeftPageIndex:index leftScale:1.0 rightPageIndex:kNull_PageIndex rightScale:0.0];
+
     self.pageSwitchItemArray[index].isCurrent = YES;
     [self.segmentTableView adjustCurrentIndex:index];
 }
