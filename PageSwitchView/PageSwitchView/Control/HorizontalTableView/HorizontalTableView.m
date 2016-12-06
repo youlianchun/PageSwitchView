@@ -7,9 +7,12 @@
 //
 
 #import "HorizontalTableView.h"
+#import "UIGestureRecognizer+Group.h"
+#import "UIScrollView+Other.h"
 #pragma mark -
 #pragma mark - _HorizontalTableView
-@interface _HorizontalTableView:UITableView
+@interface _HorizontalTableView:UITableView <UIGestureRecognizerDelegate>
+//@property (nonatomic)UIScrollView *otherScrollView;
 @end
 
 @implementation _HorizontalTableView
@@ -19,6 +22,16 @@
         if (otherGestureRecognizer.state == UIGestureRecognizerStateBegan && self.contentOffset.y == 0) {
             return YES;
         }
+    }
+    if ([gestureRecognizer.groupTag isEqualToString:otherGestureRecognizer.groupTag]) {
+        if ([otherGestureRecognizer.view isKindOfClass:[UIScrollView class]]) {
+            self.otherScrollView = (UIScrollView*)otherGestureRecognizer.view;
+        }else {
+            self.otherScrollView = nil;
+        }
+        return YES;
+    }else{
+        return NO;
     }
     return NO;
 }
@@ -33,10 +46,13 @@
     }
     return NO;
 }
+
 @end
 
 #pragma mark -
 #pragma mark - _HorizontalTableViewCell
+static NSString *kUIGestureRecognizer_H = @"kUIGestureRecognizer_H";
+
 @interface _HorizontalTableViewCell : UITableViewCell
 @property (nonatomic) UIContentView *view;
 @end
@@ -93,6 +109,9 @@
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.scrollsToTop = NO;
     self.tableView.bounces = NO;
+    
+    self.tableView.panGestureRecognizer.groupTag = kUIGestureRecognizer_H;
+    self.tableView.panGestureRecognizer.maximumNumberOfTouches = 1;
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -220,6 +239,19 @@
         CGFloat rScale = tempProgress - lIndex;//左边页显示比例
         CGFloat lScale = 1 - rScale;//右边页显示
         [self.delegate tableView:self didScrollWithLeftPageIndex:lIndex leftScale:lScale rightPageIndex:rIndex rightScale:rScale];
+    }
+    if (scrollView.isAncestorOfOtherScrollView) {
+//        外部
+        if (scrollView.otherScrollView.contentOffset.y < 0 || scrollView.otherScrollView.contentOffset.y > scrollView.contentSize.height - CGRectGetHeight(scrollView.otherScrollView.bounds)) {
+            NSUInteger index = (NSUInteger)scrollView.contentOffset.y/scrollView.contentSize.height;
+            scrollView.contentOffset = CGPointMake(0, index*scrollView.contentSize.height);
+        }
+    }else if (scrollView.isDescendantOfOtherScrollView) {
+//        内部
+        if (scrollView.contentOffset.y >= 0 && scrollView.contentOffset.y <= scrollView.contentSize.height - CGRectGetHeight(scrollView.bounds)) {
+            NSUInteger index = (NSUInteger)scrollView.otherScrollView.contentOffset.y/scrollView.otherScrollView.contentSize.height;
+            scrollView.otherScrollView.contentOffset = CGPointMake(0, index*scrollView.otherScrollView.contentSize.height);
+        }
     }
 }
 

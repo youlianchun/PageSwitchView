@@ -30,6 +30,8 @@
 		A907ECC51DEED09400D8C5CF /* TwoScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = A907ECBE1DEED09400D8C5CF /* TwoScrollView.m */; };
 		A907ECC61DEED09400D8C5CF /* UIContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = A907ECC11DEED09400D8C5CF /* UIContentView.m */; };
 		A981F7D51DF132E6002A44D6 /* UINavigationBar+Background.m in Sources */ = {isa = PBXBuildFile; fileRef = A981F7D41DF132E6002A44D6 /* UINavigationBar+Background.m */; };
+		A99EE6B01DF64AC70032D271 /* PSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99EE6AF1DF64AC70032D271 /* PSViewController.m */; };
+		A99EE6B31DF653CD0032D271 /* UIScrollView+Other.m in Sources */ = {isa = PBXBuildFile; fileRef = A99EE6B21DF653CD0032D271 /* UIScrollView+Other.m */; };
 		A99F6AF61DF2A4D200919A81 /* NavigationBarTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = A99F6AF51DF2A4D200919A81 /* NavigationBarTitleView.m */; };
 		A99F6B481DF43F1E00919A81 /* UIViewController+FullScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = A99F6B471DF43F1E00919A81 /* UIViewController+FullScreen.m */; };
 		A99F6B501DF4598700919A81 /* PageSwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = A99F6B4E1DF4598700919A81 /* PageSwitchView.m */; };
@@ -103,6 +105,10 @@
 		A907ECC71DEEE47A00D8C5CF /* _TwoScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _TwoScrollView.h; sourceTree = "<group>"; };
 		A981F7D31DF132E6002A44D6 /* UINavigationBar+Background.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+Background.h"; sourceTree = "<group>"; };
 		A981F7D41DF132E6002A44D6 /* UINavigationBar+Background.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Background.m"; sourceTree = "<group>"; };
+		A99EE6AE1DF64AC70032D271 /* PSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSViewController.h; sourceTree = "<group>"; };
+		A99EE6AF1DF64AC70032D271 /* PSViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSViewController.m; sourceTree = "<group>"; };
+		A99EE6B11DF653CD0032D271 /* UIScrollView+Other.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+Other.h"; sourceTree = "<group>"; };
+		A99EE6B21DF653CD0032D271 /* UIScrollView+Other.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+Other.m"; sourceTree = "<group>"; };
 		A99F6AF41DF2A4D200919A81 /* NavigationBarTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationBarTitleView.h; sourceTree = "<group>"; };
 		A99F6AF51DF2A4D200919A81 /* NavigationBarTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationBarTitleView.m; sourceTree = "<group>"; };
 		A99F6B461DF43F1E00919A81 /* UIViewController+FullScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+FullScreen.h"; sourceTree = "<group>"; };
@@ -192,6 +198,8 @@
 				A907EC6F1DEECEAF00D8C5CF /* TwoScrollViewController.m */,
 				A907EC701DEECEAF00D8C5CF /* ViewController.h */,
 				A907EC711DEECEAF00D8C5CF /* ViewController.m */,
+				A99EE6AE1DF64AC70032D271 /* PSViewController.h */,
+				A99EE6AF1DF64AC70032D271 /* PSViewController.m */,
 				A907EC1B1DEECE7A00D8C5CF /* Main.storyboard */,
 				A907EC1E1DEECE7A00D8C5CF /* Assets.xcassets */,
 				A907EC201DEECE7A00D8C5CF /* LaunchScreen.storyboard */,
@@ -247,6 +255,8 @@
 			children = (
 				A907EC851DEECECD00D8C5CF /* UIGestureRecognizer+Group.h */,
 				A907EC861DEECECD00D8C5CF /* UIGestureRecognizer+Group.m */,
+				A99EE6B11DF653CD0032D271 /* UIScrollView+Other.h */,
+				A99EE6B21DF653CD0032D271 /* UIScrollView+Other.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -483,8 +493,10 @@
 				A907ECA41DEECECD00D8C5CF /* UIGestureRecognizer+Group.m in Sources */,
 				A907ECC51DEED09400D8C5CF /* TwoScrollView.m in Sources */,
 				A99F6B481DF43F1E00919A81 /* UIViewController+FullScreen.m in Sources */,
+				A99EE6B01DF64AC70032D271 /* PSViewController.m in Sources */,
 				A907EC811DEECEAF00D8C5CF /* TwoScrollViewController.m in Sources */,
 				A907ECAB1DEECECD00D8C5CF /* DelegateInterceptor.m in Sources */,
+				A99EE6B31DF653CD0032D271 /* UIScrollView+Other.m in Sources */,
 				A907EC801DEECEAF00D8C5CF /* TableViewController.m in Sources */,
 				A907ECA51DEECECD00D8C5CF /* GradientColor.m in Sources */,
 				A907ECC41DEED09400D8C5CF /* StretchingHeaderView.m in Sources */,

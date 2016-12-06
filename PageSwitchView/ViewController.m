@@ -13,6 +13,7 @@
 #import "SimpleViewController.h"
 #import "ScrollViewController.h"
 #import "NavigationBarTitleView.h"
+#import "PSViewController.h"
 
 @interface ViewController()<PageSwitchViewDelegate, PageSwitchViewDataSource>
 @property (nonatomic) PageSwitchView *pageSwitchView;
@@ -51,40 +52,40 @@
     return _titleView;
 }
 
-- (BOOL)stretchingHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView {
-    return YES;
-}
-
--(CGFloat)topeSpaceInPageSwitchView:(PageSwitchView *)pageSwitchView {
-    return -1;
-}
+//- (BOOL)stretchingHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView {
+//    return YES;
+//}
+//
+//-(CGFloat)topeSpaceInPageSwitchView:(PageSwitchView *)pageSwitchView {
+//    return -1;
+//}
 
 - (void)pageSwitchView:(PageSwitchView *)pageSwitchView headerDisplayProgress:(CGFloat)progress {
     self.titleView.labelShowRatio = progress;
 }
 
-- (UIView *)viewForHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView{
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 150)];
-    view.backgroundColor = [UIColor redColor];
-    UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(100, 20, 100, 100)];
-    lab.text = @"labsss";
-    lab.textColor = [UIColor yellowColor];
-    [view addSubview:lab];
-    
-    UISwitch *swith =[ [UISwitch alloc]init];
-    swith.frame = CGRectMake(0, 110, 100, 40);
-    [swith addTarget:self action:@selector(swithActon) forControlEvents:UIControlEventValueChanged];
-    [view addSubview:swith];
-    
-    return view;
-}
+//- (UIView *)viewForHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView{
+//    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 150)];
+//    view.backgroundColor = [UIColor redColor];
+//    UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(100, 20, 100, 100)];
+//    lab.text = @"labsss";
+//    lab.textColor = [UIColor yellowColor];
+//    [view addSubview:lab];
+//    
+//    UISwitch *swith =[ [UISwitch alloc]init];
+//    swith.frame = CGRectMake(0, 110, 100, 40);
+//    [swith addTarget:self action:@selector(swithActon) forControlEvents:UIControlEventValueChanged];
+//    [view addSubview:swith];
+//    
+//    return view;
+//}
 
 -(void)swithActon {
     
 }
 
 -(NSArray<PageSwitchItem *> *)pageSwitchItemsInPageSwitchView:(PageSwitchView *)pageSwitchView {
-    PageSwitchItem *item1 = [PageSwitchItem itemWithTitle:@"1" vcClsKey:@"TableViewController" viewKey:@"tableView"];
+    PageSwitchItem *item1 = [PageSwitchItem itemWithTitle:@"1" key:@"PSViewController.pageSwitchView"];
     PageSwitchItem *item2 = [PageSwitchItem itemWithTitle:@"2" key:@"TwoScrollViewController.twoScrollView"];
 //    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" vcClsKey:@"SimpleViewController" viewKey:@"view"];
 //    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" key:@"SimpleViewController."];

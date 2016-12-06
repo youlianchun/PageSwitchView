@@ -41,7 +41,7 @@
 #pragma mark -
 #pragma mark - PageSwitchView
 
-static NSString *kUIGestureRecognizer = @"kUIGestureRecognizer";
+static NSString *kUIGestureRecognizer_V = @"kUIGestureRecognizer_V";
 static const NSInteger kNull_PageIndex = 999999999;
 @interface PageSwitchView ()< UIGestureRecognizerDelegate,
                             StretchingHeaderViewDelegate,
@@ -101,7 +101,8 @@ static const NSInteger kNull_PageIndex = 999999999;
         _pageTableView.opaque = NO;
         _pageTableView.delegate = self;
         _pageTableView.dataSource = self;
-        _pageTableView.panGestureRecognizer.groupTag = kUIGestureRecognizer;
+        _pageTableView.panGestureRecognizer.groupTag = kUIGestureRecognizer_V;
+
         [self addSubview:_pageTableView];
         _pageTableView.translatesAutoresizingMaskIntoConstraints = NO;
         [self addConstraint:[NSLayoutConstraint constraintWithItem:_pageTableView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
@@ -304,11 +305,11 @@ static const NSInteger kNull_PageIndex = 999999999;
         pageSwitchItem.didLoadBock = ^{
             if (pageSwitchItem.isScroll) {
                 UIScrollView *scrollView =  (UIScrollView *)pageSwitchItem.contentView;
-                scrollView.panGestureRecognizer.groupTag = kUIGestureRecognizer;
+                scrollView.panGestureRecognizer.groupTag = kUIGestureRecognizer_V;
             }
             if (pageSwitchItem.is2Scroll) {
                 TwoScrollView *twoScrollView = (TwoScrollView*)pageSwitchItem.contentView;
-                twoScrollView.panGestureRecognizerGroupTag = kUIGestureRecognizer;
+                twoScrollView.panGestureRecognizerGroupTag = kUIGestureRecognizer_V;
                 twoScrollView.haveHeader = self.headerView != nil;
             }
             [wself.selfViewController addChildViewController:pageSwitchItem.contentViewController];

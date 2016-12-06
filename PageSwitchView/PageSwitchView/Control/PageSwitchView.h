@@ -22,7 +22,15 @@
 
 - (BOOL)stretchingHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView;
 
+
+/**
+ 滑动顶部
+
+ @param pageSwitchView <#pageSwitchView description#>
+ @return <#return value description#>
+ */
 - (CGFloat)topeSpaceInPageSwitchView:(PageSwitchView *)pageSwitchView;
+
 - (CGFloat)titleHeightInPageSwitchView:(PageSwitchView *)pageSwitchView;
 
 

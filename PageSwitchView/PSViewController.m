@@ -15,7 +15,6 @@
 
 @interface PSViewController()<PageSwitchViewDelegate, PageSwitchViewDataSource,PageViewControllerProtocol>
 
-@property (nonatomic) NavigationBarTitleView *titleView;
 @end
 
 @implementation PSViewController
@@ -38,17 +37,14 @@
     return _pageSwitchView;
 }
 
--(NavigationBarTitleView *)titleView {
-    if (!_titleView) {
-        _titleView = [[NavigationBarTitleView alloc]initWithFrame:CGRectMake(0, 0, 200, 44)];
-    }
-    return _titleView;
-}
 
-- (void)pageSwitchView:(PageSwitchView *)pageSwitchView headerDisplayProgress:(CGFloat)progress {
-    self.titleView.labelShowRatio = progress;
+//- (BOOL)stretchingHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView {
+//    return YES;
+//}
+//
+-(CGFloat)topeSpaceInPageSwitchView:(PageSwitchView *)pageSwitchView {
+    return -1;
 }
-
 - (UIView *)viewForHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView{
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 150)];
     view.backgroundColor = [UIColor redColor];
@@ -114,7 +110,7 @@
     //    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"1" key:@"SimpleViewController.view"];
     PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"1" key:@"SimpleViewController"];
     PageSwitchItem *item4 = [PageSwitchItem itemWithTitle:@"4" vcClsKey:@"ScrollViewController" viewKey:@"scrollView"];
-    PageSwitchItem *item5 = [PageSwitchItem itemWithTitle:@"5" vcClsKey:@"ViewController" viewKey:@"pageSwitchView"];
+    PageSwitchItem *item5 = [PageSwitchItem itemWithTitle:@"5" vcClsKey:@"TableViewController" viewKey:@"tableView"];
     PageSwitchItem *item6 = [PageSwitchItem itemWithTitle:@"6" vcClsKey:@"TableViewController" viewKey:@"tableView"];
     PageSwitchItem *item7 = [PageSwitchItem itemWithTitle:@"7" vcClsKey:@"TableViewController" viewKey:@"tableView"];
     return @[item1,item2,item3,item4,item5,item6,item7];
