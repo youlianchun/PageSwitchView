@@ -233,6 +233,9 @@
 
 -(void)reloadData {
     self.titleArray = [self.dataSource titlesOfRowInTableView:self];
+    CGRect frame = self.cellBgView.bounds;
+    frame.size.height = self.titleLabelWidth;
+    self.cellBgView.frame = frame;
     [self.tableView reloadData];
 }
 
@@ -262,22 +265,24 @@
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:leftPageIndex] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
     }
     if (leftCell && rightCell) {
-        CGFloat wl = CGRectGetWidth(leftCell.bounds);
-        CGFloat wr = CGRectGetWidth(rightCell.bounds);
-        CGFloat w = wl + (wr - wl) * rightScale;
-        CGRect frame = self.cellBgView.bounds;
-        frame.size.height = w;
-        self.cellBgView.frame = frame;
-        
+        if (self.titleLabelWidth <= 0) {
+            CGFloat wl = CGRectGetWidth(leftCell.bounds);
+            CGFloat wr = CGRectGetWidth(rightCell.bounds);
+            CGFloat w = wl + (wr - wl) * rightScale;
+            CGRect frame = self.cellBgView.bounds;
+            frame.size.height = w;
+            self.cellBgView.frame = frame;
+        }
         CGFloat cyl = leftCell.center.y;
         CGFloat cyr = rightCell.center.y;
         CGFloat cy = cyl + (cyr - cyl) * rightScale;
         self.cellBgView.center = CGPointMake(self.cellBgView.center.x, cy);
     }else {
-        CGRect frame = self.cellBgView.bounds;
-        frame.size.height = CGRectGetWidth(leftCell.bounds);
-        self.cellBgView.frame = frame;
-        
+        if (self.titleLabelWidth <= 0) {
+            CGRect frame = self.cellBgView.bounds;
+            frame.size.height = CGRectGetWidth(leftCell.bounds);
+            self.cellBgView.frame = frame;
+        }
         self.cellBgView.center = CGPointMake(self.cellBgView.center.x, leftCell.center.y);
     }
 }
