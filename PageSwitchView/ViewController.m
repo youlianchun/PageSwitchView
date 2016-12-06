@@ -84,15 +84,19 @@
     
 }
 
+-(BOOL)adaptTitleWidthInPageSwitchView:(PageSwitchView *)pageSwitchView {
+    return YES;
+}
+
 -(NSArray<PageSwitchItem *> *)pageSwitchItemsInPageSwitchView:(PageSwitchView *)pageSwitchView {
     PageSwitchItem *item1 = [PageSwitchItem itemWithTitle:@"1" key:@"TwoScrollViewController.twoScrollView"];
     PageSwitchItem *item2 = [PageSwitchItem itemWithTitle:@"2" key:@"PSViewController.pageSwitchView"];
 //    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" vcClsKey:@"SimpleViewController" viewKey:@"view"];
 //    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" key:@"SimpleViewController."];
 //    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" key:@"SimpleViewController.view"];
-    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" key:@"SimpleViewController"];
-    PageSwitchItem *item4 = [PageSwitchItem itemWithTitle:@"4" vcClsKey:@"ScrollViewController" viewKey:@"scrollView"];
-    PageSwitchItem *item5 = [PageSwitchItem itemWithTitle:@"5" vcClsKey:@"TableViewController" viewKey:@"tableView"];
+    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"33333333" key:@"SimpleViewController"];
+    PageSwitchItem *item4 = [PageSwitchItem itemWithTitle:@"44" vcClsKey:@"ScrollViewController" viewKey:@"scrollView"];
+    PageSwitchItem *item5 = [PageSwitchItem itemWithTitle:@"5555" vcClsKey:@"TableViewController" viewKey:@"tableView"];
     PageSwitchItem *item6 = [PageSwitchItem itemWithTitle:@"6" vcClsKey:@"TableViewController" viewKey:@"tableView"];
     PageSwitchItem *item7 = [PageSwitchItem itemWithTitle:@"7" page:^(DoReturn doReturn) {
         TableViewController *vc = [[TableViewController alloc]init];

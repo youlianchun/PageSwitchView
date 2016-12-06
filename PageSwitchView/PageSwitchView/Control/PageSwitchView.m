@@ -42,6 +42,8 @@
 #pragma mark -
 #pragma mark - PageSwitchView
 
+static const NSUInteger kMaxTitleCount_unAdapt = 5;
+static const CGFloat kMinTitleBarHeight = 44;
 
 @interface PageSwitchView ()< UIGestureRecognizerDelegate,
                             StretchingHeaderViewDelegate,
@@ -66,6 +68,7 @@
 @property (nonatomic) void(^layoutBlock)(UIView *superView);
 
 @property (nonatomic) NSMutableArray<NSString*> *titleArray;
+@property (nonatomic) BOOL adaptTitleWidth;
 @end
 
 @implementation PageSwitchView
@@ -124,7 +127,6 @@
 -(SegmentTableView *)segmentTableView {
     if (!_segmentTableView) {
         _segmentTableView = [[SegmentTableView alloc]initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.titleHeight)];
-        _segmentTableView.titleLabelWidth = self.bounds.size.width/MIN(self.pageSwitchItemArray.count, 5);
         _segmentTableView.backgroundColor = [UIColor orangeColor];
         _segmentTableView.delegate = self;
         _segmentTableView.dataSource = self;
@@ -458,17 +460,25 @@
 //}
 
 -(void)reloadData {
+    if ([self.dataSource respondsToSelector:@selector(adaptTitleWidthInPageSwitchView:)]) {
+        self.adaptTitleWidth = [self.dataSource adaptTitleWidthInPageSwitchView:self];
+    }
     if ([self.delegate respondsToSelector:@selector(topeSpaceInPageSwitchView:)]) {
         self.topeSpace = [self.dataSource topeSpaceInPageSwitchView:self];
     }
     if ([self.dataSource respondsToSelector:@selector(titleHeightInPageSwitchView:)]) {
-        self.titleHeight = MIN([self.dataSource titleHeightInPageSwitchView:self], 44);
+        self.titleHeight = MIN([self.dataSource titleHeightInPageSwitchView:self], kMinTitleBarHeight);
     }
     self.pageSwitchItemArray = [[self.dataSource pageSwitchItemsInPageSwitchView:self] mutableCopy];
     self.segmentTableView.selectedTitleColor = [UIColor whiteColor];//[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1];
     self.segmentTableView.normalTitleColor =  [UIColor lightGrayColor];
     self.segmentTableView.selectedBgColor = [UIColor blueColor];
     self.segmentTableView.normalBgColor = [UIColor whiteColor];
+    if (self.adaptTitleWidth) {
+        self.adaptTitleWidth = 0;
+    }else {
+        self.segmentTableView.titleLabelWidth = self.bounds.size.width/MIN(self.pageSwitchItemArray.count, kMaxTitleCount_unAdapt);
+    }
     [self.segmentTableView reloadData];
     
     

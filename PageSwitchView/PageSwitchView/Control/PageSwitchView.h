@@ -22,6 +22,8 @@
 
 - (BOOL)stretchingHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView;
 
+- (BOOL)adaptTitleWidthInPageSwitchView:(PageSwitchView *)pageSwitchView;
+
 
 /**
  滑动顶部
