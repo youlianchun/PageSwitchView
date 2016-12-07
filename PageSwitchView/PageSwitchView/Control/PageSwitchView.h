@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PageSwitchItem.h"
+#import "UIContentView.h"
 @class PageSwitchView;
 
 @protocol PageSwitchViewDataSource<NSObject>
@@ -33,6 +34,19 @@
 
 - (CGFloat)titleHeightInPageSwitchView:(PageSwitchView *)pageSwitchView;
 
+
+
+- (void)pageSwitchView:(PageSwitchView *)pageSwitchView cellContentView:(UIContentView*)contentView atIndexPath:(NSIndexPath*)indexPath isReuse:(BOOL)isReuse;
+
+-(NSUInteger)numberOfSectionsInTableView:(PageSwitchView *)tableView;
+
+-(NSUInteger)pageSwitchView:(PageSwitchView *)pageSwitchView numberOfRowsInSection:(NSInteger)section;
+
+-(UIView *)pageSwitchView:(PageSwitchView *)pageSwitchView viewForHeaderInSection:(NSInteger)section;
+
+-(CGFloat)pageSwitchView:(PageSwitchView *)pageSwitchView heightForHeaderInSection:(NSInteger)section;
+
+-(CGFloat)pageSwitchView:(PageSwitchView *)pageSwitchView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
