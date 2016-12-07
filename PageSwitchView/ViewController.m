@@ -51,9 +51,9 @@
     }
     return _titleView;
 }
--(BOOL)adaptTitleWidthInPageSwitchView:(PageSwitchView *)pageSwitchView {
-    return YES;
-}
+//-(BOOL)adaptTitleWidthInPageSwitchView:(PageSwitchView *)pageSwitchView {
+//    return YES;
+//}
 - (BOOL)stretchingHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView {
     return YES;
 }
