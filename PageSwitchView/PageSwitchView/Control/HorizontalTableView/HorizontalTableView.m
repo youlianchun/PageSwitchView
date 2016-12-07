@@ -9,6 +9,9 @@
 #import "HorizontalTableView.h"
 #import "UIGestureRecognizer+Group.h"
 #import "UIScrollView+Other.h"
+#import "PageSwitchViewStatic.h"
+#import "UIContentViewCell.h"
+
 #pragma mark -
 #pragma mark - _HorizontalTableView
 @interface _HorizontalTableView:UITableView <UIGestureRecognizerDelegate>
@@ -48,31 +51,6 @@
     return NO;
 }
 
-@end
-
-#pragma mark -
-#pragma mark - _HorizontalTableViewCell
-static NSString *kUIGestureRecognizer_H = @"kUIGestureRecognizer_H";
-
-@interface _HorizontalTableViewCell : UITableViewCell
-@property (nonatomic) UIContentView *view;
-@end
-
-@implementation _HorizontalTableViewCell
--(UIContentView *)view {
-    if (!_view) {
-        _view = [[UIContentView alloc]init];
-        _view.backgroundColor = [UIColor clearColor];
-        _view.opaque = NO;
-        [self.contentView addSubview:_view];
-        _view.translatesAutoresizingMaskIntoConstraints = NO;
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
-        [self.contentView addConstraint: [NSLayoutConstraint constraintWithItem:_view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
-        [self.contentView addConstraint: [NSLayoutConstraint constraintWithItem:_view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
-    }
-    return _view;
-}
 @end
 
 #pragma mark -
@@ -173,9 +151,9 @@ static NSString *kUIGestureRecognizer_H = @"kUIGestureRecognizer_H";
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier = [NSString stringWithFormat:@"HorizontalTableViewCellIdentifier_%ld",(long)indexPath.section];
     BOOL isReuse = YES;
-    _HorizontalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    UIContentViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
-        cell = [[_HorizontalTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        cell = [[UIContentViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         isReuse = NO;
         cell.backgroundColor = self.backgroundColor;
         cell.opaque = self.opaque;
@@ -208,17 +186,17 @@ static NSString *kUIGestureRecognizer_H = @"kUIGestureRecognizer_H";
     view.hidden = YES;
 }
 
--(void)tableView:(UITableView *)tableView willDisplayCell:(_HorizontalTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UIContentViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.delegate respondsToSelector:@selector(tableView:willDisplayCellView:atRowIndex:)]) {
         [self.delegate tableView:self willDisplayCellView:cell.view atRowIndex:indexPath.section];
     }
     if (self.initPageIndex == indexPath.section) {
         [self performSelector:@selector(scrollViewDidEndDecelerating:) withObject:tableView afterDelay:0.001 inModes: [NSArray arrayWithObject:NSRunLoopCommonModes]];//延迟处理，等待界面显示完成,需要切换到应用主RunLoop
-        self.initPageIndex = 999999999;//用极大值表示不存在
+        self.initPageIndex = kNull_PageIndex;
     }
 }
 
--(void)tableView:(UITableView *)tableView didEndDisplayingCell:(_HorizontalTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+-(void)tableView:(UITableView *)tableView didEndDisplayingCell:(UIContentViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.delegate respondsToSelector:@selector(tableView:willDisplayCellView:atRowIndex:)]) {
         [self.delegate tableView:self didEndDisplayingCellView:cell.view atRowIndex:indexPath.section];
     }

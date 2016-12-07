@@ -29,7 +29,7 @@
 		A907ECC41DEED09400D8C5CF /* StretchingHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = A907ECBB1DEED09400D8C5CF /* StretchingHeaderView.m */; };
 		A907ECC51DEED09400D8C5CF /* TwoScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = A907ECBE1DEED09400D8C5CF /* TwoScrollView.m */; };
 		A907ECC61DEED09400D8C5CF /* UIContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = A907ECC11DEED09400D8C5CF /* UIContentView.m */; };
-		A909082E1DF7E6D900B3447C /* UIContentViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A909082D1DF7E6D900B3447C /* UIContentViewCell.m */; };
+		A90908341DF7F8E300B3447C /* UIContentViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A90908331DF7F8E300B3447C /* UIContentViewCell.m */; };
 		A981F7D51DF132E6002A44D6 /* UINavigationBar+Background.m in Sources */ = {isa = PBXBuildFile; fileRef = A981F7D41DF132E6002A44D6 /* UINavigationBar+Background.m */; };
 		A99EE6B01DF64AC70032D271 /* PSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99EE6AF1DF64AC70032D271 /* PSViewController.m */; };
 		A99EE6B31DF653CD0032D271 /* UIScrollView+Other.m in Sources */ = {isa = PBXBuildFile; fileRef = A99EE6B21DF653CD0032D271 /* UIScrollView+Other.m */; };
@@ -104,9 +104,9 @@
 		A907ECC01DEED09400D8C5CF /* UIContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIContentView.h; sourceTree = "<group>"; };
 		A907ECC11DEED09400D8C5CF /* UIContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIContentView.m; sourceTree = "<group>"; };
 		A907ECC71DEEE47A00D8C5CF /* _TwoScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _TwoScrollView.h; sourceTree = "<group>"; };
-		A909082C1DF7E6D900B3447C /* UIContentViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIContentViewCell.h; sourceTree = "<group>"; };
-		A909082D1DF7E6D900B3447C /* UIContentViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIContentViewCell.m; sourceTree = "<group>"; };
 		A909082F1DF7F01600B3447C /* PageSwitchViewStatic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PageSwitchViewStatic.h; sourceTree = "<group>"; };
+		A90908321DF7F8E300B3447C /* UIContentViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIContentViewCell.h; sourceTree = "<group>"; };
+		A90908331DF7F8E300B3447C /* UIContentViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIContentViewCell.m; sourceTree = "<group>"; };
 		A981F7D31DF132E6002A44D6 /* UINavigationBar+Background.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+Background.h"; sourceTree = "<group>"; };
 		A981F7D41DF132E6002A44D6 /* UINavigationBar+Background.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Background.m"; sourceTree = "<group>"; };
 		A99EE6AE1DF64AC70032D271 /* PSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSViewController.h; sourceTree = "<group>"; };
@@ -290,7 +290,6 @@
 		A907ECB21DEED09400D8C5CF /* Control */ = {
 			isa = PBXGroup;
 			children = (
-				A909082B1DF7E6B500B3447C /* ContentViewCell */,
 				A99F6B4D1DF4598700919A81 /* PageSwitchView.h */,
 				A99F6B4E1DF4598700919A81 /* PageSwitchView.m */,
 				A99F6B4F1DF4598700919A81 /* PageViewControllerProtocol.h */,
@@ -298,6 +297,7 @@
 				A907ECB61DEED09400D8C5CF /* SegmentTableView */,
 				A907ECB91DEED09400D8C5CF /* StretchingHeaderView */,
 				A907ECBC1DEED09400D8C5CF /* TwoScrollView */,
+				A90908311DF7F8E300B3447C /* UIContentViewCell */,
 				A907ECBF1DEED09400D8C5CF /* UIContentView */,
 			);
 			path = Control;
@@ -349,13 +349,13 @@
 			path = UIContentView;
 			sourceTree = "<group>";
 		};
-		A909082B1DF7E6B500B3447C /* ContentViewCell */ = {
+		A90908311DF7F8E300B3447C /* UIContentViewCell */ = {
 			isa = PBXGroup;
 			children = (
-				A909082C1DF7E6D900B3447C /* UIContentViewCell.h */,
-				A909082D1DF7E6D900B3447C /* UIContentViewCell.m */,
+				A90908321DF7F8E300B3447C /* UIContentViewCell.h */,
+				A90908331DF7F8E300B3447C /* UIContentViewCell.m */,
 			);
-			path = ContentViewCell;
+			path = UIContentViewCell;
 			sourceTree = "<group>";
 		};
 		A99F6B451DF43F1E00919A81 /* ViewControllerFullScreen */ = {
@@ -515,7 +515,7 @@
 				A907EC801DEECEAF00D8C5CF /* TableViewController.m in Sources */,
 				A907ECA51DEECECD00D8C5CF /* GradientColor.m in Sources */,
 				A907ECC41DEED09400D8C5CF /* StretchingHeaderView.m in Sources */,
-				A909082E1DF7E6D900B3447C /* UIContentViewCell.m in Sources */,
+				A90908341DF7F8E300B3447C /* UIContentViewCell.m in Sources */,
 				A907ECC21DEED09400D8C5CF /* HorizontalTableView.m in Sources */,
 				A99F6AF61DF2A4D200919A81 /* NavigationBarTitleView.m in Sources */,
 				A981F7D51DF132E6002A44D6 /* UINavigationBar+Background.m in Sources */,
