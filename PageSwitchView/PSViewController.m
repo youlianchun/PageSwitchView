@@ -36,6 +36,7 @@
 -(RefreshSet)refreshSetWithRefresView:(RefresView *)view {
     return RefreshSetMake(true, false, 0, 0);
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
