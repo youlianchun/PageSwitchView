@@ -352,15 +352,15 @@ static const CGFloat kMinTitleBarHeight = 44;
             //            [self performSelector:@selector(scrollViewDidEndScrollingAnimation:) withObject:nil afterDelay:0.2];
             //            self.isScrolling = YES ;
             
-            static CGFloat lastContentOffset_y=0;
-            if (scrollView.contentOffset.y<lastContentOffset_y) {//向下
-                
-            } else if (scrollView.contentOffset.y>lastContentOffset_y) {//向上
-                if (self.pageTableView.contentOffset.y >= maxOffsetY) {
-                    self.pageTableView.contentOffset = CGPointMake(0.0f, maxOffsetY);
-                }
-            }
-            lastContentOffset_y = scrollView.contentOffset.y;
+//            static CGFloat lastContentOffset_y=0;
+//            if (scrollView.contentOffset.y<lastContentOffset_y) {//向下
+//                
+//            } else if (scrollView.contentOffset.y>lastContentOffset_y) {//向上
+//                if (self.pageTableView.contentOffset.y >= maxOffsetY) {
+//                    self.pageTableView.contentOffset = CGPointMake(0.0f, maxOffsetY);
+//                }
+//            }
+//            lastContentOffset_y = scrollView.contentOffset.y;
         }
     }
 }

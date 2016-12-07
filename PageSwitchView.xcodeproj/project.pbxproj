@@ -54,6 +54,7 @@
 		A90908821DF8021A00B3447C /* NCMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = A90908691DF8021A00B3447C /* NCMutableArray.m */; };
 		A90908831DF8021A00B3447C /* RefresDataArray.m in Sources */ = {isa = PBXBuildFile; fileRef = A909086B1DF8021A00B3447C /* RefresDataArray.m */; };
 		A90908851DF81AD300B3447C /* UIContentViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A90908841DF81AD300B3447C /* UIContentViewCell.m */; };
+		A909088F1DF824B200B3447C /* ViewController2tab.m in Sources */ = {isa = PBXBuildFile; fileRef = A909088E1DF824B200B3447C /* ViewController2tab.m */; };
 		A981F7D51DF132E6002A44D6 /* UINavigationBar+Background.m in Sources */ = {isa = PBXBuildFile; fileRef = A981F7D41DF132E6002A44D6 /* UINavigationBar+Background.m */; };
 		A99EE6B01DF64AC70032D271 /* PSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99EE6AF1DF64AC70032D271 /* PSViewController.m */; };
 		A99EE6B31DF653CD0032D271 /* UIScrollView+Other.m in Sources */ = {isa = PBXBuildFile; fileRef = A99EE6B21DF653CD0032D271 /* UIScrollView+Other.m */; };
@@ -177,6 +178,8 @@
 		A909086A1DF8021A00B3447C /* RefresDataArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefresDataArray.h; sourceTree = "<group>"; };
 		A909086B1DF8021A00B3447C /* RefresDataArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefresDataArray.m; sourceTree = "<group>"; };
 		A90908841DF81AD300B3447C /* UIContentViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIContentViewCell.m; sourceTree = "<group>"; };
+		A909088D1DF824B200B3447C /* ViewController2tab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController2tab.h; sourceTree = "<group>"; };
+		A909088E1DF824B200B3447C /* ViewController2tab.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController2tab.m; sourceTree = "<group>"; };
 		A981F7D31DF132E6002A44D6 /* UINavigationBar+Background.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+Background.h"; sourceTree = "<group>"; };
 		A981F7D41DF132E6002A44D6 /* UINavigationBar+Background.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Background.m"; sourceTree = "<group>"; };
 		A99EE6AE1DF64AC70032D271 /* PSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSViewController.h; sourceTree = "<group>"; };
@@ -274,6 +277,8 @@
 				A907EC6F1DEECEAF00D8C5CF /* TwoScrollViewController.m */,
 				A907EC701DEECEAF00D8C5CF /* ViewController.h */,
 				A907EC711DEECEAF00D8C5CF /* ViewController.m */,
+				A909088D1DF824B200B3447C /* ViewController2tab.h */,
+				A909088E1DF824B200B3447C /* ViewController2tab.m */,
 				A99EE6AE1DF64AC70032D271 /* PSViewController.h */,
 				A99EE6AF1DF64AC70032D271 /* PSViewController.m */,
 				A907EC1B1DEECE7A00D8C5CF /* Main.storyboard */,
@@ -723,6 +728,7 @@
 				A99F6AF61DF2A4D200919A81 /* NavigationBarTitleView.m in Sources */,
 				A981F7D51DF132E6002A44D6 /* UINavigationBar+Background.m in Sources */,
 				A909087A1DF8021A00B3447C /* MJRefreshStateHeader.m in Sources */,
+				A909088F1DF824B200B3447C /* ViewController2tab.m in Sources */,
 				A907ECC61DEED09400D8C5CF /* UIContentView.m in Sources */,
 				A90908801DF8021A00B3447C /* UIView+MJExtension.m in Sources */,
 				A9047ECC1DF03A4F0057BCCE /* UIBarBackgroundView.m in Sources */,

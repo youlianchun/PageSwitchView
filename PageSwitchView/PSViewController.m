@@ -40,8 +40,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
-
 }
 -(PageSwitchView *)pageSwitchView {
     if (!_pageSwitchView) {
