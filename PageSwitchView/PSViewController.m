@@ -12,9 +12,10 @@
 #import "SimpleViewController.h"
 #import "ScrollViewController.h"
 #import "NavigationBarTitleView.h"
+#import "RefresDataArray.h"
 
-@interface PSViewController()<PageSwitchViewDelegate, PageSwitchViewDataSource,PageViewControllerProtocol>
-
+@interface PSViewController()<PageSwitchViewDelegate, PageSwitchViewDataSource,PageViewControllerProtocol,RefresDataArrayDelegate>
+@property (nonatomic) RefresDataArray *dataArray;
 @end
 
 @implementation PSViewController
@@ -23,6 +24,17 @@
     self.pageSwitchView.delegate = self;
     self.pageSwitchView.dataSource = self;
     [self.pageSwitchView reloadData];
+    self.dataArray = [RefresDataArray arrayWithRefresView:self.pageSwitchView.tableView delegate:self];
+}
+
+-(void)loadDataInRefresView:(RefresView *)view page:(NSUInteger)page firstPage:(BOOL)firstPage res:(void (^)(NSArray *, BOOL))netRes {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            netRes(nil,YES);
+        });
+}
+
+-(RefreshSet)refreshSetWithRefresView:(RefresView *)view {
+    return RefreshSetMake(true, false, 0, 0);
 }
 - (void)viewDidLoad {
     [super viewDidLoad];

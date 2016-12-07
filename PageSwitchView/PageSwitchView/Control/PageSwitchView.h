@@ -65,7 +65,7 @@
 @interface PageSwitchView : UIView
 @property (nonatomic,weak) id<PageSwitchViewDataSource>dataSource;
 @property (nonatomic,weak) id<PageSwitchViewDelegate>delegate;
-
+@property (nonatomic,readonly) UITableView *tableView;
 -(void)layoutWithinserts:(UIEdgeInsets)inserts;
 
 -(void)switchNewPageWithNewIndex:(NSUInteger)newIndex;

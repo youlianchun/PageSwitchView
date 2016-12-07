@@ -179,6 +179,10 @@ static const CGFloat kMinTitleBarHeight = 44;
     return _navigationBar_placeholderView;
 }
 
+-(UITableView *)tableView {
+    return self.pageTableView;
+}
+
 #pragma mark - StretchingHeaderViewDelegate
 -(void)stretchingHeaderView:(StretchingHeaderView*)stretchingHeaderView displayProgress:(CGFloat)progress{
     if ([self.delegate respondsToSelector:@selector(pageSwitchView:headerDisplayProgress:)]) {
