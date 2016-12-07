@@ -134,9 +134,12 @@
     return 2;
 }
 
-//-(UIView *)pageSwitchView:(PageSwitchView *)pageSwitchView viewForHeaderInSection:(NSInteger)section {
-//    
-//}
+-(UIView *)pageSwitchView:(PageSwitchView *)pageSwitchView viewForHeaderInSection:(NSInteger)section {
+    UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 0, 44)];
+    lab.text = @"搜索";
+    lab.backgroundColor = [UIColor lightGrayColor];
+    return lab;
+}
 
 -(CGFloat)pageSwitchView:(PageSwitchView *)pageSwitchView heightForHeaderInSection:(NSInteger)section {
     return 44;
