@@ -45,21 +45,21 @@
 -(CGFloat)topeSpaceInPageSwitchView:(PageSwitchView *)pageSwitchView {
     return -1;
 }
-- (UIView *)viewForHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView{
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 150)];
-    view.backgroundColor = [UIColor redColor];
-    UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(100, 20, 100, 100)];
-    lab.text = @"labsss";
-    lab.textColor = [UIColor yellowColor];
-    [view addSubview:lab];
-    
-    UISwitch *swith =[ [UISwitch alloc]init];
-    swith.frame = CGRectMake(0, 110, 100, 40);
-    [swith addTarget:self action:@selector(swithActon) forControlEvents:UIControlEventValueChanged];
-    [view addSubview:swith];
-    
-    return view;
-}
+//- (UIView *)viewForHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView{
+//    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 150)];
+//    view.backgroundColor = [UIColor redColor];
+//    UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(100, 20, 100, 100)];
+//    lab.text = @"labsss";
+//    lab.textColor = [UIColor yellowColor];
+//    [view addSubview:lab];
+//    
+//    UISwitch *swith =[ [UISwitch alloc]init];
+//    swith.frame = CGRectMake(0, 110, 100, 40);
+//    [swith addTarget:self action:@selector(swithActon) forControlEvents:UIControlEventValueChanged];
+//    [view addSubview:swith];
+//    
+//    return view;
+//}
 
 -(void)swithActon {
     
@@ -117,6 +117,34 @@
 }
 
 
+
+- (void)pageSwitchView:(PageSwitchView *)pageSwitchView cellContentView:(UIContentView*)contentView atIndexPath:(NSIndexPath*)indexPath isReuse:(BOOL)isReuse {
+    if (indexPath.row == 0) {
+        contentView.backgroundColor = [UIColor redColor];
+    }else{
+        contentView.backgroundColor = [UIColor orangeColor];
+    }
+}
+
+-(NSUInteger)numberOfSectionsInTableView:(PageSwitchView *)tableView {
+    return 1;
+}
+
+-(NSUInteger)pageSwitchView:(PageSwitchView *)pageSwitchView numberOfRowsInSection:(NSInteger)section {
+    return 2;
+}
+
+//-(UIView *)pageSwitchView:(PageSwitchView *)pageSwitchView viewForHeaderInSection:(NSInteger)section {
+//    
+//}
+
+-(CGFloat)pageSwitchView:(PageSwitchView *)pageSwitchView heightForHeaderInSection:(NSInteger)section {
+    return 44;
+}
+
+-(CGFloat)pageSwitchView:(PageSwitchView *)pageSwitchView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 100;
+}
 
 
 @end
