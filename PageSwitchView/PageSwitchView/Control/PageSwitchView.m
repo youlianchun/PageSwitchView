@@ -201,7 +201,7 @@ static const CGFloat kMinTitleBarHeight = 44;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSInteger sectionCount = self.sectionCount;//[self numberOfSectionsInTableView:tableView];
+    NSInteger sectionCount = self.sectionCount;
     if (section >= sectionCount - 2) {
         return  1;
     }
@@ -212,9 +212,9 @@ static const CGFloat kMinTitleBarHeight = 44;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger sectionCount = self.sectionCount;//[self numberOfSectionsInTableView:tableView];
+    NSInteger sectionCount = self.sectionCount;
     if (indexPath.section == sectionCount-1) {
-        static NSString *identifier = @"CellIdentifier_PageSwitch";//NSString *identifier = [NSString stringWithFormat:@"%ld",(long)indexPath.row];
+        static NSString *identifier = @"CellIdentifier_PageSwitch";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (!cell) {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
@@ -226,7 +226,7 @@ static const CGFloat kMinTitleBarHeight = 44;
         return cell;
     }
     if (indexPath.section == sectionCount-2) {
-        static NSString *identifier = @"CellIdentifier_Placeholder";//[NSString stringWithFormat:@"Cell_Placeholder_%ld",(long)indexPath.row];
+        static NSString *identifier = @"CellIdentifier_Placeholder";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (!cell) {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
@@ -234,7 +234,7 @@ static const CGFloat kMinTitleBarHeight = 44;
         }
         return cell;
     }
-    static NSString *identifier = @"CellIdentifier_Other";//[NSString stringWithFormat:@"CellIdentifier_Other",(long)indexPath.section];
+    static NSString *identifier = @"CellIdentifier_Other";
     BOOL isReuse = YES;
     UIContentViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
@@ -252,7 +252,7 @@ static const CGFloat kMinTitleBarHeight = 44;
 
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    NSInteger sectionCount = self.sectionCount;//[self numberOfSectionsInTableView:tableView];
+    NSInteger sectionCount = self.sectionCount;
     if (section >= sectionCount - 2) {
         if (self.topeSpace < 0 && section == sectionCount - 2) {//标题不悬停
             return  self.segmentTableView;
@@ -269,7 +269,7 @@ static const CGFloat kMinTitleBarHeight = 44;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    NSInteger sectionCount = self.sectionCount;//[self numberOfSectionsInTableView:tableView];
+    NSInteger sectionCount = self.sectionCount;
     if (section >= sectionCount - 2) {
         if (self.topeSpace < 0 && section == sectionCount - 2) {//标题不悬停
             return  self.titleHeight;
@@ -308,79 +308,8 @@ static const CGFloat kMinTitleBarHeight = 44;
 }
 
 #pragma mark UITableViewDelegate_Scroll
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//    if (self.pageTableView.scrollEnabled) {
-//        if (scrollView == self.pageTableView) {
-//            CGFloat sectionHeaderHeight = self.titleHeight;
-//            if (scrollView.contentOffset.y <= sectionHeaderHeight && scrollView.contentOffset.y >= 0) {
-//                scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
-//            } else if (scrollView.contentOffset.y >= sectionHeaderHeight) {
-//                scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
-//            }
-//        }
-//        PageSwitchItem *item = self.contentPageSwitchItem;
-//        if (item.isScroll || item.is2Scroll) {//滚动视图
-//            UIScrollView *contentScrollView =  self.pageTableView.otherScrollView;//(UIScrollView*)item.contentView;
-//            
-//            if (scrollView == self.pageTableView) {//滚动外部视图
-//                //                [NSObject cancelPreviousPerformRequestsWithTarget:self];
-//                //                [self performSelector:@selector(scrollViewDidEndScrollingAnimation:) withObject:nil afterDelay:0.2];
-//                //                self.isScrolling = YES ;
-//                
-//                static CGFloat lastContentOffset_y=0;
-//                if (scrollView.contentOffset.y<lastContentOffset_y) {//向下
-//                    if (contentScrollView && contentScrollView.contentOffset.y > 0) {
-//                        self.pageTableView.contentOffset = CGPointMake(0.0f, self.pageTableView.tableHeaderView.bounds.size.height-self.topeSpace);
-//                    }else{
-//                        CGFloat offsetY = scrollView.contentOffset.y;
-//                        if(offsetY <= self.pageTableView.tableHeaderView.bounds.size.height-self.topeSpace) {
-//                            contentScrollView.contentOffset = CGPointZero;
-//                        }
-//                    }
-//                } else if (scrollView.contentOffset.y>lastContentOffset_y) {//向上
-//                    if (self.pageTableView.contentOffset.y >= self.pageTableView.contentSize.height-self.pageTableView.bounds.size.height) {
-//                        self.pageTableView.contentOffset = CGPointMake(0.0f, self.pageTableView.contentSize.height-self.pageTableView.bounds.size.height);
-//                    }
-//                }
-//                lastContentOffset_y = scrollView.contentOffset.y;
-//            }
-//            else if (scrollView == contentScrollView) {//滚动里面视图
-//                if (self.pageTableView.contentOffset.y < self.pageTableView.tableHeaderView.bounds.size.height-self.topeSpace) {
-//                    scrollView.contentOffset = CGPointZero;
-//                    scrollView.showsVerticalScrollIndicator = NO;
-//                }else {
-//                    self.pageTableView.contentOffset = CGPointMake(0.0f, self.pageTableView.tableHeaderView.bounds.size.height-self.topeSpace);
-//                    scrollView.showsVerticalScrollIndicator = YES;
-//                }
-//            }
-//        }else{//普通视图
-//            //            [NSObject cancelPreviousPerformRequestsWithTarget:self];
-//            //            [self performSelector:@selector(scrollViewDidEndScrollingAnimation:) withObject:nil afterDelay:0.2];
-//            //            self.isScrolling = YES ;
-//            
-//            static CGFloat lastContentOffset_y=0;
-//            if (scrollView.contentOffset.y<lastContentOffset_y) {//向下
-//                
-//            } else if (scrollView.contentOffset.y>lastContentOffset_y) {//向上
-//                if (self.pageTableView.contentOffset.y >= self.pageTableView.contentSize.height-self.pageTableView.bounds.size.height-self.topeSpace) {
-//                    self.pageTableView.contentOffset = CGPointMake(0.0f, self.pageTableView.contentSize.height-self.pageTableView.bounds.size.height-self.topeSpace);
-//                    
-//                }
-//            }
-//            lastContentOffset_y = scrollView.contentOffset.y;
-//        }
-//    }
-//}
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (self.pageTableView.scrollEnabled) {
-//        if (scrollView == self.pageTableView) {
-//            CGFloat sectionHeaderHeight = self.titleHeight;
-//            if (scrollView.contentOffset.y <= sectionHeaderHeight && scrollView.contentOffset.y >= 0) {
-//                scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
-//            } else if (scrollView.contentOffset.y >= sectionHeaderHeight) {
-//                scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
-//            }
-//        }
         PageSwitchItem *item = self.contentPageSwitchItem;
         CGFloat maxOffsetY = self.pageTableView.contentSize.height-self.pageTableView.bounds.size.height;
         if (item.isScroll || item.is2Scroll) {//滚动视图

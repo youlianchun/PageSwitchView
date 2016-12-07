@@ -8,6 +8,10 @@
 
 #import "UIContentViewCell.h"
 
+@interface UIContentViewCell ()
+@property (nonatomic) UIContentView *view;
+@end
+
 @implementation UIContentViewCell
 
 - (void)awakeFromNib {
