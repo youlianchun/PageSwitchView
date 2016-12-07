@@ -106,6 +106,7 @@
 		A907ECC71DEEE47A00D8C5CF /* _TwoScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _TwoScrollView.h; sourceTree = "<group>"; };
 		A909082C1DF7E6D900B3447C /* UIContentViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIContentViewCell.h; sourceTree = "<group>"; };
 		A909082D1DF7E6D900B3447C /* UIContentViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIContentViewCell.m; sourceTree = "<group>"; };
+		A909082F1DF7F01600B3447C /* PageSwitchViewStatic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PageSwitchViewStatic.h; sourceTree = "<group>"; };
 		A981F7D31DF132E6002A44D6 /* UINavigationBar+Background.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+Background.h"; sourceTree = "<group>"; };
 		A981F7D41DF132E6002A44D6 /* UINavigationBar+Background.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Background.m"; sourceTree = "<group>"; };
 		A99EE6AE1DF64AC70032D271 /* PSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSViewController.h; sourceTree = "<group>"; };
@@ -267,6 +268,7 @@
 		A907EC871DEECECD00D8C5CF /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				A909082F1DF7F01600B3447C /* PageSwitchViewStatic.h */,
 				A907EC881DEECECD00D8C5CF /* _PageSwitchItem.h */,
 				A907EC891DEECECD00D8C5CF /* GradientColor.h */,
 				A907EC8A1DEECECD00D8C5CF /* GradientColor.m */,

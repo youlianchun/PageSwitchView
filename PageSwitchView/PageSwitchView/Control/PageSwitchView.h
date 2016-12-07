@@ -22,7 +22,7 @@
 - (UIView *)viewForHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView;
 
 - (BOOL)stretchingHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView;
-
+- (BOOL)adaptTitleWidthInPageSwitchView:(PageSwitchView *)pageSwitchView;
 
 /**
  滑动顶部

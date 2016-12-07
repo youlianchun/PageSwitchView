@@ -8,6 +8,7 @@
 
 #import "SegmentTableView.h"
 #import "GradientColor.h"
+#import "PageSwitchViewStatic.h"
 
 #pragma mark -
 #pragma mark - _SegmentTableViewCell
@@ -63,6 +64,7 @@
 @property (nonatomic) GradientColor *gradientColor;
 @property (nonatomic) GradientColor *gradientColor_bg;
 @property (nonatomic) NSArray<NSString*> *titleArray;
+@property (nonatomic) UIView *cellBgView;
 @end
 
 @implementation SegmentTableView
@@ -78,6 +80,14 @@
 
 #pragma mark - Get Set
 
+-(UIView *)cellBgView {
+    if (!_cellBgView) {
+        _cellBgView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 5, 20)];
+        _cellBgView.backgroundColor = [UIColor greenColor];
+    }
+    return _cellBgView;
+}
+
 -(UITableView *)tableView {
     if (!_tableView) {
         _tableView = [[UITableView alloc]initWithFrame:self.bounds style:UITableViewStylePlain];
@@ -85,8 +95,9 @@
         _tableView.showsVerticalScrollIndicator = NO;
         _tableView.delegate = self;
         _tableView.dataSource = self;
-//        _tableView.backgroundColor = [UIColor grayColor];
+        //        _tableView.backgroundColor = [UIColor grayColor];
         [self addSubview:_tableView];
+        [_tableView insertSubview:self.cellBgView atIndex:0];
         _tableView.transform = CGAffineTransformIdentity;//在设置frame前将transform重置
         _tableView.transform = CGAffineTransformMakeRotation(M_PI/-2);
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -211,17 +222,20 @@
         canSelect = [self.delegate segmentTableView:self willSelectAtIndex:indexPath.section];
     }
     if (canSelect) {
-//        SegmentTableViewCell *lastCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.currentIndex inSection:0]];
-//        lastCell.titleLabel.textColor = [self.gradientColor colorAChangeToColorB:0.0];
+        //        SegmentTableViewCell *lastCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.currentIndex inSection:0]];
+        //        lastCell.titleLabel.textColor = [self.gradientColor colorAChangeToColorB:0.0];
         
         self.currentIndex = indexPath.section;
     }
 }
 
-#pragma mark - 
+#pragma mark -
 
 -(void)reloadData {
     self.titleArray = [self.dataSource titlesOfRowInTableView:self];
+    CGRect frame = self.cellBgView.bounds;
+    frame.size.height = self.titleLabelWidth;
+    self.cellBgView.frame = frame;
     [self.tableView reloadData];
 }
 
@@ -229,12 +243,15 @@
 -(void)handoverWithLeftPageIndex:(NSUInteger)leftPageIndex leftScale:(CGFloat)leftScale rightPageIndex:(NSUInteger)rightPageIndex rightScale:(CGFloat)rightScale{
     _SegmentTableViewCell *leftCell;
     _SegmentTableViewCell *rightCell;
+    CGFloat leftCell_w = 0;
+    CGFloat rightCell_w = 0;
     if (leftPageIndex<self.titleArray.count) {
         leftCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:leftPageIndex]];
         CGFloat scale = leftScale <= 0.2 ? 0.0 : leftScale;
         scale = scale >= 0.8 ? 1.0 : scale;
         leftCell.textLabel.textColor = [self.gradientColor colorAChangeToColorB:scale];
         leftCell.textLabel.backgroundColor = [self.gradientColor_bg colorAChangeToColorB:scale];
+        leftCell_w = CGRectGetHeight(leftCell.bounds);
     }
     if (rightPageIndex<self.titleArray.count) {
         rightCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:rightPageIndex]];
@@ -242,9 +259,31 @@
         scale = scale >= 0.8 ? 1.0 : scale;
         rightCell.textLabel.textColor = [self.gradientColor colorAChangeToColorB:scale];
         rightCell.textLabel.backgroundColor = [self.gradientColor_bg colorAChangeToColorB:scale];
+        rightCell_w = CGRectGetHeight(rightCell.bounds);
     }
     if (leftScale >= 0.8) {
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:leftPageIndex] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    }
+    if (leftCell && rightCell) {
+        if (self.titleLabelWidth <= 0) {
+            CGFloat wl = CGRectGetWidth(leftCell.bounds);
+            CGFloat wr = CGRectGetWidth(rightCell.bounds);
+            CGFloat w = wl + (wr - wl) * rightScale;
+            CGRect frame = self.cellBgView.bounds;
+            frame.size.height = w;
+            self.cellBgView.frame = frame;
+        }
+        CGFloat cyl = leftCell.center.y;
+        CGFloat cyr = rightCell.center.y;
+        CGFloat cy = cyl + (cyr - cyl) * rightScale;
+        self.cellBgView.center = CGPointMake(self.cellBgView.center.x, cy);
+    }else {
+        if (self.titleLabelWidth <= 0) {
+            CGRect frame = self.cellBgView.bounds;
+            frame.size.height = CGRectGetWidth(leftCell.bounds);
+            self.cellBgView.frame = frame;
+        }
+        self.cellBgView.center = CGPointMake(self.cellBgView.center.x, leftCell.center.y);
     }
 }
 
