@@ -9,6 +9,7 @@
 #import "_PageSwitchItem.h"
 #import "_TwoScrollView.h"
 #import "DelegateInterceptor.h"
+#import "PageSwitchView.h"
 
 static const CGFloat waitTimer = 0.05;
 
@@ -47,6 +48,11 @@ static const CGFloat waitTimer = 0.05;
     return _contentView;
 }
 
+-(BOOL)isPSView {
+    _isPSView = [self.contentView isKindOfClass:[PageSwitchView class]];
+    return _isPSView;
+}
+
 -(BOOL)isScroll {
     _isScroll = [self.contentView isKindOfClass:[UIScrollView class]];
     return  _isScroll;
@@ -65,6 +71,7 @@ static const CGFloat waitTimer = 0.05;
             _contentViewController = viewController;
             wself.isScroll = [view isKindOfClass:[UIScrollView class]];
             wself.is2Scroll = [view isKindOfClass:[TwoScrollView class]];
+            wself.isPSView = [view isKindOfClass:[PageSwitchView class]];
         };
         self.newPage(doReturn);
         self.didConfig = NO;

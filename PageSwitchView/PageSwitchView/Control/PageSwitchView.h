@@ -60,6 +60,10 @@
 
 - (void)pageSwitchView:(PageSwitchView *)pageSwitchView headerDisplayProgress:(CGFloat)progress;
 
+//topeSpace<0时候才有调用
+-(void)pageSwitchView:(PageSwitchView *)pageSwitchView titleBarDisplayProgress:(CGFloat)progress;
+
+
 @end
 
 @interface PageSwitchView : UIView

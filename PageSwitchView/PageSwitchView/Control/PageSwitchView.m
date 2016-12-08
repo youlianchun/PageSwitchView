@@ -26,7 +26,7 @@
 @implementation _PageSwitchView
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    if ([gestureRecognizer.groupTag isEqualToString:otherGestureRecognizer.groupTag]) {
+    if (gestureRecognizer.groupTag.length>0 && [gestureRecognizer.groupTag isEqualToString:otherGestureRecognizer.groupTag]) {
         if ([otherGestureRecognizer.view isKindOfClass:[UIScrollView class]]) {
             self.otherScrollView = (UIScrollView*)otherGestureRecognizer.view;
         }else {
@@ -70,6 +70,7 @@ static const CGFloat kMinTitleBarHeight = 44;
 @property (nonatomic) NSUInteger sectionCount;
 @property (nonatomic) NSMutableArray<NSString*> *titleArray;
 @property (nonatomic) BOOL adaptTitleWidth;
+@property (nonatomic) void(^titleBarDisplayProgress)(CGFloat progress);
 @end
 
 @implementation PageSwitchView
@@ -309,7 +310,7 @@ static const CGFloat kMinTitleBarHeight = 44;
 
 #pragma mark UITableViewDelegate_Scroll
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (self.pageTableView.scrollEnabled) {
+//    if (self.pageTableView.scrollEnabled) {
         PageSwitchItem *item = self.contentPageSwitchItem;
         CGFloat maxOffsetY = self.pageTableView.contentSize.height-self.pageTableView.bounds.size.height;
         if (item.isScroll || item.is2Scroll) {//滚动视图
@@ -335,7 +336,19 @@ static const CGFloat kMinTitleBarHeight = 44;
                         self.pageTableView.contentOffset = CGPointMake(0.0f, maxOffsetY);
                     }
                 }
+                if (_topeSpace < 0) {
+                    CGFloat progress = (maxOffsetY - scrollView.contentOffset.y) / self.titleHeight;
+                    progress = MIN(1.0, MAX(0.0, progress));
+                    if ([self.delegate respondsToSelector:@selector(pageSwitchView:titleBarDisplayProgress:)]) {
+                        [self.delegate pageSwitchView:self titleBarDisplayProgress:progress];
+                    }
+                    if (self.titleBarDisplayProgress) {
+                        self.titleBarDisplayProgress(progress);
+                    }
+                }
+                
                 lastContentOffset_y = scrollView.contentOffset.y;
+                
             }
             else if (scrollView == contentScrollView) {//滚动里面视图
                 if (self.pageTableView.contentOffset.y < maxOffsetY) {
@@ -362,7 +375,7 @@ static const CGFloat kMinTitleBarHeight = 44;
 //            }
 //            lastContentOffset_y = scrollView.contentOffset.y;
         }
-    }
+//    }
 }
 
 //- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
@@ -391,6 +404,12 @@ static const CGFloat kMinTitleBarHeight = 44;
                 TwoScrollView *twoScrollView = (TwoScrollView*)pageSwitchItem.contentView;
                 twoScrollView.panGestureRecognizerGroupTag = kUIGestureRecognizer_V;
                 twoScrollView.haveHeader = self.headerView != nil;
+            }
+            if (pageSwitchItem.isPSView) {
+                PageSwitchView *pageSwitchView = (PageSwitchView*)pageSwitchItem.contentView;
+                pageSwitchView.titleBarDisplayProgress = ^(CGFloat progress){
+                    [wself subPageTitleDisplayProgressIfIsPageSwitchView:progress];
+                };
             }
             [wself.selfViewController addChildViewController:pageSwitchItem.contentViewController];
             pageSwitchItem.scrollDelegate = wself;
@@ -483,6 +502,10 @@ static const CGFloat kMinTitleBarHeight = 44;
 }
 
 #pragma mark -
+//子page是PageSwitchView时候子page标题显示比例
+-(void)subPageTitleDisplayProgressIfIsPageSwitchView:(CGFloat)progress {
+    printf("%f\n",progress);
+}
 
 -(void)addConstraint:(UIView*)view inserts:(UIEdgeInsets)inserts {
     UIView *superview = view.superview;
