@@ -7,7 +7,7 @@
 //
 
 #import "ViewController2tab.h"
-#import "PageSwitchView.h"
+#import "SimplePageSwitchView.h"
 #import "TableViewController.h"
 #import "TwoScrollViewController.h"
 #import "SimpleViewController.h"
@@ -15,9 +15,8 @@
 #import "NavigationBarTitleView.h"
 #import "PSViewController.h"
 
-@interface ViewController2tab()<PageSwitchViewDelegate, PageSwitchViewDataSource>
-@property (nonatomic) PageSwitchView *pageSwitchView;
-@property (nonatomic) NavigationBarTitleView *titleView;
+@interface ViewController2tab()<SimplePageSwitchViewDelegate, SimplePageSwitchViewDataSource>
+@property (nonatomic) SimplePageSwitchView *pageSwitchView;
 @end
 
 @implementation ViewController2tab
@@ -25,11 +24,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"subView";
-    self.navigationItem.titleView = self.titleView;
-    self.titleView.titleLabel.text = self.title;
-    self.titleView.titleView.backgroundColor = [UIColor orangeColor];
-    
-    self.pageSwitchView = [[PageSwitchView alloc]initWithFrame:self.view.bounds];
+
+    self.pageSwitchView = [[SimplePageSwitchView alloc]initWithFrame:self.view.bounds];
     [self.view addSubview:self.pageSwitchView];
     
     [self.pageSwitchView layoutWithinserts:UIEdgeInsetsMake(0, 0, 0, 0)];
@@ -45,48 +41,19 @@
 //    });
 }
 
--(NavigationBarTitleView *)titleView {
-    if (!_titleView) {
-        _titleView = [[NavigationBarTitleView alloc]initWithFrame:CGRectMake(0, 0, 200, 44)];
-    }
-    return _titleView;
-}
--(BOOL)adaptTitleWidthInPageSwitchView:(PageSwitchView *)pageSwitchView {
+
+-(BOOL)adaptTitleWidthInPageSwitchView:(SimplePageSwitchView *)pageSwitchView {
     return YES;
 }
-//- (BOOL)stretchingHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView {
-//    return YES;
-//}
-//
-//-(CGFloat)topeSpaceInPageSwitchView:(PageSwitchView *)pageSwitchView {
-//    return -1;
-//}
 
-- (void)pageSwitchView:(PageSwitchView *)pageSwitchView headerDisplayProgress:(CGFloat)progress {
-    self.titleView.labelShowRatio = progress;
-}
 
-//- (UIView *)viewForHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView{
-//    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 150)];
-//    view.backgroundColor = [UIColor redColor];
-//    UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(100, 20, 100, 100)];
-//    lab.text = @"labsss";
-//    lab.textColor = [UIColor yellowColor];
-//    [view addSubview:lab];
-//    
-//    UISwitch *swith =[ [UISwitch alloc]init];
-//    swith.frame = CGRectMake(0, 110, 100, 40);
-//    [swith addTarget:self action:@selector(swithActon) forControlEvents:UIControlEventValueChanged];
-//    [view addSubview:swith];
-//    
-//    return view;
-//}
+
 
 -(void)swithActon {
     
 }
 
--(NSArray<PageSwitchItem *> *)pageSwitchItemsInPageSwitchView:(PageSwitchView *)pageSwitchView {
+-(NSArray<PageSwitchItem *> *)pageSwitchItemsInPageSwitchView:(SimplePageSwitchView *)pageSwitchView {
     PageSwitchItem *item1 = [PageSwitchItem itemWithTitle:@"11" key:@"TwoScrollViewController.twoScrollView"];
     PageSwitchItem *item2 = [PageSwitchItem itemWithTitle:@"2" key:@"PSViewController.pageSwitchView"];
 //    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" vcClsKey:@"SimpleViewController" viewKey:@"view"];

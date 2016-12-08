@@ -6,7 +6,7 @@
 //  Copyright © 2016年 ylchun. All rights reserved.
 //
 
-#import "PageSwitchView.h"
+#import "_PageSwitchView.h"
 #import "HorizontalTableView.h"
 #import "_PageSwitchItem.h"
 #import "UIGestureRecognizer+Group.h"
@@ -70,7 +70,6 @@ static const CGFloat kMinTitleBarHeight = 44;
 @property (nonatomic) NSUInteger sectionCount;
 @property (nonatomic) NSMutableArray<NSString*> *titleArray;
 @property (nonatomic) BOOL adaptTitleWidth;
-@property (nonatomic) void(^titleBarDisplayProgress)(CGFloat progress);
 @end
 
 @implementation PageSwitchView
@@ -336,7 +335,7 @@ static const CGFloat kMinTitleBarHeight = 44;
                         self.pageTableView.contentOffset = CGPointMake(0.0f, maxOffsetY);
                     }
                 }
-                if (_topeSpace < 0) {
+//                if (_topeSpace < 0) {
                     CGFloat progress = (maxOffsetY - scrollView.contentOffset.y) / self.titleHeight;
                     progress = MIN(1.0, MAX(0.0, progress));
                     if ([self.delegate respondsToSelector:@selector(pageSwitchView:titleBarDisplayProgress:)]) {
@@ -345,7 +344,7 @@ static const CGFloat kMinTitleBarHeight = 44;
                     if (self.titleBarDisplayProgress) {
                         self.titleBarDisplayProgress(progress);
                     }
-                }
+//                }
                 
                 lastContentOffset_y = scrollView.contentOffset.y;
                 
@@ -376,6 +375,11 @@ static const CGFloat kMinTitleBarHeight = 44;
 //            lastContentOffset_y = scrollView.contentOffset.y;
         }
 //    }
+    if (scrollView == self.pageTableView) {
+        if ([self.delegate respondsToSelector:@selector(pageSwitchViewDidScroll:)]) {
+            [self.delegate pageSwitchViewDidScroll:self];
+        }
+    }
 }
 
 //- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{

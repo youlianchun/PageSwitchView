@@ -90,6 +90,12 @@
 -(void)setDelegate:(id<RefresBoleDataArrayDelegate>)delegate {
     _delegate = delegate;
 }
+-(void)setIgnoredScrollViewContentInsetTop:(CGFloat)ignoredScrollViewContentInsetTop {
+    _ignoredScrollViewContentInsetTop = ignoredScrollViewContentInsetTop;
+    if (self.refresView.mj_header) {
+        self.refresView.mj_header.ignoredScrollViewContentInsetTop = ignoredScrollViewContentInsetTop;
+    }
+}
 
 -(void)setRefresView:(RefresView *)refresView {
     _refresView = refresView;

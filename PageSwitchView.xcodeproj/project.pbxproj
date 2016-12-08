@@ -67,6 +67,7 @@
 		A9C69A191DF8FC8300862E14 /* RefresBoleDataArray.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C69A181DF8FC8300862E14 /* RefresBoleDataArray.m */; };
 		A9C69A1C1DF906C300862E14 /* RefresActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C69A1B1DF906C300862E14 /* RefresActionView.m */; };
 		A9C69A221DF90B0100862E14 /* PSTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C69A211DF90B0100862E14 /* PSTableViewController.m */; };
+		A9C69A251DF94CAE00862E14 /* SimplePageSwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C69A241DF94CAE00862E14 /* SimplePageSwitchView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -209,6 +210,9 @@
 		A9C69A1B1DF906C300862E14 /* RefresActionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefresActionView.m; sourceTree = "<group>"; };
 		A9C69A201DF90B0100862E14 /* PSTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSTableViewController.h; sourceTree = "<group>"; };
 		A9C69A211DF90B0100862E14 /* PSTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSTableViewController.m; sourceTree = "<group>"; };
+		A9C69A231DF94CAE00862E14 /* SimplePageSwitchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplePageSwitchView.h; sourceTree = "<group>"; };
+		A9C69A241DF94CAE00862E14 /* SimplePageSwitchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePageSwitchView.m; sourceTree = "<group>"; };
+		A9C69A261DF94E4E00862E14 /* _PageSwitchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _PageSwitchView.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -381,8 +385,11 @@
 		A907ECB21DEED09400D8C5CF /* Control */ = {
 			isa = PBXGroup;
 			children = (
+				A9C69A231DF94CAE00862E14 /* SimplePageSwitchView.h */,
+				A9C69A241DF94CAE00862E14 /* SimplePageSwitchView.m */,
 				A99F6B4D1DF4598700919A81 /* PageSwitchView.h */,
 				A99F6B4E1DF4598700919A81 /* PageSwitchView.m */,
+				A9C69A261DF94E4E00862E14 /* _PageSwitchView.h */,
 				A99F6B4F1DF4598700919A81 /* PageViewControllerProtocol.h */,
 				A907ECB31DEED09400D8C5CF /* HorizontalTableView */,
 				A907ECB61DEED09400D8C5CF /* SegmentTableView */,
@@ -739,6 +746,7 @@
 				A90908731DF8021A00B3447C /* MJRefreshAutoNormalFooter.m in Sources */,
 				A907ECAB1DEECECD00D8C5CF /* DelegateInterceptor.m in Sources */,
 				A99EE6B31DF653CD0032D271 /* UIScrollView+Other.m in Sources */,
+				A9C69A251DF94CAE00862E14 /* SimplePageSwitchView.m in Sources */,
 				A90908851DF81AD300B3447C /* UIContentViewCell.m in Sources */,
 				A907EC801DEECEAF00D8C5CF /* TableViewController.m in Sources */,
 				A907ECA51DEECECD00D8C5CF /* GradientColor.m in Sources */,

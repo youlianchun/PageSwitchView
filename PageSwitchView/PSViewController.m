@@ -21,6 +21,7 @@
     self.pageSwitchView.dataSource = self;
     [self.pageSwitchView reloadData];
     self.dataArray = [RefresBoleDataArray arrayWithRefresView:self.pageSwitchView.tableView delegate:self];
+    self.dataArray.ignoredScrollViewContentInsetTop = -44;
 }
 
 -(void)loadDataInRefresView:(RefresView *)view res:(void (^)(NSArray *, BOOL))netRes {
@@ -31,8 +32,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
 }
+
 -(PageSwitchView *)pageSwitchView {
     if (!_pageSwitchView) {
         _pageSwitchView = [[PageSwitchView alloc]initWithFrame:self.view.bounds];
@@ -40,9 +41,8 @@
     return _pageSwitchView;
 }
 
-
 -(CGFloat)topeSpaceInPageSwitchView:(PageSwitchView *)pageSwitchView {
-    return -1;
+    return 0;
 }
 
 -(void)swithActon {
@@ -76,18 +76,31 @@
 }
 
 -(UIView *)pageSwitchView:(PageSwitchView *)pageSwitchView viewForHeaderInSection:(NSInteger)section {
-    UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 0, 44)];
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 88)];
+    view.backgroundColor = [UIColor clearColor];
+    UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 0, 88)];
     lab.text = @"搜索";
     lab.backgroundColor = [UIColor lightGrayColor];
-    return lab;
+    [view addSubview:lab];
+    [self addConstraint:lab inserts:UIEdgeInsetsMake(44, 0, 0, 0)];
+    return view;
 }
 
 -(CGFloat)pageSwitchView:(PageSwitchView *)pageSwitchView heightForHeaderInSection:(NSInteger)section {
-    return 44;
+    return 88;
 }
 
 -(CGFloat)pageSwitchView:(PageSwitchView *)pageSwitchView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 100;
+}
+
+-(void)addConstraint:(UIView*)view inserts:(UIEdgeInsets)inserts {
+    UIView *superview = view.superview;
+    view.translatesAutoresizingMaskIntoConstraints = NO;
+    [superview addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeLeft multiplier:1 constant:inserts.left]];
+    [superview addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeRight multiplier:1 constant:inserts.right]];
+    [superview addConstraint: [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeTop multiplier:1 constant:inserts.top]];
+    [superview addConstraint: [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeBottom multiplier:1 constant:inserts.bottom]];
 }
 
 

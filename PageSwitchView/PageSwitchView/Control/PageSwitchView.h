@@ -63,6 +63,8 @@
 //topeSpace<0时候才有调用
 -(void)pageSwitchView:(PageSwitchView *)pageSwitchView titleBarDisplayProgress:(CGFloat)progress;
 
+- (void)pageSwitchViewDidScroll:(PageSwitchView *)pageSwitchView;
+
 
 @end
 

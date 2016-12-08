@@ -8,5 +8,6 @@
 #import "PageSwitchView.h"
 
 @interface PageSwitchView()
-@property (nonatomic, readonly) UITableView *tableView;
+@property (nonatomic) void(^titleBarDisplayProgress)(CGFloat progress);
+
 @end

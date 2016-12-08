@@ -29,6 +29,8 @@ typedef UIScrollView RefresView;
 
 @interface RefresBoleDataArray<ObjectType> : NCMutableArray<ObjectType>
 
+@property (assign, nonatomic) CGFloat ignoredScrollViewContentInsetTop;
+
 + (instancetype)arrayWithRefresView:(RefresView*)view delegate:(id<RefresBoleDataArrayDelegate>)delegate;
 
 -(void)addBranchd:(RefresBranchdDataArray*)branchd;
