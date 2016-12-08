@@ -58,6 +58,8 @@
 #pragma mark -
 #pragma mark - SegmentTableView
 
+static const CGFloat cellSpace_2 = 5;
+
 @interface SegmentTableView ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic) UITableView   *tableView;
@@ -173,17 +175,17 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (section == 0) {
-        return 10;
+        return cellSpace_2+cellSpace_2;
     }else{
-        return 5;
+        return cellSpace_2;
     }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     if (section == self.titleArray.count-1) {
-        return 10;
+        return cellSpace_2+cellSpace_2;
     }else{
-        return 5;
+        return cellSpace_2;
     }
 }
 -(void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {

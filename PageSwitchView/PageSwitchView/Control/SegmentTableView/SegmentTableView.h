@@ -19,6 +19,7 @@
 
 -(BOOL)segmentTableView:(SegmentTableView*)tableView willSelectAtIndex:(NSUInteger)index;
 -(void)segmentTableView:(SegmentTableView*)tableView didSelectAtIndex:(NSUInteger)index;
+-(NSUInteger)maxTitleCountInSegmentTableView:(SegmentTableView*)tableView cellSpace:(CGFloat)cellSpace;
 @required
 
 @end
