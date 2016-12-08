@@ -67,6 +67,9 @@
             if ([wself.refresView isKindOfClass:[UICollectionView class]]) {
                 [((UICollectionView*)wself.refresView) reloadData];
             }
+            if (wself.refresView.mj_header) {
+                [wself.refresView.mj_header endRefreshing];
+            }
         }
         if ([wself.delegate respondsToSelector:@selector(didLoadDataInRefresView:)]) {
             [wself.delegate didLoadDataInRefresView:wself.refresView];
@@ -88,7 +91,12 @@
     _delegate = delegate;
 }
 
-
+-(void)setRefresView:(RefresView *)refresView {
+    _refresView = refresView;
+    if (refresView) {
+        [self ref_addRefreshHeader];
+    }
+}
 -(NSMutableArray<RefresBranchdDataArray *> *)branchdArray {
     if (!_branchdArray) {
         _branchdArray = [NSMutableArray array];

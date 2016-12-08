@@ -8,7 +8,6 @@
 
 #import "RefresBranchdDataArray.h"
 @interface RefresDataArray()
-
 - (instancetype)initSelf;
 -(void)setRefSet:(RefreshSet)refSet;
 @end

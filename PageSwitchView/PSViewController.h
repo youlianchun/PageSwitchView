@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "PageSwitchView.h"
+#import "RefresBoleDataArray.h"
+
 @interface PSViewController : UIViewController
 @property (nonatomic) PageSwitchView *pageSwitchView;
+@property (nonatomic,readonly) RefresBoleDataArray *dataArray;
 
 @end

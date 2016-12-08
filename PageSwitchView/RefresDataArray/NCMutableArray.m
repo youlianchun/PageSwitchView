@@ -17,11 +17,11 @@
 @implementation NCMutableArray
 
 + (instancetype)array {
-   return [[NCMutableArray alloc]init];
+   return [[self alloc]init];
 }
 
 + (instancetype)arrayWithObject:(id)anObject{
-    NCMutableArray *arr = [[NCMutableArray alloc]init];
+    NCMutableArray *arr = [[self alloc]init];
     [arr addObject:anObject];
     return arr;
 }
@@ -36,12 +36,12 @@
          [_arr addObject:obj];
     }
     va_end(argumentList);
-    NCMutableArray *arr = [NCMutableArray arrayWithArray:_arr];
+    NCMutableArray *arr = [self arrayWithArray:_arr];
     return arr;
 }
 
 + (instancetype)arrayWithArray:(NSArray*)array{
-    NCMutableArray *arr = [[NCMutableArray alloc]init];
+    NCMutableArray *arr = [[self alloc]init];
     [arr addObjectsFromArray:array];
     return arr;
 }

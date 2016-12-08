@@ -32,7 +32,7 @@ inline RefreshSet RefreshSetMake(BOOL header, BOOL footer, NSUInteger startPage,
 }
 
 + (instancetype)arrayWithRefresView:(RefresView*)view delegate:(id<RefresDataArrayDelegate>)delegate{
-    RefresDataArray *arr = [[RefresDataArray alloc] initSelf];
+    RefresDataArray *arr = [[self alloc] initSelf];
     arr.delegate = delegate;
     arr.refresView = view;
     

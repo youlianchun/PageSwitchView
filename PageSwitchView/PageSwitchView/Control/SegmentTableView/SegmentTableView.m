@@ -243,15 +243,12 @@
 -(void)handoverWithLeftPageIndex:(NSUInteger)leftPageIndex leftScale:(CGFloat)leftScale rightPageIndex:(NSUInteger)rightPageIndex rightScale:(CGFloat)rightScale{
     _SegmentTableViewCell *leftCell;
     _SegmentTableViewCell *rightCell;
-    CGFloat leftCell_w = 0;
-    CGFloat rightCell_w = 0;
     if (leftPageIndex<self.titleArray.count) {
         leftCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:leftPageIndex]];
         CGFloat scale = leftScale <= 0.2 ? 0.0 : leftScale;
         scale = scale >= 0.8 ? 1.0 : scale;
         leftCell.textLabel.textColor = [self.gradientColor colorAChangeToColorB:scale];
         leftCell.textLabel.backgroundColor = [self.gradientColor_bg colorAChangeToColorB:scale];
-        leftCell_w = CGRectGetHeight(leftCell.bounds);
     }
     if (rightPageIndex<self.titleArray.count) {
         rightCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:rightPageIndex]];
@@ -259,7 +256,6 @@
         scale = scale >= 0.8 ? 1.0 : scale;
         rightCell.textLabel.textColor = [self.gradientColor colorAChangeToColorB:scale];
         rightCell.textLabel.backgroundColor = [self.gradientColor_bg colorAChangeToColorB:scale];
-        rightCell_w = CGRectGetHeight(rightCell.bounds);
     }
     if (leftScale >= 0.8) {
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:leftPageIndex] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];

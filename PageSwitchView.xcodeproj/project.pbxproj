@@ -66,6 +66,7 @@
 		A9C69A161DF8FA6100862E14 /* RefresBranchdDataArray.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C69A151DF8FA6100862E14 /* RefresBranchdDataArray.m */; };
 		A9C69A191DF8FC8300862E14 /* RefresBoleDataArray.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C69A181DF8FC8300862E14 /* RefresBoleDataArray.m */; };
 		A9C69A1C1DF906C300862E14 /* RefresActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C69A1B1DF906C300862E14 /* RefresActionView.m */; };
+		A9C69A221DF90B0100862E14 /* PSTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C69A211DF90B0100862E14 /* PSTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -206,6 +207,8 @@
 		A9C69A181DF8FC8300862E14 /* RefresBoleDataArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefresBoleDataArray.m; sourceTree = "<group>"; };
 		A9C69A1A1DF906C300862E14 /* RefresActionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefresActionView.h; sourceTree = "<group>"; };
 		A9C69A1B1DF906C300862E14 /* RefresActionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefresActionView.m; sourceTree = "<group>"; };
+		A9C69A201DF90B0100862E14 /* PSTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSTableViewController.h; sourceTree = "<group>"; };
+		A9C69A211DF90B0100862E14 /* PSTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -290,6 +293,8 @@
 				A909088E1DF824B200B3447C /* ViewController2tab.m */,
 				A99EE6AE1DF64AC70032D271 /* PSViewController.h */,
 				A99EE6AF1DF64AC70032D271 /* PSViewController.m */,
+				A9C69A201DF90B0100862E14 /* PSTableViewController.h */,
+				A9C69A211DF90B0100862E14 /* PSTableViewController.m */,
 				A907EC1B1DEECE7A00D8C5CF /* Main.storyboard */,
 				A907EC1E1DEECE7A00D8C5CF /* Assets.xcassets */,
 				A907EC201DEECE7A00D8C5CF /* LaunchScreen.storyboard */,
@@ -730,6 +735,7 @@
 				A99EE6B01DF64AC70032D271 /* PSViewController.m in Sources */,
 				A907EC811DEECEAF00D8C5CF /* TwoScrollViewController.m in Sources */,
 				A90908711DF8021A00B3447C /* MJRefreshHeader.m in Sources */,
+				A9C69A221DF90B0100862E14 /* PSTableViewController.m in Sources */,
 				A90908731DF8021A00B3447C /* MJRefreshAutoNormalFooter.m in Sources */,
 				A907ECAB1DEECECD00D8C5CF /* DelegateInterceptor.m in Sources */,
 				A99EE6B31DF653CD0032D271 /* UIScrollView+Other.m in Sources */,
