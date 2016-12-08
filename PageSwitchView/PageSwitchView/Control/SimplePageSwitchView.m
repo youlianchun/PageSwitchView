@@ -52,6 +52,7 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
     self = [super initWithFrame:frame];
     if (self) {
         self.titleHeight = 44;
+        self.hoverTitleBar = NO;
     }
     return self;
 }
@@ -81,6 +82,7 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
     }
     return _hTableView;
 }
+
 -(SegmentTableView *)segmentTableView {
     if (!_segmentTableView) {
         _segmentTableView = [[SegmentTableView alloc]initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.titleHeight)];
@@ -95,7 +97,6 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
         [self addConstraint: self.segmentTableView_CT];
         self.segmentTableView_CH = [NSLayoutConstraint constraintWithItem:_segmentTableView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:self.titleHeight];
         [_segmentTableView addConstraint: self.segmentTableView_CH];
-        
     }
     return _segmentTableView;
 }
@@ -137,29 +138,19 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
         __weak PageSwitchItem * pageSwitchItem = self.pageSwitchItemArray[rowIndex];
         __weak typeof(self) wself = self;
         pageSwitchItem.didLoadBock = ^{
-//            if (pageSwitchItem.isScroll) {
-//                UIScrollView *scrollView =  (UIScrollView *)pageSwitchItem.contentView;
-//                scrollView.panGestureRecognizer.groupTag = kUIGestureRecognizer_V;
-//            }
-//            if (pageSwitchItem.is2Scroll) {
-//                TwoScrollView *twoScrollView = (TwoScrollView*)pageSwitchItem.contentView;
-//                twoScrollView.panGestureRecognizerGroupTag = kUIGestureRecognizer_V;
-//                twoScrollView.haveHeader = self.headerView != nil;
-//            }
-            
             CGRect frame = wContentView.bounds;
             if (pageSwitchItem.isPSView) {
-                PageSwitchView *pageSwitchView = (PageSwitchView*)pageSwitchItem.contentView;
-                pageSwitchView.titleBarDisplayProgress = ^(CGFloat progress){
-                    [wself subPageTitleDisplayProgressIfIsPageSwitchView:progress];
+                __weak PageSwitchView *pageSwitchView = (PageSwitchView*)pageSwitchItem.contentView;
+                pageSwitchView.didScrollCallBack = ^(){
+                    if (!wself.hoverTitleBar) {
+                        [wself pageSwitchViewDidScroll:pageSwitchView];
+                    }
                 };
             }else {
                 frame.origin.y = self.titleHeight;
                 frame.size.height -= self.titleHeight;
             }
             [wself.selfViewController addChildViewController:pageSwitchItem.contentViewController];
-//            pageSwitchItem.scrollDelegate = wself;
-            
             [wContentView addSubview:pageSwitchItem.contentViewController.view];
             pageSwitchItem.contentViewController.view.frame = frame;
             if ([pageSwitchItem.contentViewController respondsToSelector:@selector(viewDidAdjustRect)]) {
@@ -181,9 +172,6 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
 -(void)tableView:(HorizontalTableView *)tableView willDisplayCellView:(UIContentView *)contentView atRowIndex:(NSUInteger )rowIndex {
     PageSwitchItem * pageSwitchItem = self.pageSwitchItemArray[rowIndex];
     pageSwitchItem.isVisible = YES;
-    if (pageSwitchItem.didLoad) {
-        
-    }
 }
 
 -(void)tableView:(HorizontalTableView *)tableView didEndDisplayingCellView:(UIContentView *)contentView atRowIndex:(NSUInteger )rowIndex {
@@ -237,10 +225,13 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
 
 #pragma mark -
 //子page是PageSwitchView时候子page标题显示比例
--(void)subPageTitleDisplayProgressIfIsPageSwitchView:(CGFloat)progress {
-    printf("%f\n",progress);
+-(void)pageSwitchViewDidScroll:(PageSwitchView*)pageSwitchView {
+    CGFloat maxOffsetY = pageSwitchView.tableView.contentSize.height-pageSwitchView.tableView.bounds.size.height;
+    CGFloat progress = (maxOffsetY - pageSwitchView.tableView.contentOffset.y) / pageSwitchView.titleHeight;
+    progress = MIN(1.0, MAX(0.0, progress));
     self.segmentTableView_CT.constant = -self.titleHeight*(1-progress);
 }
+
 
 -(void)addConstraint:(UIView*)view inserts:(UIEdgeInsets)inserts {
     UIView *superview = view.superview;

@@ -8,9 +8,10 @@
 
 #import "PSViewController.h"
 #import "PSTableViewController.h"
-
+static const CGFloat firstBarHeight = 44;
 @interface PSViewController()<PageSwitchViewDelegate, PageSwitchViewDataSource,PageViewControllerProtocol,RefresBoleDataArrayDelegate>
 @property (nonatomic) RefresBoleDataArray *dataArray;
+
 
 @end
 
@@ -21,7 +22,7 @@
     self.pageSwitchView.dataSource = self;
     [self.pageSwitchView reloadData];
     self.dataArray = [RefresBoleDataArray arrayWithRefresView:self.pageSwitchView.tableView delegate:self];
-    self.dataArray.ignoredScrollViewContentInsetTop = -44;
+    self.dataArray.ignoredScrollViewContentInsetTop = -firstBarHeight;//第一个tatileBar不选停需要设置参数
 }
 
 -(void)loadDataInRefresView:(RefresView *)view res:(void (^)(NSArray *, BOOL))netRes {
@@ -76,18 +77,18 @@
 }
 
 -(UIView *)pageSwitchView:(PageSwitchView *)pageSwitchView viewForHeaderInSection:(NSInteger)section {
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 88)];
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 44+firstBarHeight)];//第一个tatileBar不选停需要设置参数
     view.backgroundColor = [UIColor clearColor];
-    UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 0, 88)];
+    UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 0, 0)];
     lab.text = @"搜索";
     lab.backgroundColor = [UIColor lightGrayColor];
     [view addSubview:lab];
-    [self addConstraint:lab inserts:UIEdgeInsetsMake(44, 0, 0, 0)];
+    [self addConstraint:lab inserts:UIEdgeInsetsMake(firstBarHeight, 0, 0, 0)];
     return view;
 }
 
 -(CGFloat)pageSwitchView:(PageSwitchView *)pageSwitchView heightForHeaderInSection:(NSInteger)section {
-    return 88;
+    return 44+firstBarHeight;
 }
 
 -(CGFloat)pageSwitchView:(PageSwitchView *)pageSwitchView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -8,6 +8,8 @@
 #import "PageSwitchView.h"
 
 @interface PageSwitchView()
-@property (nonatomic) void(^titleBarDisplayProgress)(CGFloat progress);
+@property (nonatomic) CGFloat titleHeight;
+
+@property (nonatomic) void(^didScrollCallBack)();
 
 @end

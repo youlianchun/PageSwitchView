@@ -27,6 +27,7 @@
 
     self.pageSwitchView = [[SimplePageSwitchView alloc]initWithFrame:self.view.bounds];
     [self.view addSubview:self.pageSwitchView];
+    self.pageSwitchView.hoverTitleBar = YES;
     
     [self.pageSwitchView layoutWithinserts:UIEdgeInsetsMake(0, 0, 0, 0)];
     
@@ -56,9 +57,6 @@
 -(NSArray<PageSwitchItem *> *)pageSwitchItemsInPageSwitchView:(SimplePageSwitchView *)pageSwitchView {
     PageSwitchItem *item1 = [PageSwitchItem itemWithTitle:@"11" key:@"TwoScrollViewController.twoScrollView"];
     PageSwitchItem *item2 = [PageSwitchItem itemWithTitle:@"2" key:@"PSViewController.pageSwitchView"];
-//    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" vcClsKey:@"SimpleViewController" viewKey:@"view"];
-//    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" key:@"SimpleViewController."];
-//    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" key:@"SimpleViewController.view"];
     PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"333333" key:@"SimpleViewController"];
     PageSwitchItem *item4 = [PageSwitchItem itemWithTitle:@"4" vcClsKey:@"ScrollViewController" viewKey:@"scrollView"];
     PageSwitchItem *item5 = [PageSwitchItem itemWithTitle:@"55" vcClsKey:@"TableViewController" viewKey:@"tableView"];

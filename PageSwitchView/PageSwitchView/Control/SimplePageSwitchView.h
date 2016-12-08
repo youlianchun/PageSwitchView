@@ -34,15 +34,10 @@
 
 - (void)pageSwitchView:(SimplePageSwitchView *)pageSwitchView movingAtPageIndex:(NSUInteger)index;
 
-- (void)pageSwitchView:(SimplePageSwitchView *)pageSwitchView headerDisplayProgress:(CGFloat)progress;
-
-//topeSpace<0时候才有调用
--(void)pageSwitchView:(SimplePageSwitchView *)pageSwitchView titleBarDisplayProgress:(CGFloat)progress;
-
-
 @end
 
 @interface SimplePageSwitchView : UIView
+@property (nonatomic, assign) BOOL hoverTitleBar;
 @property (nonatomic,weak) id<SimplePageSwitchViewDataSource>dataSource;
 @property (nonatomic,weak) id<SimplePageSwitchViewDelegate>delegate;
 

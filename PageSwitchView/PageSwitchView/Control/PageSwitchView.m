@@ -63,7 +63,6 @@ static const CGFloat kMinTitleBarHeight = 44;
 @property (nonatomic) SegmentTableView *segmentTableView;
 @property (nonatomic) UIView *headerView;
 @property (nonatomic) CGFloat topeSpace;
-@property (nonatomic) CGFloat titleHeight;
 //@property (nonatomic) BOOL isScrolling;
 @property (nonatomic) UIView *navigationBar_placeholderView;
 @property (nonatomic) void(^layoutBlock)(UIView *superView);
@@ -286,7 +285,7 @@ static const CGFloat kMinTitleBarHeight = 44;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger sectionCount = self.sectionCount;//[self numberOfSectionsInTableView:tableView];
+    NSInteger sectionCount = self.sectionCount;
     if (indexPath.section >= sectionCount - 2) {
         if (indexPath.section == sectionCount-2) {
             return  0;
@@ -335,17 +334,9 @@ static const CGFloat kMinTitleBarHeight = 44;
                         self.pageTableView.contentOffset = CGPointMake(0.0f, maxOffsetY);
                     }
                 }
-//                if (_topeSpace < 0) {
-                    CGFloat progress = (maxOffsetY - scrollView.contentOffset.y) / self.titleHeight;
-                    progress = MIN(1.0, MAX(0.0, progress));
-                    if ([self.delegate respondsToSelector:@selector(pageSwitchView:titleBarDisplayProgress:)]) {
-                        [self.delegate pageSwitchView:self titleBarDisplayProgress:progress];
-                    }
-                    if (self.titleBarDisplayProgress) {
-                        self.titleBarDisplayProgress(progress);
-                    }
-//                }
-                
+                if (self.didScrollCallBack) {
+                    self.didScrollCallBack();
+                }
                 lastContentOffset_y = scrollView.contentOffset.y;
                 
             }
@@ -409,12 +400,9 @@ static const CGFloat kMinTitleBarHeight = 44;
                 twoScrollView.panGestureRecognizerGroupTag = kUIGestureRecognizer_V;
                 twoScrollView.haveHeader = self.headerView != nil;
             }
-            if (pageSwitchItem.isPSView) {
-                PageSwitchView *pageSwitchView = (PageSwitchView*)pageSwitchItem.contentView;
-                pageSwitchView.titleBarDisplayProgress = ^(CGFloat progress){
-                    [wself subPageTitleDisplayProgressIfIsPageSwitchView:progress];
-                };
-            }
+//            if (pageSwitchItem.isPSView) {
+//                PageSwitchView *pageSwitchView = (PageSwitchView*)pageSwitchItem.contentView;
+//            }
             [wself.selfViewController addChildViewController:pageSwitchItem.contentViewController];
             pageSwitchItem.scrollDelegate = wself;
             
@@ -506,10 +494,6 @@ static const CGFloat kMinTitleBarHeight = 44;
 }
 
 #pragma mark -
-//子page是PageSwitchView时候子page标题显示比例
--(void)subPageTitleDisplayProgressIfIsPageSwitchView:(CGFloat)progress {
-    printf("%f\n",progress);
-}
 
 -(void)addConstraint:(UIView*)view inserts:(UIEdgeInsets)inserts {
     UIView *superview = view.superview;
