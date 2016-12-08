@@ -63,6 +63,9 @@
 		A99F6B501DF4598700919A81 /* PageSwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = A99F6B4E1DF4598700919A81 /* PageSwitchView.m */; };
 		A99F6B531DF459DE00919A81 /* PageSwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99F6B521DF459DE00919A81 /* PageSwitchViewController.m */; };
 		A99F6B561DF45A1100919A81 /* PageSwitchItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99F6B551DF45A1100919A81 /* PageSwitchItemViewController.m */; };
+		A9C69A161DF8FA6100862E14 /* RefresBranchdDataArray.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C69A151DF8FA6100862E14 /* RefresBranchdDataArray.m */; };
+		A9C69A191DF8FC8300862E14 /* RefresBoleDataArray.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C69A181DF8FC8300862E14 /* RefresBoleDataArray.m */; };
+		A9C69A1C1DF906C300862E14 /* RefresActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C69A1B1DF906C300862E14 /* RefresActionView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -197,6 +200,12 @@
 		A99F6B521DF459DE00919A81 /* PageSwitchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageSwitchViewController.m; sourceTree = "<group>"; };
 		A99F6B541DF45A1100919A81 /* PageSwitchItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageSwitchItemViewController.h; sourceTree = "<group>"; };
 		A99F6B551DF45A1100919A81 /* PageSwitchItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageSwitchItemViewController.m; sourceTree = "<group>"; };
+		A9C69A141DF8FA6100862E14 /* RefresBranchdDataArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefresBranchdDataArray.h; sourceTree = "<group>"; };
+		A9C69A151DF8FA6100862E14 /* RefresBranchdDataArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefresBranchdDataArray.m; sourceTree = "<group>"; };
+		A9C69A171DF8FC8300862E14 /* RefresBoleDataArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefresBoleDataArray.h; sourceTree = "<group>"; };
+		A9C69A181DF8FC8300862E14 /* RefresBoleDataArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefresBoleDataArray.m; sourceTree = "<group>"; };
+		A9C69A1A1DF906C300862E14 /* RefresActionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefresActionView.h; sourceTree = "<group>"; };
+		A9C69A1B1DF906C300862E14 /* RefresActionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefresActionView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -545,8 +554,14 @@
 			children = (
 				A90908681DF8021A00B3447C /* NCMutableArray.h */,
 				A90908691DF8021A00B3447C /* NCMutableArray.m */,
+				A9C69A1A1DF906C300862E14 /* RefresActionView.h */,
+				A9C69A1B1DF906C300862E14 /* RefresActionView.m */,
 				A909086A1DF8021A00B3447C /* RefresDataArray.h */,
 				A909086B1DF8021A00B3447C /* RefresDataArray.m */,
+				A9C69A171DF8FC8300862E14 /* RefresBoleDataArray.h */,
+				A9C69A181DF8FC8300862E14 /* RefresBoleDataArray.m */,
+				A9C69A141DF8FA6100862E14 /* RefresBranchdDataArray.h */,
+				A9C69A151DF8FA6100862E14 /* RefresBranchdDataArray.m */,
 			);
 			path = RefresDataArray;
 			sourceTree = "<group>";
@@ -710,6 +725,7 @@
 				A99F6B481DF43F1E00919A81 /* UIViewController+FullScreen.m in Sources */,
 				A909086F1DF8021A00B3447C /* MJRefreshComponent.m in Sources */,
 				A909087F1DF8021A00B3447C /* UIScrollView+MJRefresh.m in Sources */,
+				A9C69A191DF8FC8300862E14 /* RefresBoleDataArray.m in Sources */,
 				A909087E1DF8021A00B3447C /* UIScrollView+MJExtension.m in Sources */,
 				A99EE6B01DF64AC70032D271 /* PSViewController.m in Sources */,
 				A907EC811DEECEAF00D8C5CF /* TwoScrollViewController.m in Sources */,
@@ -727,6 +743,7 @@
 				A90908831DF8021A00B3447C /* RefresDataArray.m in Sources */,
 				A99F6AF61DF2A4D200919A81 /* NavigationBarTitleView.m in Sources */,
 				A981F7D51DF132E6002A44D6 /* UINavigationBar+Background.m in Sources */,
+				A9C69A161DF8FA6100862E14 /* RefresBranchdDataArray.m in Sources */,
 				A909087A1DF8021A00B3447C /* MJRefreshStateHeader.m in Sources */,
 				A909088F1DF824B200B3447C /* ViewController2tab.m in Sources */,
 				A907ECC61DEED09400D8C5CF /* UIContentView.m in Sources */,
@@ -735,6 +752,7 @@
 				A90908721DF8021A00B3447C /* MJRefreshAutoGifFooter.m in Sources */,
 				A907EC741DEECEAF00D8C5CF /* SimpleViewController.m in Sources */,
 				A99F6B531DF459DE00919A81 /* PageSwitchViewController.m in Sources */,
+				A9C69A1C1DF906C300862E14 /* RefresActionView.m in Sources */,
 				A90908751DF8021A00B3447C /* MJRefreshBackGifFooter.m in Sources */,
 				A90908781DF8021A00B3447C /* MJRefreshGifHeader.m in Sources */,
 				A907EC141DEECE7A00D8C5CF /* main.m in Sources */,

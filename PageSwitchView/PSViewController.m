@@ -119,7 +119,7 @@
     //    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" vcClsKey:@"SimpleViewController" viewKey:@"view"];
     //    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"1" key:@"SimpleViewController."];
     //    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"1" key:@"SimpleViewController.view"];
-    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"1" key:@"SimpleViewController"];
+    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" key:@"SimpleViewController"];
     PageSwitchItem *item4 = [PageSwitchItem itemWithTitle:@"4" vcClsKey:@"ScrollViewController" viewKey:@"scrollView"];
     PageSwitchItem *item5 = [PageSwitchItem itemWithTitle:@"5" vcClsKey:@"TableViewController" viewKey:@"tableView"];
     PageSwitchItem *item6 = [PageSwitchItem itemWithTitle:@"6" vcClsKey:@"TableViewController" viewKey:@"tableView"];

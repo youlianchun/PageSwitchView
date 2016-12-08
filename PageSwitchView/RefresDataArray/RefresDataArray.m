@@ -8,6 +8,7 @@
 
 #import "RefresDataArray.h"
 #import "MJRefresh.h"
+#import "RefresActionView.h"
 
 @interface RefresDataArray()
 @property (nonatomic) RefresView *refresView;
@@ -49,47 +50,21 @@ inline RefreshSet RefreshSetMake(BOOL header, BOOL footer, NSUInteger startPage,
 
 - (void)ref_addRefreshHeader {
     __weak typeof(self) weakSelf = self;
-//    NSMutableArray *idleImages = [NSMutableArray array];
-//    for (NSUInteger i = 1; i<=18; i++) {
-//        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"loading_%zd", i]];
-//        [idleImages addObject:image];
-//    }
-//    MJRefreshGifHeader *header = [MJRefreshGifHeader headerWithRefreshingBlock:^{
-//        weakSelf.page = weakSelf.refSet.startPage;
-//        if (weakSelf.refresView.mj_footer) {
-//            weakSelf.refresView.mj_footer.hidden=YES;
-//        }
-//        [weakSelf loadNextPageData];
-//    }];
-//    // 设置普通状态的动画图片
-//    [header setImages:idleImages forState:MJRefreshStateIdle];
-//    // 设置即将刷新状态的动画图片（一松开就会刷新的状态）
-//    [header setImages:idleImages forState:MJRefreshStatePulling];
-//    // 设置正在刷新状态的动画图片
-//    [header setImages:idleImages forState:MJRefreshStateRefreshing];
-//    // 设置header
-//    self.refresView.mj_header = header;
-//    // 隐藏时间
-//    header.lastUpdatedTimeLabel.hidden = YES;
-//    // 隐藏状态
-//    header.stateLabel.hidden = YES;
-    
-    MJRefreshStateHeader *header = [MJRefreshStateHeader headerWithRefreshingBlock:^{
-       weakSelf.page = weakSelf.refSet.startPage;
-           if (weakSelf.refresView.mj_footer) {
-               weakSelf.refresView.mj_footer.hidden=YES;
-           }
-           [weakSelf loadNextPageData];
-    }];
+    MJRefreshStateHeader *header = refreshHeader(^{
+        weakSelf.page = weakSelf.refSet.startPage;
+        if (weakSelf.refresView.mj_footer) {
+            weakSelf.refresView.mj_footer.hidden=YES;
+        }
+        [weakSelf loadNextPageData];
+    });
     self.refresView.mj_header = header;
 }
 
 - (void)ref_addRefreshFooter {
     __weak typeof(self) weakSelf = self;
-    // 添加传统的上拉刷新
-    self.refresView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+    self.refresView.mj_footer = refreshFooter(^{
         [weakSelf loadNextPageData];
-    }];
+    });
 }
 
 -(void)loadNextPageData {
