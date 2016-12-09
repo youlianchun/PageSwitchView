@@ -52,9 +52,9 @@
 }
 
 -(NSArray<PageSwitchItem *> *)pageSwitchItemsInPageSwitchView:(SimplePageSwitchView *)pageSwitchView {
-    PageSwitchItem *item1 = [PageSwitchItem itemWithTitle:@"11" vcClsKey:@"TableViewController" viewKey:@"tableView"];
-    PageSwitchItem *item2 = [PageSwitchItem itemWithTitle:@"2" key:@"PSViewController.pageSwitchView"];
-    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"333333" key:@"SimpleViewController"];
+    PageSwitchItem *item1 = [PageSwitchItem itemWithTitle:@"今日" vcClsKey:@"TableViewController" viewKey:@"tableView"];
+    PageSwitchItem *item2 = [PageSwitchItem itemWithTitle:@"看台" key:@"PSViewController.pageSwitchView"];
+    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"活动" key:@"SimpleViewController"];
     PageSwitchItem *item4 = [PageSwitchItem itemWithTitle:@"4" page:^(DoReturn doReturn) {
         TableViewController *vc = [[TableViewController alloc]init];
         vc.title = @"4";

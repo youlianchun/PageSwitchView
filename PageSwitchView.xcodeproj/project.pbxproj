@@ -55,6 +55,7 @@
 		A90908831DF8021A00B3447C /* RefresDataArray.m in Sources */ = {isa = PBXBuildFile; fileRef = A909086B1DF8021A00B3447C /* RefresDataArray.m */; };
 		A90908851DF81AD300B3447C /* UIContentViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A90908841DF81AD300B3447C /* UIContentViewCell.m */; };
 		A909088F1DF824B200B3447C /* ViewController2tab.m in Sources */ = {isa = PBXBuildFile; fileRef = A909088E1DF824B200B3447C /* ViewController2tab.m */; };
+		A95912051DFA8BA700579F43 /* SimplePageSwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A95912041DFA8BA700579F43 /* SimplePageSwitchViewController.m */; };
 		A981F7D51DF132E6002A44D6 /* UINavigationBar+Background.m in Sources */ = {isa = PBXBuildFile; fileRef = A981F7D41DF132E6002A44D6 /* UINavigationBar+Background.m */; };
 		A99EE6B01DF64AC70032D271 /* PSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99EE6AF1DF64AC70032D271 /* PSViewController.m */; };
 		A99EE6B31DF653CD0032D271 /* UIScrollView+Other.m in Sources */ = {isa = PBXBuildFile; fileRef = A99EE6B21DF653CD0032D271 /* UIScrollView+Other.m */; };
@@ -185,6 +186,8 @@
 		A90908841DF81AD300B3447C /* UIContentViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIContentViewCell.m; sourceTree = "<group>"; };
 		A909088D1DF824B200B3447C /* ViewController2tab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController2tab.h; sourceTree = "<group>"; };
 		A909088E1DF824B200B3447C /* ViewController2tab.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController2tab.m; sourceTree = "<group>"; };
+		A95912031DFA8BA700579F43 /* SimplePageSwitchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplePageSwitchViewController.h; sourceTree = "<group>"; };
+		A95912041DFA8BA700579F43 /* SimplePageSwitchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePageSwitchViewController.m; sourceTree = "<group>"; };
 		A981F7D31DF132E6002A44D6 /* UINavigationBar+Background.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+Background.h"; sourceTree = "<group>"; };
 		A981F7D41DF132E6002A44D6 /* UINavigationBar+Background.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Background.m"; sourceTree = "<group>"; };
 		A99EE6AE1DF64AC70032D271 /* PSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSViewController.h; sourceTree = "<group>"; };
@@ -337,6 +340,8 @@
 		A907EC831DEECECD00D8C5CF /* PageSwitchView */ = {
 			isa = PBXGroup;
 			children = (
+				A95912031DFA8BA700579F43 /* SimplePageSwitchViewController.h */,
+				A95912041DFA8BA700579F43 /* SimplePageSwitchViewController.m */,
 				A99F6B511DF459DE00919A81 /* PageSwitchViewController.h */,
 				A99F6B521DF459DE00919A81 /* PageSwitchViewController.m */,
 				A99F6B541DF45A1100919A81 /* PageSwitchItemViewController.h */,
@@ -751,6 +756,7 @@
 				A907EC801DEECEAF00D8C5CF /* TableViewController.m in Sources */,
 				A907ECA51DEECECD00D8C5CF /* GradientColor.m in Sources */,
 				A907ECC41DEED09400D8C5CF /* StretchingHeaderView.m in Sources */,
+				A95912051DFA8BA700579F43 /* SimplePageSwitchViewController.m in Sources */,
 				A909086E1DF8021A00B3447C /* MJRefreshBackFooter.m in Sources */,
 				A90908741DF8021A00B3447C /* MJRefreshAutoStateFooter.m in Sources */,
 				A907ECC21DEED09400D8C5CF /* HorizontalTableView.m in Sources */,
