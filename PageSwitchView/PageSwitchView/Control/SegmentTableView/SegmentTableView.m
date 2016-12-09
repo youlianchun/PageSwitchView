@@ -89,7 +89,11 @@ static const CGFloat height = 8;
     if (number <= 0) {
         text = @"";
     }else
-    if (number > 0 && number < 100) {
+    if (number > 0 && number < 10) {
+        width = width;
+        text = [NSString stringWithFormat:@"%ld",number];
+    }else
+    if (number > 10 && number < 100) {
         width = unit+unit;
         text = [NSString stringWithFormat:@"%ld",number];
     }else {
