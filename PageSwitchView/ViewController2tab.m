@@ -43,6 +43,7 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 //        [wself.pageSwitchView switchNewPageWithTitle:@"4"];
         [wself.pageSwitchView setNumber:1 atIndex:2];
+
     });
 }
 
