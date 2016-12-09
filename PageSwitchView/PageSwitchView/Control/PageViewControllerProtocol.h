@@ -10,8 +10,10 @@
 
 @protocol PageViewControllerProtocol<NSObject>
 @optional
-//+ (PageSwitchItem *)pageSwitchItem;
 
+/**
+ viewController.view在加载到框架上时候调用（在viewDidLoad之后调用）
+ */
 -(void)viewDidAdjustRect;
 
 /**
