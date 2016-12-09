@@ -56,6 +56,7 @@
 		A90908851DF81AD300B3447C /* UIContentViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A90908841DF81AD300B3447C /* UIContentViewCell.m */; };
 		A909088F1DF824B200B3447C /* ViewController2tab.m in Sources */ = {isa = PBXBuildFile; fileRef = A909088E1DF824B200B3447C /* ViewController2tab.m */; };
 		A95912051DFA8BA700579F43 /* SimplePageSwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A95912041DFA8BA700579F43 /* SimplePageSwitchViewController.m */; };
+		A95912081DFAA82000579F43 /* _SegmentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A95912071DFAA82000579F43 /* _SegmentTableViewCell.m */; };
 		A981F7D51DF132E6002A44D6 /* UINavigationBar+Background.m in Sources */ = {isa = PBXBuildFile; fileRef = A981F7D41DF132E6002A44D6 /* UINavigationBar+Background.m */; };
 		A99EE6B01DF64AC70032D271 /* PSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99EE6AF1DF64AC70032D271 /* PSViewController.m */; };
 		A99EE6B31DF653CD0032D271 /* UIScrollView+Other.m in Sources */ = {isa = PBXBuildFile; fileRef = A99EE6B21DF653CD0032D271 /* UIScrollView+Other.m */; };
@@ -188,6 +189,8 @@
 		A909088E1DF824B200B3447C /* ViewController2tab.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController2tab.m; sourceTree = "<group>"; };
 		A95912031DFA8BA700579F43 /* SimplePageSwitchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplePageSwitchViewController.h; sourceTree = "<group>"; };
 		A95912041DFA8BA700579F43 /* SimplePageSwitchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePageSwitchViewController.m; sourceTree = "<group>"; };
+		A95912061DFAA82000579F43 /* _SegmentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _SegmentTableViewCell.h; sourceTree = "<group>"; };
+		A95912071DFAA82000579F43 /* _SegmentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _SegmentTableViewCell.m; sourceTree = "<group>"; };
 		A981F7D31DF132E6002A44D6 /* UINavigationBar+Background.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+Background.h"; sourceTree = "<group>"; };
 		A981F7D41DF132E6002A44D6 /* UINavigationBar+Background.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Background.m"; sourceTree = "<group>"; };
 		A99EE6AE1DF64AC70032D271 /* PSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSViewController.h; sourceTree = "<group>"; };
@@ -420,6 +423,8 @@
 			children = (
 				A907ECB71DEED09400D8C5CF /* SegmentTableView.h */,
 				A907ECB81DEED09400D8C5CF /* SegmentTableView.m */,
+				A95912061DFAA82000579F43 /* _SegmentTableViewCell.h */,
+				A95912071DFAA82000579F43 /* _SegmentTableViewCell.m */,
 			);
 			path = SegmentTableView;
 			sourceTree = "<group>";
@@ -743,6 +748,7 @@
 				A909086F1DF8021A00B3447C /* MJRefreshComponent.m in Sources */,
 				A909087F1DF8021A00B3447C /* UIScrollView+MJRefresh.m in Sources */,
 				A9C69A191DF8FC8300862E14 /* RefresBoleDataArray.m in Sources */,
+				A95912081DFAA82000579F43 /* _SegmentTableViewCell.m in Sources */,
 				A909087E1DF8021A00B3447C /* UIScrollView+MJExtension.m in Sources */,
 				A99EE6B01DF64AC70032D271 /* PSViewController.m in Sources */,
 				A907EC811DEECEAF00D8C5CF /* TwoScrollViewController.m in Sources */,
