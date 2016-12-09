@@ -157,7 +157,6 @@
     if (!cell) {
         cell = [[UIContentViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         isReuse = NO;
-        cell.backgroundColor = self.backgroundColor;
         cell.opaque = self.opaque;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.transform = CGAffineTransformIdentity;
