@@ -27,6 +27,9 @@
 
     self.pageSwitchView = [[SimplePageSwitchView alloc]initWithFrame:self.view.bounds];
     self.pageSwitchView.titleFont = [UIFont systemFontOfSize:14];
+    self.pageSwitchView.maxTitleCount = 6;
+    self.pageSwitchView.titleSelectedStyle = SegmentSelectedStyleSubscript;
+    self.pageSwitchView.selectedTitleColor = [UIColor blueColor];
     [self.view addSubview:self.pageSwitchView];
 //    self.pageSwitchView.hoverTitleBar = YES;
     
@@ -49,18 +52,15 @@
 }
 
 -(NSArray<PageSwitchItem *> *)pageSwitchItemsInPageSwitchView:(SimplePageSwitchView *)pageSwitchView {
-    PageSwitchItem *item1 = [PageSwitchItem itemWithTitle:@"11" key:@"TwoScrollViewController.twoScrollView"];
+    PageSwitchItem *item1 = [PageSwitchItem itemWithTitle:@"11" vcClsKey:@"TableViewController" viewKey:@"tableView"];
     PageSwitchItem *item2 = [PageSwitchItem itemWithTitle:@"2" key:@"PSViewController.pageSwitchView"];
     PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"333333" key:@"SimpleViewController"];
-    PageSwitchItem *item4 = [PageSwitchItem itemWithTitle:@"4" vcClsKey:@"ScrollViewController" viewKey:@"scrollView"];
-    PageSwitchItem *item5 = [PageSwitchItem itemWithTitle:@"55" vcClsKey:@"TableViewController" viewKey:@"tableView"];
-    PageSwitchItem *item6 = [PageSwitchItem itemWithTitle:@"666" vcClsKey:@"TableViewController" viewKey:@"tableView"];
-    PageSwitchItem *item7 = [PageSwitchItem itemWithTitle:@"7" page:^(DoReturn doReturn) {
+    PageSwitchItem *item4 = [PageSwitchItem itemWithTitle:@"4" page:^(DoReturn doReturn) {
         TableViewController *vc = [[TableViewController alloc]init];
-        vc.title = @"7";
+        vc.title = @"4";
         doReturn(vc, vc.tableView);
     }];
-    return @[item1,item2,item3,item4,item5,item6,item7];
+    return @[item1,item2,item3,item4];
 }
 
 

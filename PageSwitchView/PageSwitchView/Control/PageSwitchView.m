@@ -68,7 +68,7 @@ static const CGFloat kMinTitleBarHeight = 49;
 @property (nonatomic) void(^layoutBlock)(UIView *superView);
 @property (nonatomic) NSUInteger sectionCount;
 @property (nonatomic) NSMutableArray<NSString*> *titleArray;
-@property (nonatomic) BOOL adaptTitleWidth;
+//@property (nonatomic) BOOL adaptTitleWidth;
 @end
 
 @implementation PageSwitchView
@@ -553,9 +553,9 @@ static const CGFloat kMinTitleBarHeight = 49;
 //}
 
 -(void)reloadData {
-    if ([self.dataSource respondsToSelector:@selector(adaptTitleWidthInPageSwitchView:)]) {
-        self.adaptTitleWidth = [self.dataSource adaptTitleWidthInPageSwitchView:self];
-    }
+//    if ([self.dataSource respondsToSelector:@selector(adaptTitleWidthInPageSwitchView:)]) {
+//        self.adaptTitleWidth = [self.dataSource adaptTitleWidthInPageSwitchView:self];
+//    }
     if ([self.delegate respondsToSelector:@selector(topeSpaceInPageSwitchView:)]) {
         self.topeSpace = [self.dataSource topeSpaceInPageSwitchView:self];
     }
@@ -577,12 +577,14 @@ static const CGFloat kMinTitleBarHeight = 49;
     }else {
         self.pageTableView.scrollEnabled = NO;
     }
-    
-    if (self.adaptTitleWidth) {
-        self.adaptTitleWidth = 0;
-    }else {
-        self.segmentTableView.titleLabelWidth = self.bounds.size.width/MIN(self.pageSwitchItemArray.count, kMaxTitleCount_unAdapt);
-    }
+    self.segmentTableView.allowCellSpace = self.titleCellSpace;
+    self.segmentTableView.maxTitleCount = self.maxTitleCount;
+    self.segmentTableView.adaptFull_maxTitleCount = self.adaptFull_maxTitleCount;
+//    if (self.adaptTitleWidth) {
+//        self.adaptTitleWidth = 0;
+//    }else {
+//        self.segmentTableView.titleLabelWidth = self.bounds.size.width/MIN(self.pageSwitchItemArray.count, kMaxTitleCount_unAdapt);
+//    }
     [self.segmentTableView reloadData];
     
     [self.pageTableView reloadData];

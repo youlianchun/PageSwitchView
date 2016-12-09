@@ -40,7 +40,7 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
 @property (nonatomic) void(^layoutBlock)(UIView *superView);
 @property (nonatomic) NSUInteger sectionCount;
 @property (nonatomic) NSMutableArray<NSString*> *titleArray;
-@property (nonatomic) BOOL adaptTitleWidth;
+//@property (nonatomic) BOOL adaptTitleWidth;
 @property (nonatomic) void(^titleBarDisplayProgress)(CGFloat progress);
 @end
 
@@ -264,22 +264,23 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
 }
 
 -(void)reloadData {
-    if ([self.dataSource respondsToSelector:@selector(adaptTitleWidthInPageSwitchView:)]) {
-        self.adaptTitleWidth = [self.dataSource adaptTitleWidthInPageSwitchView:self];
-    }
+//    if ([self.dataSource respondsToSelector:@selector(adaptTitleWidthInPageSwitchView:)]) {
+//        self.adaptTitleWidth = [self.dataSource adaptTitleWidthInPageSwitchView:self];
+//    }
 
     if ([self.dataSource respondsToSelector:@selector(titleHeightInPageSwitchView:)]) {
         self.titleHeight = MIN([self.dataSource titleHeightInPageSwitchView:self], kMinTitleBarHeight);
     }
     self.pageSwitchItemArray = [[self.dataSource pageSwitchItemsInPageSwitchView:self] mutableCopy];
-
-    
+    self.segmentTableView.allowCellSpace = self.titleCellSpace;
+    self.segmentTableView.maxTitleCount = self.maxTitleCount;
+    self.segmentTableView.adaptFull_maxTitleCount = self.adaptFull_maxTitleCount;
         
-    if (self.adaptTitleWidth) {
-        self.adaptTitleWidth = 0;
-    }else {
-        self.segmentTableView.titleLabelWidth = self.bounds.size.width/MIN(self.pageSwitchItemArray.count, kMaxTitleCount_unAdapt);
-    }
+//    if (self.adaptTitleWidth) {
+//        self.adaptTitleWidth = 0;
+//    }else {
+//        self.segmentTableView.titleLabelWidth = self.bounds.size.width/MIN(self.pageSwitchItemArray.count, kMaxTitleCount_unAdapt);
+//    }
     self.segmentTableView_CH.constant = self.titleHeight;
     [self.segmentTableView reloadData];
     

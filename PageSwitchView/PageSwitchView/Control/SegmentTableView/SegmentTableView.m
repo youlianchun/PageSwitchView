@@ -57,7 +57,6 @@
 #pragma mark -
 #pragma mark - SegmentTableView
 
-static const CGFloat cellSpace_2 = 5;
 static const CGFloat bottomSpace = -5;
 @interface SegmentTableView ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -69,6 +68,7 @@ static const CGFloat bottomSpace = -5;
 @property (nonatomic) UIView *cellLineView;
 @property (nonatomic) UIImageView *cellImageView;
 @property (nonatomic) CAShapeLayer *cellImageView_layer;
+@property (nonatomic) CGFloat titleLabelWidth;
 
 @property (nonatomic) UIView *panelView;
 
@@ -242,19 +242,25 @@ static const CGFloat bottomSpace = -5;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
-        return cellSpace_2+cellSpace_2;
-    }else{
-        return cellSpace_2;
+    if (self.allowCellSpace) {
+        if (section == 0) {
+            return cellSpace_2+cellSpace_2;
+        }else{
+            return cellSpace_2;
+        }
     }
+    return 0;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (section == self.titleArray.count-1) {
-        return cellSpace_2+cellSpace_2;
-    }else{
-        return cellSpace_2;
+    if (self.allowCellSpace) {
+        if (section == self.titleArray.count-1) {
+            return cellSpace_2+cellSpace_2;
+        }else{
+            return cellSpace_2;
+        }
     }
+    return 0;
 }
 -(void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
     view.hidden = YES;
@@ -303,7 +309,19 @@ static const CGFloat bottomSpace = -5;
 
 -(void)reloadData {
     self.titleArray = [self.dataSource titlesOfRowInTableView:self];
+    if (self.maxTitleCount>0) {
+        NSUInteger titleCount = self.maxTitleCount;
+        if (self.adaptFull_maxTitleCount) {
+            titleCount = MIN(self.maxTitleCount, self.titleArray.count);
+        }
+        CGFloat offset = 0;
+        if (self.allowCellSpace) {
+            offset = (titleCount+1)*(cellSpace_2+cellSpace_2);
+        }
+        self.titleLabelWidth = (self.bounds.size.width - offset)/titleCount;
+    }
     [self changeSelectWithW:self.titleLabelWidth cy:0];
+
     [self.tableView reloadData];
 }
 

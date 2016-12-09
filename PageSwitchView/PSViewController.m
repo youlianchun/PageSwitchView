@@ -39,6 +39,11 @@ static const CGFloat firstBarHeight = 49;
     if (!_pageSwitchView) {
         _pageSwitchView = [[PageSwitchView alloc]initWithFrame:self.view.bounds];
         _pageSwitchView.titleFont = [UIFont systemFontOfSize:14];
+        _pageSwitchView.maxTitleCount = 5;
+        _pageSwitchView.adaptFull_maxTitleCount = YES;
+//        _pageSwitchView.titleCellSpace = YES;
+        _pageSwitchView.titleSelectedStyle = SegmentSelectedStyleUnderline;
+        _pageSwitchView.selectedTitleColor = [UIColor blueColor];
     }
     return _pageSwitchView;
 }

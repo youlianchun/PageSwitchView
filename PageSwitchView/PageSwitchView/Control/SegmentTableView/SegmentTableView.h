@@ -10,7 +10,7 @@
 #import "PageSwitchViewStatic.h"
 @class SegmentTableView;
 
-
+static const CGFloat cellSpace_2 = 5;
 
 @protocol SegmentTableViewDataSource <NSObject>
 
@@ -22,7 +22,7 @@
 
 -(BOOL)segmentTableView:(SegmentTableView*)tableView willSelectAtIndex:(NSUInteger)index;
 -(void)segmentTableView:(SegmentTableView*)tableView didSelectAtIndex:(NSUInteger)index;
--(NSUInteger)maxTitleCountInSegmentTableView:(SegmentTableView*)tableView cellSpace:(CGFloat)cellSpace;
+
 @required
 
 @end
@@ -30,14 +30,16 @@
 @interface SegmentTableView : UIView
 
 @property (nonatomic) UIFont *titleFont;
-@property (nonatomic) CGFloat titleLabelWidth;
 @property (nonatomic) UIColor *normalTitleColor;
 @property (nonatomic) UIColor *selectedTitleColor;
 @property (nonatomic) id<SegmentTableViewDelegate> delegate;
 @property (nonatomic) id<SegmentTableViewDataSource> dataSource;
 @property (nonatomic) SegmentSelectedStyle selectedStyle;
 @property (nonatomic) NSUInteger currentIndex;
-@property (nonatomic,readonly) UITableView   *tableView;
+@property (nonatomic,readonly) UITableView *tableView;
+@property (nonatomic) BOOL allowCellSpace;
+@property (nonatomic) NSUInteger maxTitleCount;
+@property (nonatomic) BOOL adaptFull_maxTitleCount;
 
 -(void)adjustCurrentIndex:(NSUInteger)currentIndex;
 

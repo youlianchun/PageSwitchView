@@ -20,7 +20,7 @@
 
 @optional
 
-- (BOOL)adaptTitleWidthInPageSwitchView:(SimplePageSwitchView *)pageSwitchView;
+//- (BOOL)adaptTitleWidthInPageSwitchView:(SimplePageSwitchView *)pageSwitchView;
 
 
 - (CGFloat)titleHeightInPageSwitchView:(SimplePageSwitchView *)pageSwitchView;
@@ -45,6 +45,10 @@
 @property (nonatomic) UIColor *normalTitleColor;
 @property (nonatomic) UIColor *selectedTitleColor;
 @property (nonatomic) SegmentSelectedStyle titleSelectedStyle;
+@property (nonatomic) BOOL titleCellSpace;
+
+@property (nonatomic) NSUInteger maxTitleCount;
+@property (nonatomic) BOOL adaptFull_maxTitleCount;
 
 -(void)layoutWithinserts:(UIEdgeInsets)inserts;
 
