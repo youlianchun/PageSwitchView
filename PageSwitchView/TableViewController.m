@@ -78,6 +78,12 @@
     [super viewWillAppear:animated];
     NSLog(@"%s",__func__);
 }
+-(void)viewDidDisplay {
+    NSLog(@"shaow");
+}
+-(void)viewDidEndDisplay {
+    NSLog(@"hide");
+}
 
 //-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
 //    return UITableViewCellEditingStyleDelete;

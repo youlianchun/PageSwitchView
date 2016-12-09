@@ -123,6 +123,16 @@ static const CGFloat waitTimer = 0.05;
         }else {
             [self loadFunction];
         }
+    }else{
+        if (isCurrent) {
+            if ([self.contentViewController respondsToSelector:@selector(viewDidDisplay)]) {
+                [self.contentViewController viewDidDisplay];
+            }
+        }else{
+            if ([self.contentViewController respondsToSelector:@selector(viewDidEndDisplay)]) {
+                [self.contentViewController viewDidEndDisplay];
+            }
+        }
     }
 }
 
@@ -130,6 +140,9 @@ static const CGFloat waitTimer = 0.05;
     self.didLoad = YES;
     if (self.didLoadBock) {
         self.didLoadBock();
+        if ([self.contentViewController respondsToSelector:@selector(viewDidDisplay)]) {
+            [self.contentViewController viewDidDisplay];
+        }
     }
 }
 
