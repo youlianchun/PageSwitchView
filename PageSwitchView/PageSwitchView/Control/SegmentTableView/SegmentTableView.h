@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PageSwitchViewStatic.h"
 @class SegmentTableView;
+
+
 
 @protocol SegmentTableViewDataSource <NSObject>
 
@@ -30,11 +33,9 @@
 @property (nonatomic) CGFloat titleLabelWidth;
 @property (nonatomic) UIColor *normalTitleColor;
 @property (nonatomic) UIColor *selectedTitleColor;
-@property (nonatomic) UIColor *normalBgColor;
-@property (nonatomic) UIColor *selectedBgColor;
 @property (nonatomic) id<SegmentTableViewDelegate> delegate;
 @property (nonatomic) id<SegmentTableViewDataSource> dataSource;
-
+@property (nonatomic) SegmentSelectedStyle selectedStyle;
 @property (nonatomic) NSUInteger currentIndex;
 @property (nonatomic,readonly) UITableView   *tableView;
 

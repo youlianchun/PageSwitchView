@@ -44,7 +44,7 @@
 #pragma mark - PageSwitchView
 
 static const NSUInteger kMaxTitleCount_unAdapt = 5;
-static const CGFloat kMinTitleBarHeight = 44;
+static const CGFloat kMinTitleBarHeight = 49;
 
 @interface PageSwitchView ()< UIGestureRecognizerDelegate,
                             StretchingHeaderViewDelegate,
@@ -77,7 +77,8 @@ static const CGFloat kMinTitleBarHeight = 44;
     self = [super initWithFrame:frame];
     if (self) {
         self.topeSpace = 0;
-        self.titleHeight = 44;
+        self.titleHeight = kMinTitleBarHeight;
+        self.backgroundColor = [UIColor colorWithWhite:defauleBackgroungColor alpha:1];
     }
     return self;
 }
@@ -128,9 +129,12 @@ static const CGFloat kMinTitleBarHeight = 44;
     if (!_segmentTableView) {
         _segmentTableView = [[SegmentTableView alloc]initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.titleHeight)];
 //        _segmentTableView.titleLabelWidth = self.bounds.size.width/MIN(self.pageSwitchItemArray.count, 5);
-        _segmentTableView.backgroundColor = [UIColor orangeColor];
         _segmentTableView.delegate = self;
         _segmentTableView.dataSource = self;
+        _segmentTableView.titleFont = self.titleFont;
+        _segmentTableView.selectedTitleColor = self.selectedTitleColor;
+        _segmentTableView.normalTitleColor =  self.normalTitleColor;
+        _segmentTableView.selectedStyle = self.titleSelectedStyle;
     }
     return _segmentTableView;
 }
@@ -218,6 +222,7 @@ static const CGFloat kMinTitleBarHeight = 44;
         if (!cell) {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor = [UIColor clearColor];
             [cell.contentView addSubview:self.hTableView];
             [self addConstraint:self.hTableView inserts:UIEdgeInsetsMake(0, 0, 0, 0)];
         }
@@ -558,10 +563,6 @@ static const CGFloat kMinTitleBarHeight = 44;
         self.titleHeight = MIN([self.dataSource titleHeightInPageSwitchView:self], kMinTitleBarHeight);
     }
     self.pageSwitchItemArray = [[self.dataSource pageSwitchItemsInPageSwitchView:self] mutableCopy];
-    self.segmentTableView.selectedTitleColor = [UIColor whiteColor];//[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1];
-    self.segmentTableView.normalTitleColor =  [UIColor lightGrayColor];
-    self.segmentTableView.selectedBgColor = [UIColor blueColor];
-    self.segmentTableView.normalBgColor = [UIColor whiteColor];
 
     self.headerView = nil;
     if (self.headerView) {

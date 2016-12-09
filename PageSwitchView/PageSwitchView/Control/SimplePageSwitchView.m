@@ -13,7 +13,6 @@
 #import "SegmentTableView.h"
 #import "_TwoScrollView.h"
 #import "UIContentViewCell.h"
-#import "PageSwitchViewStatic.h"
 #import "_PageSwitchView.h"
 
 #pragma mark -
@@ -35,7 +34,6 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
 @property (nonatomic) NSLayoutConstraint *segmentTableView_CT;
 @property (nonatomic) NSLayoutConstraint *segmentTableView_CH;
 
-
 @property (nonatomic) CGFloat titleHeight;
 //@property (nonatomic) BOOL isScrolling;
 @property (nonatomic) UIView *navigationBar_placeholderView;
@@ -51,13 +49,15 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
 -(instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.titleHeight = 44;
+        self.titleHeight = 49;
         self.hoverTitleBar = NO;
+        self.backgroundColor = [UIColor colorWithWhite:defauleBackgroungColor alpha:1];
     }
     return self;
 }
 
 #pragma mark - Get Set
+
 -(UIViewController *)selfViewController{
     if (!_selfViewController) {
         UIResponder *responder = self;
@@ -86,9 +86,14 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
 -(SegmentTableView *)segmentTableView {
     if (!_segmentTableView) {
         _segmentTableView = [[SegmentTableView alloc]initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.titleHeight)];
-        _segmentTableView.backgroundColor = [UIColor orangeColor];
+        _segmentTableView.backgroundColor = self.backgroundColor;
         _segmentTableView.delegate = self;
         _segmentTableView.dataSource = self;
+        _segmentTableView.titleFont = self.titleFont;
+        _segmentTableView.selectedTitleColor = self.selectedTitleColor;
+        _segmentTableView.normalTitleColor =  self.normalTitleColor;
+        _segmentTableView.selectedStyle = self.titleSelectedStyle;
+        
         [self addSubview:_segmentTableView];
         _segmentTableView.translatesAutoresizingMaskIntoConstraints = NO;
         [self addConstraint:[NSLayoutConstraint constraintWithItem:_segmentTableView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
@@ -267,10 +272,7 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
         self.titleHeight = MIN([self.dataSource titleHeightInPageSwitchView:self], kMinTitleBarHeight);
     }
     self.pageSwitchItemArray = [[self.dataSource pageSwitchItemsInPageSwitchView:self] mutableCopy];
-    self.segmentTableView.selectedTitleColor = [UIColor whiteColor];//[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1];
-    self.segmentTableView.normalTitleColor =  [UIColor lightGrayColor];
-    self.segmentTableView.selectedBgColor = [UIColor blueColor];
-    self.segmentTableView.normalBgColor = [UIColor whiteColor];
+
     
         
     if (self.adaptTitleWidth) {

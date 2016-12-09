@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PageSwitchItem.h"
 #import "UIContentView.h"
+#import "PageSwitchViewStatic.h"
 @class PageSwitchView;
 
 @protocol PageSwitchViewDataSource<NSObject>
@@ -69,6 +70,11 @@
 @property (nonatomic,weak) id<PageSwitchViewDataSource>dataSource;
 @property (nonatomic,weak) id<PageSwitchViewDelegate>delegate;
 @property (nonatomic,readonly) UITableView *tableView;
+@property (nonatomic) UIFont *titleFont;
+@property (nonatomic) UIColor *normalTitleColor;
+@property (nonatomic) UIColor *selectedTitleColor;
+@property (nonatomic) SegmentSelectedStyle titleSelectedStyle;
+
 -(void)layoutWithinserts:(UIEdgeInsets)inserts;
 
 -(void)switchNewPageWithNewIndex:(NSUInteger)newIndex;

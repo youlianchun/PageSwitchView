@@ -8,7 +8,7 @@
 
 #import "PSViewController.h"
 #import "PSTableViewController.h"
-static const CGFloat firstBarHeight = 44;
+static const CGFloat firstBarHeight = 49;
 @interface PSViewController()<PageSwitchViewDelegate, PageSwitchViewDataSource,PageViewControllerProtocol,RefresBoleDataArrayDelegate>
 @property (nonatomic) RefresBoleDataArray *dataArray;
 
@@ -38,6 +38,7 @@ static const CGFloat firstBarHeight = 44;
 -(PageSwitchView *)pageSwitchView {
     if (!_pageSwitchView) {
         _pageSwitchView = [[PageSwitchView alloc]initWithFrame:self.view.bounds];
+        _pageSwitchView.titleFont = [UIFont systemFontOfSize:14];
     }
     return _pageSwitchView;
 }

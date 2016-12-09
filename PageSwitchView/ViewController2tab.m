@@ -26,6 +26,7 @@
     self.title = @"subView";
 
     self.pageSwitchView = [[SimplePageSwitchView alloc]initWithFrame:self.view.bounds];
+    self.pageSwitchView.titleFont = [UIFont systemFontOfSize:14];
     [self.view addSubview:self.pageSwitchView];
 //    self.pageSwitchView.hoverTitleBar = YES;
     

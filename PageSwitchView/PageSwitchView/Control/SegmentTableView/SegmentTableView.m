@@ -8,7 +8,6 @@
 
 #import "SegmentTableView.h"
 #import "GradientColor.h"
-#import "PageSwitchViewStatic.h"
 
 #pragma mark -
 #pragma mark - _SegmentTableViewCell
@@ -59,14 +58,20 @@
 #pragma mark - SegmentTableView
 
 static const CGFloat cellSpace_2 = 5;
-
+static const CGFloat bottomSpace = -5;
 @interface SegmentTableView ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic) UITableView   *tableView;
 @property (nonatomic) GradientColor *gradientColor;
-@property (nonatomic) GradientColor *gradientColor_bg;
+//@property (nonatomic) GradientColor *gradientColor_bg;
 @property (nonatomic) NSArray<NSString*> *titleArray;
 @property (nonatomic) UIView *cellBgView;
+@property (nonatomic) UIView *cellLineView;
+@property (nonatomic) UIImageView *cellImageView;
+@property (nonatomic) CAShapeLayer *cellImageView_layer;
+
+@property (nonatomic) UIView *panelView;
+
 @end
 
 @implementation SegmentTableView
@@ -76,20 +81,82 @@ static const CGFloat cellSpace_2 = 5;
     if (self) {
         self.titleLabelWidth = 0;
         _currentIndex = 0;
+        self.selectedStyle = SegmentSelectedStyleNone;
     }
     return self;
 }
 
 #pragma mark - Get Set
-
+-(void)setBackgroundColor:(UIColor *)backgroundColor {
+    [super setBackgroundColor:backgroundColor];
+    if (self.cellImageView_layer) {
+        self.cellImageView_layer.fillColor = backgroundColor.CGColor;
+    }
+}
+-(UIColor *)selectedTitleColor {
+    if (!_selectedTitleColor) {
+        _selectedTitleColor = [UIColor blackColor];
+    }
+    return _selectedTitleColor;
+}
+-(UIColor *)normalTitleColor {
+    if (!_normalTitleColor) {
+        _normalTitleColor = [UIColor lightGrayColor];
+    }
+    return _normalTitleColor;
+}
 -(UIView *)cellBgView {
     if (!_cellBgView) {
-        _cellBgView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 5, 20)];
+        _cellBgView = [[UIView alloc]initWithFrame:CGRectMake(5, 0, self.bounds.size.height+bottomSpace - 10, 20)];
         _cellBgView.backgroundColor = [UIColor greenColor];
+        _cellBgView.layer.cornerRadius = 4;
+        _cellBgView.layer.masksToBounds = YES;
+        _cellBgView.hidden = self.selectedStyle != SegmentSelectedStyleBackground;
+
     }
     return _cellBgView;
 }
+-(UIView *)cellLineView {
+    if (!_cellLineView) {
+        _cellLineView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 3, 20)];
+        _cellLineView.backgroundColor = [UIColor blueColor];
+        _cellLineView.hidden = self.selectedStyle != SegmentSelectedStyleUnderline;
+    }
+    return _cellLineView;
+}
 
+-(UIImageView *)cellImageView {
+    if (!_cellImageView) {
+        _cellImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 8, 24)];
+        CAShapeLayer *imgLayer = [[CAShapeLayer alloc]init];
+        CGMutablePathRef path = CGPathCreateMutable();
+        CGPathMoveToPoint(path, nil, 0, 0);
+        CGPathAddLineToPoint(path, nil, 8, 12);
+        CGPathAddLineToPoint(path, nil, 0, 24);
+        CGPathAddLineToPoint(path, nil, 0, 0);
+        imgLayer.path = path;
+        CGPathRelease(path);
+        imgLayer.fillColor = self.backgroundColor.CGColor;
+        [_cellImageView.layer addSublayer:imgLayer];
+        _cellImageView.hidden = self.selectedStyle != SegmentSelectedStyleSubscript;
+        self.cellImageView_layer = imgLayer;
+    }
+    return _cellImageView;
+}
+
+-(UIView *)panelView {
+    if (!_panelView) {
+        _panelView = [[UIView alloc]init];
+        [self addSubview:_panelView];
+        _panelView.backgroundColor = [UIColor blackColor];
+        _panelView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:_panelView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:_panelView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
+        [self addConstraint: [NSLayoutConstraint constraintWithItem:_panelView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+        [self addConstraint: [NSLayoutConstraint constraintWithItem:_panelView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:bottomSpace]];
+    }
+    return _panelView;
+}
 -(UITableView *)tableView {
     if (!_tableView) {
         _tableView = [[UITableView alloc]initWithFrame:self.bounds style:UITableViewStylePlain];
@@ -97,16 +164,17 @@ static const CGFloat cellSpace_2 = 5;
         _tableView.showsVerticalScrollIndicator = NO;
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        //        _tableView.backgroundColor = [UIColor grayColor];
-        [self addSubview:_tableView];
+        [self.panelView addSubview:_tableView];
         [_tableView insertSubview:self.cellBgView atIndex:0];
+        [_tableView insertSubview:self.cellLineView atIndex:0];
+        [_tableView addSubview:self.cellImageView];
         _tableView.transform = CGAffineTransformIdentity;//在设置frame前将transform重置
         _tableView.transform = CGAffineTransformMakeRotation(M_PI/-2);
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0]];
+        [self.panelView addConstraint:[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.panelView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+        [self.panelView addConstraint:[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.panelView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+        [self.panelView addConstraint:[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.panelView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
+        [self.panelView addConstraint:[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.panelView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0]];
     }
     return _tableView;
 }
@@ -120,7 +188,7 @@ static const CGFloat cellSpace_2 = 5;
 
 -(UIFont *)titleFont {
     if (!_titleFont) {
-        _titleFont = [UIFont systemFontOfSize:self.bounds.size.height/2.2];
+        _titleFont = [UIFont systemFontOfSize:(self.bounds.size.height+bottomSpace)/2.2];
     }
     return _titleFont;
 }
@@ -131,12 +199,12 @@ static const CGFloat cellSpace_2 = 5;
     }
     return _gradientColor;
 }
--(GradientColor *)gradientColor_bg {
-    if (!_gradientColor_bg) {
-        _gradientColor_bg = [[GradientColor alloc]initWithColorA:self.normalBgColor colorB:self.selectedBgColor];
-    }
-    return _gradientColor_bg;
-}
+//-(GradientColor *)gradientColor_bg {
+//    if (!_gradientColor_bg) {
+//        _gradientColor_bg = [[GradientColor alloc]initWithColorA:self.normalBgColor colorB:self.selectedBgColor];
+//    }
+//    return _gradientColor_bg;
+//}
 
 -(void)setCurrentIndex:(NSUInteger)currentIndex {
     if (currentIndex == _currentIndex) {
@@ -209,10 +277,10 @@ static const CGFloat cellSpace_2 = 5;
     }
     if (indexPath.section == self.currentIndex) {
         cell.textLabel.textColor = self.selectedTitleColor;
-        cell.textLabel.backgroundColor = self.selectedBgColor;
+//        cell.textLabel.backgroundColor = self.selectedBgColor;
     }else {
         cell.textLabel.textColor = self.normalTitleColor;
-        cell.textLabel.backgroundColor = self.normalBgColor;
+//        cell.textLabel.backgroundColor = self.normalBgColor;
     }
     return cell;
 }
@@ -235,9 +303,7 @@ static const CGFloat cellSpace_2 = 5;
 
 -(void)reloadData {
     self.titleArray = [self.dataSource titlesOfRowInTableView:self];
-    CGRect frame = self.cellBgView.bounds;
-    frame.size.height = self.titleLabelWidth;
-    self.cellBgView.frame = frame;
+    [self changeSelectWithW:self.titleLabelWidth cy:0];
     [self.tableView reloadData];
 }
 
@@ -250,38 +316,49 @@ static const CGFloat cellSpace_2 = 5;
         CGFloat scale = leftScale <= 0.2 ? 0.0 : leftScale;
         scale = scale >= 0.8 ? 1.0 : scale;
         leftCell.textLabel.textColor = [self.gradientColor colorAChangeToColorB:scale];
-        leftCell.textLabel.backgroundColor = [self.gradientColor_bg colorAChangeToColorB:scale];
     }
     if (rightPageIndex<self.titleArray.count) {
         rightCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:rightPageIndex]];
         CGFloat scale = rightScale <= 0.2 ? 0.0 : rightScale;
         scale = scale >= 0.8 ? 1.0 : scale;
         rightCell.textLabel.textColor = [self.gradientColor colorAChangeToColorB:scale];
-        rightCell.textLabel.backgroundColor = [self.gradientColor_bg colorAChangeToColorB:scale];
     }
     if (leftScale >= 0.8) {
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:leftPageIndex] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
     }
+    CGFloat w = 0;
+    CGFloat cy = 0;
     if (leftCell && rightCell) {
         if (self.titleLabelWidth <= 0) {
             CGFloat wl = CGRectGetWidth(leftCell.bounds);
             CGFloat wr = CGRectGetWidth(rightCell.bounds);
-            CGFloat w = wl + (wr - wl) * rightScale;
-            CGRect frame = self.cellBgView.bounds;
-            frame.size.height = w;
-            self.cellBgView.frame = frame;
+            w = wl + (wr - wl) * rightScale;
         }
         CGFloat cyl = leftCell.center.y;
         CGFloat cyr = rightCell.center.y;
-        CGFloat cy = cyl + (cyr - cyl) * rightScale;
-        self.cellBgView.center = CGPointMake(self.cellBgView.center.x, cy);
+        cy = cyl + (cyr - cyl) * rightScale;
     }else {
         if (self.titleLabelWidth <= 0) {
-            CGRect frame = self.cellBgView.bounds;
-            frame.size.height = CGRectGetWidth(leftCell.bounds);
-            self.cellBgView.frame = frame;
+            w = CGRectGetWidth(leftCell.bounds);
         }
-        self.cellBgView.center = CGPointMake(self.cellBgView.center.x, leftCell.center.y);
+        cy = leftCell.center.y;
+    }
+    [self changeSelectWithW:w cy:cy];
+}
+
+-(void)changeSelectWithW:(CGFloat)w cy:(CGFloat)cy {
+    if (w>0) {
+        CGRect frame = self.cellLineView.bounds;
+        frame.size.height = w;
+        self.cellLineView.frame = frame;
+        frame = self.cellBgView.bounds;
+        frame.size.height = w;
+        self.cellBgView.frame = frame;
+    }
+    if (cy>0) {
+        self.cellLineView.center = CGPointMake(self.cellLineView.center.x, cy);
+        self.cellBgView.center = CGPointMake(self.panelView.bounds.size.height/2.0, cy);
+        self.cellImageView.center = CGPointMake(self.cellImageView.center.x, cy);
     }
 }
 
