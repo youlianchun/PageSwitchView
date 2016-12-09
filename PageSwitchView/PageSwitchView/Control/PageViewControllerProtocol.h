@@ -6,8 +6,6 @@
 //  Copyright © 2016年 ylchun. All rights reserved.
 //
 
-@class PageSwitchItem;
-
 @protocol PageViewControllerProtocol<NSObject>
 @optional
 

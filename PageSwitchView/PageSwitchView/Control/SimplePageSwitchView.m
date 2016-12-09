@@ -144,6 +144,8 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
             CGRect frame = wContentView.bounds;
             if (pageSwitchItem.isPSView) {
                 __weak PageSwitchView *pageSwitchView = (PageSwitchView*)pageSwitchItem.contentView;
+                pageSwitchView.backgroundColor = self.backgroundColor;
+                pageSwitchView.tableView.backgroundColor = self.backgroundColor;
                 pageSwitchView.didScrollCallBack = ^(){
                     if (!wself.hoverTitleBar) {
                         [wself pageSwitchViewDidScroll:pageSwitchView];
@@ -152,6 +154,12 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
             }else {
                 frame.origin.y = self.titleHeight;
                 frame.size.height -= self.titleHeight;
+            }
+            if (pageSwitchItem.isScroll) {
+                pageSwitchItem.contentView.backgroundColor = self.backgroundColor;
+            }
+            if (pageSwitchItem.is2Scroll) {
+                pageSwitchItem.contentView.backgroundColor = self.backgroundColor;
             }
             [wself.selfViewController addChildViewController:pageSwitchItem.contentViewController];
             [wContentView addSubview:pageSwitchItem.contentViewController.view];

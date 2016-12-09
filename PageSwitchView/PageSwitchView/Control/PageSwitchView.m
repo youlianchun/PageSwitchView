@@ -395,15 +395,15 @@
             if (pageSwitchItem.isScroll) {
                 UIScrollView *scrollView =  (UIScrollView *)pageSwitchItem.contentView;
                 scrollView.panGestureRecognizer.groupTag = kUIGestureRecognizer_V;
+                scrollView.backgroundColor = self.backgroundColor;
             }
             if (pageSwitchItem.is2Scroll) {
                 TwoScrollView *twoScrollView = (TwoScrollView*)pageSwitchItem.contentView;
                 twoScrollView.panGestureRecognizerGroupTag = kUIGestureRecognizer_V;
                 twoScrollView.haveHeader = self.headerView != nil;
+                twoScrollView.backgroundColor = self.backgroundColor;
             }
-//            if (pageSwitchItem.isPSView) {
-//                PageSwitchView *pageSwitchView = (PageSwitchView*)pageSwitchItem.contentView;
-//            }
+
             [wself.selfViewController addChildViewController:pageSwitchItem.contentViewController];
             pageSwitchItem.scrollDelegate = wself;
             
