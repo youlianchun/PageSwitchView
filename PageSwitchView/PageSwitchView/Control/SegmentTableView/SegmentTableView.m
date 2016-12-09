@@ -105,10 +105,16 @@ static const CGFloat bottomSpace = -5;
     }
     return _normalTitleColor;
 }
+-(UIColor *)selectColor {
+    if (!_selectColor) {
+        _selectColor = [UIColor orangeColor];
+    }
+    return _selectColor;
+}
 -(UIView *)cellBgView {
     if (!_cellBgView) {
         _cellBgView = [[UIView alloc]initWithFrame:CGRectMake(5, 0, self.bounds.size.height+bottomSpace - 10, 20)];
-        _cellBgView.backgroundColor = [UIColor greenColor];
+        _cellBgView.backgroundColor = self.selectColor;
         _cellBgView.layer.cornerRadius = 4;
         _cellBgView.layer.masksToBounds = YES;
         _cellBgView.hidden = self.selectedStyle != SegmentSelectedStyleBackground;
@@ -119,7 +125,7 @@ static const CGFloat bottomSpace = -5;
 -(UIView *)cellLineView {
     if (!_cellLineView) {
         _cellLineView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 3, 20)];
-        _cellLineView.backgroundColor = [UIColor blueColor];
+        _cellLineView.backgroundColor = self.selectColor;
         _cellLineView.hidden = self.selectedStyle != SegmentSelectedStyleUnderline;
     }
     return _cellLineView;

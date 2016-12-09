@@ -41,6 +41,8 @@ static const CGFloat cellSpace_2 = 5;
 @property (nonatomic) NSUInteger maxTitleCount;
 @property (nonatomic) BOOL adaptFull_maxTitleCount;
 
+@property (nonatomic) UIColor* selectColor;
+
 -(void)adjustCurrentIndex:(NSUInteger)currentIndex;
 
 -(void)handoverWithLeftPageIndex:(NSUInteger)leftPageIndex leftScale:(CGFloat)leftScale rightPageIndex:(NSUInteger)rightPageIndex rightScale:(CGFloat)rightScale;

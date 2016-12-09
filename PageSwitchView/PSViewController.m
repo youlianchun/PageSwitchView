@@ -44,6 +44,8 @@ static const CGFloat firstBarHeight = 49;
 //        _pageSwitchView.titleCellSpace = YES;
         _pageSwitchView.titleSelectedStyle = SegmentSelectedStyleUnderline;
         _pageSwitchView.selectedTitleColor = [UIColor blueColor];
+        _pageSwitchView.titleCellSelectColor = [UIColor blueColor];
+
     }
     return _pageSwitchView;
 }

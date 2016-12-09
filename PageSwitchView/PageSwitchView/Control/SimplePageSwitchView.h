@@ -46,6 +46,7 @@
 @property (nonatomic) UIColor *selectedTitleColor;
 @property (nonatomic) SegmentSelectedStyle titleSelectedStyle;
 @property (nonatomic) BOOL titleCellSpace;
+@property (nonatomic) UIColor* titleCellSelectColor;
 
 @property (nonatomic) NSUInteger maxTitleCount;
 @property (nonatomic) BOOL adaptFull_maxTitleCount;

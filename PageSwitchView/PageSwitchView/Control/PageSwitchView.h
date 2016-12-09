@@ -78,6 +78,7 @@
 
 @property (nonatomic) NSUInteger maxTitleCount;
 @property (nonatomic) BOOL adaptFull_maxTitleCount;
+@property (nonatomic) UIColor* titleCellSelectColor;
 
 -(void)layoutWithinserts:(UIEdgeInsets)inserts;
 

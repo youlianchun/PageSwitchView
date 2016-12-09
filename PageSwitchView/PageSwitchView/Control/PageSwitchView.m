@@ -577,6 +577,7 @@ static const CGFloat kMinTitleBarHeight = 49;
     }else {
         self.pageTableView.scrollEnabled = NO;
     }
+    self.segmentTableView.selectColor = self.titleCellSelectColor;
     self.segmentTableView.allowCellSpace = self.titleCellSpace;
     self.segmentTableView.maxTitleCount = self.maxTitleCount;
     self.segmentTableView.adaptFull_maxTitleCount = self.adaptFull_maxTitleCount;

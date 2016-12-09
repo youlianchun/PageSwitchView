@@ -271,6 +271,7 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
     if ([self.dataSource respondsToSelector:@selector(titleHeightInPageSwitchView:)]) {
         self.titleHeight = MIN([self.dataSource titleHeightInPageSwitchView:self], kMinTitleBarHeight);
     }
+    self.segmentTableView.selectColor = self.titleCellSelectColor;
     self.pageSwitchItemArray = [[self.dataSource pageSwitchItemsInPageSwitchView:self] mutableCopy];
     self.segmentTableView.allowCellSpace = self.titleCellSpace;
     self.segmentTableView.maxTitleCount = self.maxTitleCount;

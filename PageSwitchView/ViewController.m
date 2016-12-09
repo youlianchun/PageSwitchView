@@ -30,6 +30,14 @@
     self.titleView.titleView.backgroundColor = [UIColor orangeColor];
     
     self.pageSwitchView = [[PageSwitchView alloc]initWithFrame:self.view.bounds];
+    self.pageSwitchView.titleFont = [UIFont systemFontOfSize:14];
+    self.pageSwitchView.maxTitleCount = 5;
+    self.pageSwitchView.adaptFull_maxTitleCount = YES;
+    self.pageSwitchView.titleCellSpace = YES;
+    self.pageSwitchView.titleSelectedStyle = SegmentSelectedStyleBackground;
+    self.pageSwitchView.titleCellSelectColor = [UIColor blueColor];
+    self.pageSwitchView.selectedTitleColor = [UIColor whiteColor];
+    
     [self.view addSubview:self.pageSwitchView];
     
     [self.pageSwitchView layoutWithinserts:UIEdgeInsetsMake(0, 0, 0, 0)];
