@@ -299,6 +299,9 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
 
 -(void)setNumber:(NSInteger)number atIndex:(NSUInteger)index {
     if (self.titleArray && self.titleArray.count>index) {
+        if (index == self.hTableView.currentPageIndex && number != 0) {//当前页不添加红点
+            return;
+        }
         [self.segmentTableView setNumber:number atIndex:index];
     }
 }
@@ -306,11 +309,12 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
 -(void)setNumber:(NSInteger)number atTitle:(NSString*)title {
     if ([self.titleArray containsObject:title]) {
         NSInteger index = [self.titleArray indexOfObject:title];
+        if (index == self.hTableView.currentPageIndex && number != 0) {//当前页不添加红点
+            return;
+        }
         [self.segmentTableView setNumber:number atIndex:index];
-
     }
 }
-
 -(void)didMoveToSuperview {
     [super didMoveToSuperview];
     //    self.selfViewController.edgesForExtendedLayout =  UIRectEdgeLeft | UIRectEdgeBottom | UIRectEdgeRight;

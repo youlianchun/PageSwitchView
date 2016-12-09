@@ -65,14 +65,14 @@
 
 
 /**
- 设置红点
+ 设置红点（当前页只能取消红点）
 
  @param number 小于0时候显示红点不显示数字，等于0时候不显示红点，大于0时候显示红点和数字
  @param index 下标
  */
 -(void)setNumber:(NSInteger)number atIndex:(NSUInteger)index;
 /**
- 设置红点
+ 设置红点（当前页只能取消红点）
  
  @param number 小于0时候显示红点不显示数字，等于0时候不显示红点，大于0时候显示红点和数字
  @param title 标题
