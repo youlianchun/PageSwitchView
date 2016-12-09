@@ -57,6 +57,10 @@
 
 -(void)switchNewPageWithTitle:(NSString*)title;
 
+-(void)setNumber:(NSInteger)number atIndex:(NSUInteger)index;
+
+-(void)setNumber:(NSInteger)number atTitle:(NSString*)title;
+
 -(void)reloadData;
 
 @end

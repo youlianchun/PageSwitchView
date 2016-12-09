@@ -16,6 +16,8 @@ static const CGFloat cellSpace_2 = 5;
 
 -(NSArray<NSString*>*)titlesOfRowInTableView:(SegmentTableView*)tableView;
 
+//@optional
+//-(NSInteger)numberOfMarkWithTitle:(NSString*)title andIndex:(NSUInteger)index;
 @end
 @protocol SegmentTableViewDelegate <NSObject>
 @optional
@@ -42,6 +44,8 @@ static const CGFloat cellSpace_2 = 5;
 @property (nonatomic) BOOL adaptFull_maxTitleCount;
 
 @property (nonatomic) UIColor* selectColor;
+
+-(void)setNumber:(NSInteger)number atIndex:(NSUInteger)index;
 
 -(void)adjustCurrentIndex:(NSUInteger)currentIndex;
 

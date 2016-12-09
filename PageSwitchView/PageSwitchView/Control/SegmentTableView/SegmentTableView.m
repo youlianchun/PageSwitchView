@@ -344,7 +344,13 @@ static const CGFloat bottomSpace = -5;
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
         cell.textLabel.text = self.titleArray[indexPath.section];
         cell.textLabel.font = self.titleFont;
+//        NSInteger numberMaek = 0;
+//        if ([self.dataSource respondsToSelector:@selector(numberOfMarkWithTitle:andIndex:)]) {
+//            numberMaek = [self.dataSource numberOfMarkWithTitle:self.titleArray[indexPath.section] andIndex:indexPath.section];
+//        }
+        cell.number = 0;
     }
+
     if (indexPath.section == self.currentIndex) {
         cell.textLabel.textColor = self.selectedTitleColor;
 //        cell.textLabel.backgroundColor = self.selectedBgColor;
@@ -448,5 +454,11 @@ static const CGFloat bottomSpace = -5;
     _currentIndex = currentIndex;
 }
 
+-(void)setNumber:(NSInteger)number atIndex:(NSUInteger)index {
+    if (index < self.titleArray.count) {
+        _SegmentTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:index]];
+        cell.number = number;
+    }
+}
 @end
 

@@ -611,6 +611,20 @@ static const CGFloat kMinTitleBarHeight = 49;
     }
 }
 
+-(void)setNumber:(NSInteger)number atIndex:(NSUInteger)index {
+    if (self.titleArray && self.titleArray.count>index) {
+        [self.segmentTableView setNumber:number atIndex:index];
+    }
+}
+
+-(void)setNumber:(NSInteger)number atTitle:(NSString*)title {
+    if ([self.titleArray containsObject:title]) {
+        NSInteger index = [self.titleArray indexOfObject:title];
+        [self.segmentTableView setNumber:number atIndex:index];
+        
+    }
+}
+
 -(void)didMoveToSuperview {
     [super didMoveToSuperview]; 
 //    self.selfViewController.edgesForExtendedLayout =  UIRectEdgeLeft | UIRectEdgeBottom | UIRectEdgeRight;
