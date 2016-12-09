@@ -65,7 +65,6 @@
 @property (nonatomic, assign) CGFloat cellSpace_2;
 @property (nonatomic, assign) NSUInteger cellCount;
 @property (nonatomic, assign) NSUInteger initPageIndex;
-@property (nonatomic, assign) BOOL syncGestureRecognizer;//兼容内外水平滑动手势
 @end
 
 @implementation HorizontalTableView
@@ -89,9 +88,7 @@
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.scrollsToTop = NO;
     self.tableView.bounces = NO;
-    if (self.syncGestureRecognizer) {
-        self.tableView.panGestureRecognizer.groupTag = kUIGestureRecognizer_H;
-    }
+
     self.tableView.panGestureRecognizer.maximumNumberOfTouches = 1;
     
     self.tableView.delegate = self;
@@ -127,7 +124,17 @@
     }
     return _panelView;
 }
-
+-(void)setSyncGestureRecognizer:(BOOL)syncGestureRecognizer {
+    if (_syncGestureRecognizer == syncGestureRecognizer) {
+        return;
+    }
+    _syncGestureRecognizer = syncGestureRecognizer;
+    if (syncGestureRecognizer) {
+        self.tableView.panGestureRecognizer.groupTag = kUIGestureRecognizer_H;
+    }else {
+        self.tableView.panGestureRecognizer.groupTag = nil;
+    }
+}
 -(void)setCellSpace_2:(CGFloat)cellSpace_2 {
     _cellSpace_2 = cellSpace_2;
     self.horizontalTableView_CL.constant = -_cellSpace_2;
@@ -228,21 +235,22 @@
         //内外水平滑动兼容
         if (scrollView.isAncestorOfOtherScrollView) {
             //        外部
-            if (scrollView.otherScrollView.contentOffset.y < 0 || scrollView.otherScrollView.contentOffset.y > scrollView.contentSize.height - CGRectGetHeight(scrollView.otherScrollView.bounds)) {
+            UIScrollView *descendantScrollView = scrollView.otherScrollView;
+            if (descendantScrollView.contentOffset.y < 0 || descendantScrollView.contentOffset.y > descendantScrollView.contentSize.height - CGRectGetHeight(descendantScrollView.bounds)) {
                 NSUInteger index = [HorizontalTableView indexWithScrollView:scrollView];
                 scrollView.contentOffset = CGPointMake(0, index*scrollView.bounds.size.height);
             }else{
-                UIScrollView *descendantScrollView = scrollView.otherScrollView;
                 NSUInteger index_descendant = [HorizontalTableView indexWithScrollView:descendantScrollView];
-                if (descendantScrollView.contentOffset.y != index_descendant * descendantScrollView.bounds.size.height) {//内部处于滑动状态
+                CGFloat f = descendantScrollView.contentOffset.y - index_descendant * descendantScrollView.bounds.size.height;
+                if (f > 0.00000000001 || f < -0.00000000001) {//内部处于滑动状态
                     NSUInteger index_ancestor = [HorizontalTableView indexWithScrollView:scrollView];
                     scrollView.contentOffset = CGPointMake(0, index_ancestor*scrollView.bounds.size.height);
                 }
             }
         }else if (scrollView.isDescendantOfOtherScrollView) {
             //        内部
+            UIScrollView *ancestorScrollView = scrollView.otherScrollView;
             if (scrollView.contentOffset.y >= 0 && scrollView.contentOffset.y <= scrollView.contentSize.height - CGRectGetHeight(scrollView.bounds)) {
-                UIScrollView *ancestorScrollView = scrollView.otherScrollView;
                 NSUInteger index_ancestor = [HorizontalTableView indexWithScrollView:ancestorScrollView];
                 ancestorScrollView.contentOffset = CGPointMake(0, index_ancestor*ancestorScrollView.bounds.size.height);
             }

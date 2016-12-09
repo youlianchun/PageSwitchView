@@ -113,7 +113,9 @@
     }
     return _pageTableView;
 }
-
+-(HorizontalTableView *)horizontalTableView {
+    return self.hTableView;
+}
 -(HorizontalTableView *)hTableView {
     if (!_hTableView) {
         _hTableView = [[HorizontalTableView alloc]initWithFrame:CGRectZero];

@@ -6,10 +6,11 @@
 //  Copyright © 2016年 ylchun. All rights reserved.
 //
 #import "PageSwitchView.h"
-
+@class HorizontalTableView;
 @interface PageSwitchView()
 @property (nonatomic) CGFloat titleHeight;
 
 @property (nonatomic) void(^didScrollCallBack)();
+@property (nonatomic, readonly) HorizontalTableView *horizontalTableView ;
 
 @end

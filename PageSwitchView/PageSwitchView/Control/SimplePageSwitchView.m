@@ -69,12 +69,15 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
     }
     return _selfViewController;
 }
-
+-(HorizontalTableView *)horizontalTableView {
+    return self.hTableView;
+}
 -(HorizontalTableView *)hTableView {
     if (!_hTableView) {
         _hTableView = [[HorizontalTableView alloc]initWithFrame:CGRectZero];
         _hTableView.delegate = self;
         _hTableView.dataSource = self;
+        _hTableView.syncGestureRecognizer = YES;
         [self insertSubview:_hTableView atIndex:0];
         [self addConstraint:_hTableView inserts:UIEdgeInsetsMake(0, 0, 0, 0)];
     }
@@ -146,6 +149,7 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
                 __weak PageSwitchView *pageSwitchView = (PageSwitchView*)pageSwitchItem.contentView;
                 pageSwitchView.backgroundColor = self.backgroundColor;
                 pageSwitchView.tableView.backgroundColor = self.backgroundColor;
+                pageSwitchView.horizontalTableView.syncGestureRecognizer = YES;
                 pageSwitchView.didScrollCallBack = ^(){
                     if (!wself.hoverTitleBar) {
                         [wself pageSwitchViewDidScroll:pageSwitchView];
@@ -241,6 +245,7 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
     CGFloat progress = (maxOffsetY - pageSwitchView.tableView.contentOffset.y) / pageSwitchView.titleHeight;
     progress = MIN(1.0, MAX(0.0, progress));
     self.segmentTableView_CT.constant = -self.titleHeight*(1-progress);
+    self.hTableView.syncGestureRecognizer = progress == 1;
 }
 
 
