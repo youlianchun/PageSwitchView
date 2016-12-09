@@ -162,6 +162,8 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.transform = CGAffineTransformIdentity;
         cell.transform = CGAffineTransformMakeRotation(M_PI/2);
+        cell.layer.shadowOffset = CGSizeMake(0, 2);
+        cell.layer.shadowOpacity = 0.50;
     }
     [self.dataSource tableView:self cellContentView:cell.view atRowIndex:indexPath.section isReuse:isReuse];
     return cell;
