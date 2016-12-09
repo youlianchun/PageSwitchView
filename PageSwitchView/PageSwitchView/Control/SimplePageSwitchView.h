@@ -20,8 +20,6 @@
 
 @optional
 
-//- (BOOL)adaptTitleWidthInPageSwitchView:(SimplePageSwitchView *)pageSwitchView;
-
 
 - (CGFloat)titleHeightInPageSwitchView:(SimplePageSwitchView *)pageSwitchView;
 
