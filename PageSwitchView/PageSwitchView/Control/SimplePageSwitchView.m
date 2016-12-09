@@ -151,9 +151,7 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
                 pageSwitchView.tableView.backgroundColor = self.backgroundColor;
                 pageSwitchView.horizontalTableView.syncGestureRecognizer = YES;
                 pageSwitchView.didScrollCallBack = ^(){
-                    if (!wself.hoverTitleBar) {
-                        [wself pageSwitchViewDidScroll:pageSwitchView];
-                    }
+                   [wself pageSwitchViewDidScroll:pageSwitchView];
                 };
             }else {
                 frame.origin.y = self.titleHeight;
@@ -244,7 +242,9 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
     CGFloat maxOffsetY = pageSwitchView.tableView.contentSize.height-pageSwitchView.tableView.bounds.size.height;
     CGFloat progress = (maxOffsetY - pageSwitchView.tableView.contentOffset.y) / pageSwitchView.titleHeight;
     progress = MIN(1.0, MAX(0.0, progress));
-    self.segmentTableView_CT.constant = -self.titleHeight*(1-progress);
+    if (!self.hoverTitleBar) {
+        self.segmentTableView_CT.constant = -self.titleHeight*(1-progress);
+    }
     self.hTableView.syncGestureRecognizer = progress == 1;
 }
 
