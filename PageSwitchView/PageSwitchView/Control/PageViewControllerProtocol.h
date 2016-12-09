@@ -21,11 +21,11 @@
 
 
 /**
- 当前页面显示完成时候
+ 当前页面切换显示完成时候
  */
--(void)viewDidDisplay;
+-(void)viewDidDisplayWhenSwitch;
 /**
- 当前页面消失完成时候
+ 当前页面切换消失完成时候
  */
--(void)viewDidEndDisplay;
+-(void)viewDidEndDisplayWhenSwitch;
 @end

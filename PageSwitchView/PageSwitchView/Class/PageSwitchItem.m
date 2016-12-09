@@ -125,12 +125,12 @@ static const CGFloat waitTimer = 0.05;
         }
     }else{
         if (isCurrent) {
-            if ([self.contentViewController respondsToSelector:@selector(viewDidDisplay)]) {
-                [self.contentViewController viewDidDisplay];
+            if ([self.contentViewController respondsToSelector:@selector(viewDidDisplayWhenSwitch)]) {
+                [self.contentViewController viewDidDisplayWhenSwitch];
             }
         }else{
-            if ([self.contentViewController respondsToSelector:@selector(viewDidEndDisplay)]) {
-                [self.contentViewController viewDidEndDisplay];
+            if ([self.contentViewController respondsToSelector:@selector(viewDidEndDisplayWhenSwitch)]) {
+                [self.contentViewController viewDidEndDisplayWhenSwitch];
             }
         }
     }
@@ -140,8 +140,8 @@ static const CGFloat waitTimer = 0.05;
     self.didLoad = YES;
     if (self.didLoadBock) {
         self.didLoadBock();
-        if ([self.contentViewController respondsToSelector:@selector(viewDidDisplay)]) {
-            [self.contentViewController viewDidDisplay];
+        if ([self.contentViewController respondsToSelector:@selector(viewDidDisplayWhenSwitch)]) {
+            [self.contentViewController viewDidDisplayWhenSwitch];
         }
     }
 }

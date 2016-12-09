@@ -78,10 +78,10 @@
     [super viewWillAppear:animated];
     NSLog(@"%s",__func__);
 }
--(void)viewDidDisplay {
+-(void)viewDidDisplayWhenSwitch {
     NSLog(@"shaow");
 }
--(void)viewDidEndDisplay {
+-(void)viewDidEndDisplayWhenSwitch {
     NSLog(@"hide");
 }
 
