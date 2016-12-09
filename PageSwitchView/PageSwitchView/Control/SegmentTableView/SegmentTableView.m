@@ -12,6 +12,7 @@
 
 #pragma mark -
 #pragma mark - SegmentTableView
+static const CGFloat cellSpace_2 = 5;
 
 static const CGFloat bottomSpace = -5;
 @interface SegmentTableView ()<UITableViewDelegate,UITableViewDataSource>

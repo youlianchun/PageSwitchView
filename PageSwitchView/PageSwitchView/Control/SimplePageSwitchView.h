@@ -45,7 +45,7 @@
 @property (nonatomic) UIColor *normalTitleColor;
 @property (nonatomic) UIColor *selectedTitleColor;
 @property (nonatomic) SegmentSelectedStyle titleSelectedStyle;
-@property (nonatomic) BOOL titleCellSpace;
+@property (nonatomic) BOOL titleCellSpace;//是否显示间距 10个点
 @property (nonatomic) UIColor* titleCellSelectColor;//选中态样式颜色
 
 @property (nonatomic) NSUInteger maxTitleCount;//同时显示最多标题数，0时候不限制

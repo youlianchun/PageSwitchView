@@ -15,17 +15,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(NSUInteger)numberOfRowInTableView:(HorizontalTableView*)tableView;
 
+- (void)tableView:(HorizontalTableView*)tableView cellContentView:(UIContentView*)contentView atRowIndex:(NSUInteger )rowIndex isReuse:(BOOL)isReuse;
+
+@optional
+-(CGFloat)cellSpaceInTableView:(HorizontalTableView*)tableView;
 @end
 
 @protocol HorizontalTableViewDelegate<NSObject>
 
-- (void)tableView:(HorizontalTableView*)tableView cellContentView:(UIContentView*)contentView atRowIndex:(NSUInteger )rowIndex isReuse:(BOOL)isReuse;
-
 @optional
-
--(CGFloat)cellSpaceInTableView:(HorizontalTableView*)tableView;
-
-
 -(void)tableView:(HorizontalTableView *)tableView willDisplayCellView:(UIContentView *)contentView atRowIndex:(NSUInteger )rowIndex;
 
 -(void)tableView:(HorizontalTableView *)tableView didEndDisplayingCellView:(UIContentView *)contentView atRowIndex:(NSUInteger )rowIndex;

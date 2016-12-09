@@ -23,7 +23,6 @@
 - (UIView *)viewForHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView;
 
 - (BOOL)stretchingHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView;
-//- (BOOL)adaptTitleWidthInPageSwitchView:(PageSwitchView *)pageSwitchView;
 
 /**
  滑动顶部
@@ -74,7 +73,7 @@
 @property (nonatomic) UIColor *normalTitleColor;
 @property (nonatomic) UIColor *selectedTitleColor;
 @property (nonatomic) SegmentSelectedStyle titleSelectedStyle;
-@property (nonatomic) BOOL titleCellSpace;
+@property (nonatomic) BOOL titleCellSpace;//是否显示间距 10个点
 
 @property (nonatomic) NSUInteger maxTitleCount;//同时显示最多标题数，0时候不限制
 @property (nonatomic) BOOL adaptFull_maxTitleCount;//maxTitleCount不为0的时候设置标题占满标题栏
@@ -105,6 +104,7 @@
  @param title 标题
  */
 -(void)setNumber:(NSInteger)number atTitle:(NSString*)title;
+
 
 -(void)reloadData;
 

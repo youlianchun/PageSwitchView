@@ -10,8 +10,6 @@
 #import "PageSwitchViewStatic.h"
 @class SegmentTableView;
 
-static const CGFloat cellSpace_2 = 5;
-
 @protocol SegmentTableViewDataSource <NSObject>
 
 -(NSArray<NSString*>*)titlesOfRowInTableView:(SegmentTableView*)tableView;
@@ -39,11 +37,12 @@ static const CGFloat cellSpace_2 = 5;
 @property (nonatomic) SegmentSelectedStyle selectedStyle;
 @property (nonatomic) NSUInteger currentIndex;
 @property (nonatomic,readonly) UITableView *tableView;
-@property (nonatomic) BOOL allowCellSpace;
-@property (nonatomic) NSUInteger maxTitleCount;
-@property (nonatomic) BOOL adaptFull_maxTitleCount;
+@property (nonatomic) BOOL allowCellSpace;//是否显示间距 10个点
+@property (nonatomic) NSUInteger maxTitleCount;//同时显示最多标题数，0时候不限制
+@property (nonatomic) BOOL adaptFull_maxTitleCount;//maxTitleCount不为0的时候设置标题占满标题栏
 
-@property (nonatomic) UIColor* selectColor;
+
+@property (nonatomic) UIColor* selectColor;//选中态样式颜色
 
 -(void)setNumber:(NSInteger)number atIndex:(NSUInteger)index;
 

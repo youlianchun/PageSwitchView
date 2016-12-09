@@ -14,7 +14,7 @@
 #import "StretchingHeaderView.h"
 #import "_TwoScrollView.h"
 #import "UIContentViewCell.h"
-#import "PageSwitchViewStatic.h"
+#import "_PageSwitchViewStatic.h"
 
 #pragma mark -
 #pragma mark - _PageSwitchView
@@ -43,8 +43,6 @@
 #pragma mark -
 #pragma mark - PageSwitchView
 
-static const NSUInteger kMaxTitleCount_unAdapt = 5;
-static const CGFloat kMinTitleBarHeight = 49;
 
 @interface PageSwitchView ()< UIGestureRecognizerDelegate,
                             StretchingHeaderViewDelegate,
@@ -68,7 +66,6 @@ static const CGFloat kMinTitleBarHeight = 49;
 @property (nonatomic) void(^layoutBlock)(UIView *superView);
 @property (nonatomic) NSUInteger sectionCount;
 @property (nonatomic) NSMutableArray<NSString*> *titleArray;
-//@property (nonatomic) BOOL adaptTitleWidth;
 @end
 
 @implementation PageSwitchView
@@ -128,7 +125,6 @@ static const CGFloat kMinTitleBarHeight = 49;
 -(SegmentTableView *)segmentTableView {
     if (!_segmentTableView) {
         _segmentTableView = [[SegmentTableView alloc]initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.titleHeight)];
-//        _segmentTableView.titleLabelWidth = self.bounds.size.width/MIN(self.pageSwitchItemArray.count, 5);
         _segmentTableView.delegate = self;
         _segmentTableView.dataSource = self;
         _segmentTableView.titleFont = self.titleFont;
@@ -553,9 +549,6 @@ static const CGFloat kMinTitleBarHeight = 49;
 //}
 
 -(void)reloadData {
-//    if ([self.dataSource respondsToSelector:@selector(adaptTitleWidthInPageSwitchView:)]) {
-//        self.adaptTitleWidth = [self.dataSource adaptTitleWidthInPageSwitchView:self];
-//    }
     if ([self.delegate respondsToSelector:@selector(topeSpaceInPageSwitchView:)]) {
         self.topeSpace = [self.dataSource topeSpaceInPageSwitchView:self];
     }
@@ -581,11 +574,6 @@ static const CGFloat kMinTitleBarHeight = 49;
     self.segmentTableView.allowCellSpace = self.titleCellSpace;
     self.segmentTableView.maxTitleCount = self.maxTitleCount;
     self.segmentTableView.adaptFull_maxTitleCount = self.adaptFull_maxTitleCount;
-//    if (self.adaptTitleWidth) {
-//        self.adaptTitleWidth = 0;
-//    }else {
-//        self.segmentTableView.titleLabelWidth = self.bounds.size.width/MIN(self.pageSwitchItemArray.count, kMaxTitleCount_unAdapt);
-//    }
     [self.segmentTableView reloadData];
     
     [self.pageTableView reloadData];

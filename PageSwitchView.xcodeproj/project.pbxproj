@@ -191,6 +191,7 @@
 		A95912041DFA8BA700579F43 /* SimplePageSwitchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePageSwitchViewController.m; sourceTree = "<group>"; };
 		A95912061DFAA82000579F43 /* _SegmentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _SegmentTableViewCell.h; sourceTree = "<group>"; };
 		A95912071DFAA82000579F43 /* _SegmentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _SegmentTableViewCell.m; sourceTree = "<group>"; };
+		A95912091DFAAC4B00579F43 /* _PageSwitchViewStatic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _PageSwitchViewStatic.h; sourceTree = "<group>"; };
 		A981F7D31DF132E6002A44D6 /* UINavigationBar+Background.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+Background.h"; sourceTree = "<group>"; };
 		A981F7D41DF132E6002A44D6 /* UINavigationBar+Background.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Background.m"; sourceTree = "<group>"; };
 		A99EE6AE1DF64AC70032D271 /* PSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSViewController.h; sourceTree = "<group>"; };
@@ -372,6 +373,7 @@
 			isa = PBXGroup;
 			children = (
 				A909082F1DF7F01600B3447C /* PageSwitchViewStatic.h */,
+				A95912091DFAAC4B00579F43 /* _PageSwitchViewStatic.h */,
 				A907EC881DEECECD00D8C5CF /* _PageSwitchItem.h */,
 				A907EC891DEECECD00D8C5CF /* GradientColor.h */,
 				A907EC8A1DEECECD00D8C5CF /* GradientColor.m */,

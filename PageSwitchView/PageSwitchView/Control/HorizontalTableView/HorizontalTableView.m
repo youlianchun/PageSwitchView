@@ -9,8 +9,8 @@
 #import "HorizontalTableView.h"
 #import "UIGestureRecognizer+Group.h"
 #import "UIScrollView+Other.h"
-#import "PageSwitchViewStatic.h"
 #import "UIContentViewCell.h"
+#import "_PageSwitchViewStatic.h"
 
 #pragma mark -
 #pragma mark - _HorizontalTableView
@@ -162,7 +162,7 @@
         cell.transform = CGAffineTransformIdentity;
         cell.transform = CGAffineTransformMakeRotation(M_PI/2);
     }
-    [self.delegate tableView:self cellContentView:cell.view atRowIndex:indexPath.section isReuse:isReuse];
+    [self.dataSource tableView:self cellContentView:cell.view atRowIndex:indexPath.section isReuse:isReuse];
     return cell;
 }
 
@@ -256,8 +256,8 @@
 }
 
 - (void)reloadData {
-    if ([self.delegate respondsToSelector:@selector(cellSpaceInTableView:)]) {
-        self.cellSpace_2 = ABS([self.delegate cellSpaceInTableView:self])/2.0;
+    if ([self.dataSource respondsToSelector:@selector(cellSpaceInTableView:)]) {
+        self.cellSpace_2 = ABS([self.dataSource cellSpaceInTableView:self])/2.0;
     }else {
         self.cellSpace_2 = 0;
     }
