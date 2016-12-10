@@ -242,7 +242,7 @@
             }else{
                 NSUInteger index_descendant = [HorizontalTableView indexWithScrollView:descendantScrollView];
                 CGFloat f = descendantScrollView.contentOffset.y - index_descendant * descendantScrollView.bounds.size.height;
-                if (f > 0.00000000001 || f < -0.00000000001) {//内部处于滑动状态
+                if (f > 0.000000001 || f < -0.000000001) {//内部处于滑动状态
                     NSUInteger index_ancestor = [HorizontalTableView indexWithScrollView:scrollView];
                     scrollView.contentOffset = CGPointMake(0, index_ancestor*scrollView.bounds.size.height);
                 }
