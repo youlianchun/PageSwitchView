@@ -10,6 +10,10 @@
 
 @interface UIContentView : UIView
 
+
+/**
+ 清空所有子视图
+ */
 -(void)clearSubviews;
 
 @end

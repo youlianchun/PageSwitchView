@@ -24,12 +24,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"subView";
+    self.title = @"detail";
     self.navigationItem.titleView = self.titleView;
     self.titleView.titleLabel.text = self.title;
     self.titleView.titleView.backgroundColor = [UIColor orangeColor];
     
     self.pageSwitchView = [[PageSwitchView alloc]initWithFrame:self.view.bounds];
+    self.pageSwitchView.titleFont = [UIFont systemFontOfSize:14];
+    self.pageSwitchView.maxTitleCount = 5;
+    self.pageSwitchView.adaptFull_maxTitleCount = YES;
+    self.pageSwitchView.titleCellSpace = YES;
+    self.pageSwitchView.titleSelectedStyle = SegmentSelectedStyleBackground;
+    self.pageSwitchView.titleCellSelectColor = [UIColor blueColor];
+    self.pageSwitchView.selectedTitleColor = [UIColor whiteColor];
+    
     [self.view addSubview:self.pageSwitchView];
     
     [self.pageSwitchView layoutWithinserts:UIEdgeInsetsMake(0, 0, 0, 0)];
@@ -51,10 +59,12 @@
     }
     return _titleView;
 }
-
-//- (BOOL)stretchingHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView {
+//-(BOOL)adaptTitleWidthInPageSwitchView:(PageSwitchView *)pageSwitchView {
 //    return YES;
 //}
+- (BOOL)stretchingHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView {
+    return YES;
+}
 //
 //-(CGFloat)topeSpaceInPageSwitchView:(PageSwitchView *)pageSwitchView {
 //    return -1;
@@ -64,36 +74,36 @@
     self.titleView.labelShowRatio = progress;
 }
 
-//- (UIView *)viewForHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView{
-//    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 150)];
-//    view.backgroundColor = [UIColor redColor];
-//    UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(100, 20, 100, 100)];
-//    lab.text = @"labsss";
-//    lab.textColor = [UIColor yellowColor];
-//    [view addSubview:lab];
-//    
-//    UISwitch *swith =[ [UISwitch alloc]init];
-//    swith.frame = CGRectMake(0, 110, 100, 40);
-//    [swith addTarget:self action:@selector(swithActon) forControlEvents:UIControlEventValueChanged];
-//    [view addSubview:swith];
-//    
-//    return view;
-//}
+- (UIView *)viewForHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView{
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 150)];
+    view.backgroundColor = [UIColor redColor];
+    UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(100, 20, 100, 100)];
+    lab.text = @"labsss";
+    lab.textColor = [UIColor yellowColor];
+    [view addSubview:lab];
+    
+    UISwitch *swith =[ [UISwitch alloc]init];
+    swith.frame = CGRectMake(0, 110, 100, 40);
+    [swith addTarget:self action:@selector(swithActon) forControlEvents:UIControlEventValueChanged];
+    [view addSubview:swith];
+    
+    return view;
+}
 
 -(void)swithActon {
     
 }
 
 -(NSArray<PageSwitchItem *> *)pageSwitchItemsInPageSwitchView:(PageSwitchView *)pageSwitchView {
-    PageSwitchItem *item1 = [PageSwitchItem itemWithTitle:@"1" key:@"TwoScrollViewController.twoScrollView"];
-    PageSwitchItem *item2 = [PageSwitchItem itemWithTitle:@"2" key:@"PSViewController.pageSwitchView"];
+    PageSwitchItem *item1 = [PageSwitchItem itemWithTitle:@"11" key:@"TwoScrollViewController.twoScrollView"];
+    PageSwitchItem *item2 = [PageSwitchItem itemWithTitle:@"2" vcClsKey:@"TableViewController" viewKey:@"tableView"];
 //    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" vcClsKey:@"SimpleViewController" viewKey:@"view"];
 //    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" key:@"SimpleViewController."];
 //    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" key:@"SimpleViewController.view"];
-    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" key:@"SimpleViewController"];
+    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"333333" key:@"SimpleViewController"];
     PageSwitchItem *item4 = [PageSwitchItem itemWithTitle:@"4" vcClsKey:@"ScrollViewController" viewKey:@"scrollView"];
-    PageSwitchItem *item5 = [PageSwitchItem itemWithTitle:@"5" vcClsKey:@"TableViewController" viewKey:@"tableView"];
-    PageSwitchItem *item6 = [PageSwitchItem itemWithTitle:@"6" vcClsKey:@"TableViewController" viewKey:@"tableView"];
+    PageSwitchItem *item5 = [PageSwitchItem itemWithTitle:@"55" vcClsKey:@"TableViewController" viewKey:@"tableView"];
+    PageSwitchItem *item6 = [PageSwitchItem itemWithTitle:@"666" vcClsKey:@"TableViewController" viewKey:@"tableView"];
     PageSwitchItem *item7 = [PageSwitchItem itemWithTitle:@"7" page:^(DoReturn doReturn) {
         TableViewController *vc = [[TableViewController alloc]init];
         vc.title = @"7";

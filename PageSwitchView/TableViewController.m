@@ -7,12 +7,21 @@
 //
 
 #import "TableViewController.h"
+#import "RefresDataArray.h"
+#import "PageViewControllerProtocol.h"
+#import "MJRefresh.h"
 //#import "PagingSwitchEmptyView.h"
-@interface TableViewController ()<UITableViewDelegate,UITableViewDataSource>
-
+@interface TableViewController ()<UITableViewDelegate,UITableViewDataSource,PageViewControllerProtocol,RefresDataArrayDelegate>
+@property (nonatomic) RefresDataArray *dataArray;
 @end
 
 @implementation TableViewController
+
+-(void)viewDidAdjustRect {
+    self.dataArray = [RefresDataArray arrayWithRefresView:self.tableView delegate:self];
+    [self.dataArray reloadDataWithAnimate:NO];
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -21,11 +30,24 @@
 //    [PagingSwitchEmptyView hideInPagingSwitchContentView:self.tableView];
     // Do any additional setup after loading the view.
 }
+
+-(void)loadDataInRefresView:(RefresView *)view page:(NSUInteger)page firstPage:(BOOL)firstPage res:(void (^)(NSArray *, BOOL))netRes {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        NSArray *arr = @[@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@""];
+        netRes(arr,YES);
+    });
+}
+
+-(RefreshSet)refreshSetWithRefresView:(RefresView *)view {
+    return RefreshSetMake(NO, YES, 1, 10);
+}
+
 -(UITableView *)tableView {
     if (!_tableView) {
         _tableView = [[UITableView alloc]initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        [self.view addSubview:_tableView];
     }
     return _tableView;
 }
@@ -35,7 +57,7 @@
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 10;
+    return 2;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -56,6 +78,12 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     NSLog(@"%s",__func__);
+}
+-(void)viewDidDisplayWhenSwitch {
+    NSLog(@"shaow");
+}
+-(void)viewDidEndDisplayWhenSwitch {
+    NSLog(@"hide");
 }
 
 //-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {

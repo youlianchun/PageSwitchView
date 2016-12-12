@@ -77,22 +77,15 @@ static void *kScrollContext = &kScrollContext;
         
         [self addConstraint:[NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
 
-//        if (self.stretching) {//拉伸头部
-            self.didMoveToSuperviewBlock = ^{
-                NSLayoutConstraint * panelView_CT = [NSLayoutConstraint constraintWithItem:wself.panelView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:wself.superview.superview attribute:NSLayoutAttributeTop multiplier:1 constant:0];
-                panelView_CT.priority = UILayoutPriorityRequired;
-//                panelView_CT.active = YES;
-                [wself.superview.superview addConstraint: panelView_CT];
-                
-                NSLayoutConstraint * panelView_CB = [NSLayoutConstraint constraintWithItem:wself.panelView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:wself attribute:NSLayoutAttributeBottom multiplier:1 constant:0];
-                panelView_CB.priority = UILayoutPriorityRequired-1;
-//                panelView_CB.active = YES;
-                [wself.superview addConstraint: panelView_CB];
-            };
-//        }else {//普通头部
-//            [self addConstraint: [NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:wself attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
-//            [self addConstraint: [NSLayoutConstraint constraintWithItem:self.panelView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
-//        }
+        self.didMoveToSuperviewBlock = ^{
+            NSLayoutConstraint * panelView_CT = [NSLayoutConstraint constraintWithItem:wself.panelView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:wself.superview.superview attribute:NSLayoutAttributeTop multiplier:1 constant:0];
+            panelView_CT.priority = UILayoutPriorityRequired;
+            [wself.superview.superview addConstraint: panelView_CT];
+            
+            NSLayoutConstraint * panelView_CB = [NSLayoutConstraint constraintWithItem:wself.panelView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:wself attribute:NSLayoutAttributeBottom multiplier:1 constant:0];
+            panelView_CB.priority = UILayoutPriorityRequired-1;
+            [wself.superview addConstraint: panelView_CB];
+        };
     }
     return _panelView;
 }

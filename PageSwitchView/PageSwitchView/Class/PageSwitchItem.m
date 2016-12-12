@@ -9,6 +9,7 @@
 #import "_PageSwitchItem.h"
 #import "_TwoScrollView.h"
 #import "DelegateInterceptor.h"
+#import "PageSwitchView.h"
 
 static const CGFloat waitTimer = 0.05;
 
@@ -47,6 +48,11 @@ static const CGFloat waitTimer = 0.05;
     return _contentView;
 }
 
+-(BOOL)isPSView {
+    _isPSView = [self.contentView isKindOfClass:[PageSwitchView class]];
+    return _isPSView;
+}
+
 -(BOOL)isScroll {
     _isScroll = [self.contentView isKindOfClass:[UIScrollView class]];
     return  _isScroll;
@@ -65,6 +71,7 @@ static const CGFloat waitTimer = 0.05;
             _contentViewController = viewController;
             wself.isScroll = [view isKindOfClass:[UIScrollView class]];
             wself.is2Scroll = [view isKindOfClass:[TwoScrollView class]];
+            wself.isPSView = [view isKindOfClass:[PageSwitchView class]];
         };
         self.newPage(doReturn);
         self.didConfig = NO;
@@ -116,6 +123,16 @@ static const CGFloat waitTimer = 0.05;
         }else {
             [self loadFunction];
         }
+    }else{
+        if (isCurrent) {
+            if ([self.contentViewController respondsToSelector:@selector(viewDidDisplayWhenSwitch)]) {
+                [self.contentViewController viewDidDisplayWhenSwitch];
+            }
+        }else{
+            if ([self.contentViewController respondsToSelector:@selector(viewDidEndDisplayWhenSwitch)]) {
+                [self.contentViewController viewDidEndDisplayWhenSwitch];
+            }
+        }
     }
 }
 
@@ -123,6 +140,9 @@ static const CGFloat waitTimer = 0.05;
     self.didLoad = YES;
     if (self.didLoadBock) {
         self.didLoadBock();
+        if ([self.contentViewController respondsToSelector:@selector(viewDidDisplayWhenSwitch)]) {
+            [self.contentViewController viewDidDisplayWhenSwitch];
+        }
     }
 }
 
@@ -140,6 +160,9 @@ static const CGFloat waitTimer = 0.05;
     item.title = title;
     item.newPage = ^(DoReturn doReturn){
         UIViewController* vc = [[vcCls alloc]init];
+        if (![key isEqualToString:@"view"]) {
+            [vc view];//加载xib
+        }
         id view = [vc valueForKey:key];
         BOOL b = view != nil;
         NSAssert(b, @"%@ 属性: %@不存在", key, vcCls);

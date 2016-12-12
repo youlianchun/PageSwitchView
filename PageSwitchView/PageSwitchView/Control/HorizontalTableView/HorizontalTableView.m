@@ -9,6 +9,9 @@
 #import "HorizontalTableView.h"
 #import "UIGestureRecognizer+Group.h"
 #import "UIScrollView+Other.h"
+#import "UIContentViewCell.h"
+#import "_PageSwitchViewStatic.h"
+
 #pragma mark -
 #pragma mark - _HorizontalTableView
 @interface _HorizontalTableView:UITableView <UIGestureRecognizerDelegate>
@@ -23,7 +26,7 @@
             return YES;
         }
     }
-    if ([gestureRecognizer.groupTag isEqualToString:otherGestureRecognizer.groupTag]) {
+    if (gestureRecognizer.groupTag.length>0 && [gestureRecognizer.groupTag isEqualToString:otherGestureRecognizer.groupTag]) {
         if ([otherGestureRecognizer.view isKindOfClass:[UIScrollView class]]) {
             self.otherScrollView = (UIScrollView*)otherGestureRecognizer.view;
         }
@@ -48,31 +51,6 @@
     return NO;
 }
 
-@end
-
-#pragma mark -
-#pragma mark - _HorizontalTableViewCell
-static NSString *kUIGestureRecognizer_H = @"kUIGestureRecognizer_H";
-
-@interface _HorizontalTableViewCell : UITableViewCell
-@property (nonatomic) UIContentView *view;
-@end
-
-@implementation _HorizontalTableViewCell
--(UIContentView *)view {
-    if (!_view) {
-        _view = [[UIContentView alloc]init];
-        _view.backgroundColor = [UIColor clearColor];
-        _view.opaque = NO;
-        [self.contentView addSubview:_view];
-        _view.translatesAutoresizingMaskIntoConstraints = NO;
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
-        [self.contentView addConstraint: [NSLayoutConstraint constraintWithItem:_view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
-        [self.contentView addConstraint: [NSLayoutConstraint constraintWithItem:_view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
-    }
-    return _view;
-}
 @end
 
 #pragma mark -
@@ -110,8 +88,7 @@ static NSString *kUIGestureRecognizer_H = @"kUIGestureRecognizer_H";
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.scrollsToTop = NO;
     self.tableView.bounces = NO;
-    
-    self.tableView.panGestureRecognizer.groupTag = kUIGestureRecognizer_H;
+
     self.tableView.panGestureRecognizer.maximumNumberOfTouches = 1;
     
     self.tableView.delegate = self;
@@ -147,7 +124,17 @@ static NSString *kUIGestureRecognizer_H = @"kUIGestureRecognizer_H";
     }
     return _panelView;
 }
-
+-(void)setSyncGestureRecognizer:(BOOL)syncGestureRecognizer {
+    if (_syncGestureRecognizer == syncGestureRecognizer) {
+        return;
+    }
+    _syncGestureRecognizer = syncGestureRecognizer;
+    if (syncGestureRecognizer) {
+        self.tableView.panGestureRecognizer.groupTag = kUIGestureRecognizer_H;
+    }else {
+        self.tableView.panGestureRecognizer.groupTag = nil;
+    }
+}
 -(void)setCellSpace_2:(CGFloat)cellSpace_2 {
     _cellSpace_2 = cellSpace_2;
     self.horizontalTableView_CL.constant = -_cellSpace_2;
@@ -173,17 +160,19 @@ static NSString *kUIGestureRecognizer_H = @"kUIGestureRecognizer_H";
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier = [NSString stringWithFormat:@"HorizontalTableViewCellIdentifier_%ld",(long)indexPath.section];
     BOOL isReuse = YES;
-    _HorizontalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    UIContentViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
-        cell = [[_HorizontalTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        cell = [[UIContentViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         isReuse = NO;
-        cell.backgroundColor = self.backgroundColor;
+        cell.backgroundColor = [UIColor colorWithWhite:1 alpha:0.3];
         cell.opaque = self.opaque;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.transform = CGAffineTransformIdentity;
         cell.transform = CGAffineTransformMakeRotation(M_PI/2);
+        cell.layer.shadowOffset = CGSizeMake(0, 2);
+        cell.layer.shadowOpacity = 0.50;
     }
-    [self.delegate tableView:self cellContentView:cell.view atRowIndex:indexPath.section isReuse:isReuse];
+    [self.dataSource tableView:self cellContentView:cell.view atRowIndex:indexPath.section isReuse:isReuse];
     return cell;
 }
 
@@ -208,17 +197,17 @@ static NSString *kUIGestureRecognizer_H = @"kUIGestureRecognizer_H";
     view.hidden = YES;
 }
 
--(void)tableView:(UITableView *)tableView willDisplayCell:(_HorizontalTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UIContentViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.delegate respondsToSelector:@selector(tableView:willDisplayCellView:atRowIndex:)]) {
         [self.delegate tableView:self willDisplayCellView:cell.view atRowIndex:indexPath.section];
     }
     if (self.initPageIndex == indexPath.section) {
         [self performSelector:@selector(scrollViewDidEndDecelerating:) withObject:tableView afterDelay:0.001 inModes: [NSArray arrayWithObject:NSRunLoopCommonModes]];//延迟处理，等待界面显示完成,需要切换到应用主RunLoop
-        self.initPageIndex = 999999999;//用极大值表示不存在
+        self.initPageIndex = kNull_PageIndex;
     }
 }
 
--(void)tableView:(UITableView *)tableView didEndDisplayingCell:(_HorizontalTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+-(void)tableView:(UITableView *)tableView didEndDisplayingCell:(UIContentViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.delegate respondsToSelector:@selector(tableView:willDisplayCellView:atRowIndex:)]) {
         [self.delegate tableView:self didEndDisplayingCellView:cell.view atRowIndex:indexPath.section];
     }
@@ -241,25 +230,30 @@ static NSString *kUIGestureRecognizer_H = @"kUIGestureRecognizer_H";
         CGFloat lScale = 1 - rScale;//右边页显示
         [self.delegate tableView:self didScrollWithLeftPageIndex:lIndex leftScale:lScale rightPageIndex:rIndex rightScale:rScale];
     }
-    if (scrollView.isAncestorOfOtherScrollView) {
-//        外部
-        if (scrollView.otherScrollView.contentOffset.y < 0 || scrollView.otherScrollView.contentOffset.y > scrollView.contentSize.height - CGRectGetHeight(scrollView.otherScrollView.bounds)) {
-            NSUInteger index = [HorizontalTableView indexWithScrollView:scrollView];
-            scrollView.contentOffset = CGPointMake(0, index*scrollView.bounds.size.height);
-        }else{
+    
+    if (self.syncGestureRecognizer) {
+        //内外水平滑动兼容
+        if (scrollView.isAncestorOfOtherScrollView) {
+            //        外部
             UIScrollView *descendantScrollView = scrollView.otherScrollView;
-            NSUInteger index_descendant = [HorizontalTableView indexWithScrollView:descendantScrollView];
-            if (descendantScrollView.contentOffset.y != index_descendant * descendantScrollView.bounds.size.height) {//内部处于滑动状态
-                NSUInteger index_ancestor = [HorizontalTableView indexWithScrollView:scrollView];
-                scrollView.contentOffset = CGPointMake(0, index_ancestor*scrollView.bounds.size.height);
+            if (descendantScrollView.contentOffset.y < 0 || descendantScrollView.contentOffset.y > descendantScrollView.contentSize.height - CGRectGetHeight(descendantScrollView.bounds)) {
+                NSUInteger index = [HorizontalTableView indexWithScrollView:scrollView];
+                scrollView.contentOffset = CGPointMake(0, index*scrollView.bounds.size.height);
+            }else{
+                NSUInteger index_descendant = [HorizontalTableView indexWithScrollView:descendantScrollView];
+                CGFloat f = descendantScrollView.contentOffset.y - index_descendant * descendantScrollView.bounds.size.height;
+                if (f > 0.000000001 || f < -0.000000001) {//内部处于滑动状态
+                    NSUInteger index_ancestor = [HorizontalTableView indexWithScrollView:scrollView];
+                    scrollView.contentOffset = CGPointMake(0, index_ancestor*scrollView.bounds.size.height);
+                }
             }
-        }
-    }else if (scrollView.isDescendantOfOtherScrollView) {
-//        内部
-        if (scrollView.contentOffset.y >= 0 && scrollView.contentOffset.y <= scrollView.contentSize.height - CGRectGetHeight(scrollView.bounds)) {
+        }else if (scrollView.isDescendantOfOtherScrollView) {
+            //        内部
             UIScrollView *ancestorScrollView = scrollView.otherScrollView;
-            NSUInteger index_ancestor = [HorizontalTableView indexWithScrollView:ancestorScrollView];
-            ancestorScrollView.contentOffset = CGPointMake(0, index_ancestor*ancestorScrollView.bounds.size.height);
+            if (scrollView.contentOffset.y >= 0 && scrollView.contentOffset.y <= scrollView.contentSize.height - CGRectGetHeight(scrollView.bounds)) {
+                NSUInteger index_ancestor = [HorizontalTableView indexWithScrollView:ancestorScrollView];
+                ancestorScrollView.contentOffset = CGPointMake(0, index_ancestor*ancestorScrollView.bounds.size.height);
+            }
         }
     }
 }
@@ -273,8 +267,8 @@ static NSString *kUIGestureRecognizer_H = @"kUIGestureRecognizer_H";
 }
 
 - (void)reloadData {
-    if ([self.delegate respondsToSelector:@selector(cellSpaceInTableView:)]) {
-        self.cellSpace_2 = ABS([self.delegate cellSpaceInTableView:self])/2.0;
+    if ([self.dataSource respondsToSelector:@selector(cellSpaceInTableView:)]) {
+        self.cellSpace_2 = ABS([self.dataSource cellSpaceInTableView:self])/2.0;
     }else {
         self.cellSpace_2 = 0;
     }

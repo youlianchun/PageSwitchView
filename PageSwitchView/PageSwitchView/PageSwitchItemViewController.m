@@ -27,7 +27,7 @@
 
 + (PageSwitchItem*)pageSwitchItem {
     PageSwitchItem *item = [PageSwitchItem itemWithTitle:@"item" page:^(DoReturn doReturn) {
-        PageSwitchItemViewController *vc = [[PageSwitchItemViewController alloc]init];
+        PageSwitchItemViewController *vc = [[self alloc]init];
         vc.title = @"item";
         doReturn(vc, vc.view);
     }];

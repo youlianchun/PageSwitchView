@@ -10,6 +10,7 @@
 
 @interface PageSwitchItem()
 
+@property (nonatomic, assign) BOOL isPSView;
 @property (nonatomic, assign) BOOL isScroll;
 @property (nonatomic, assign) BOOL is2Scroll;
 

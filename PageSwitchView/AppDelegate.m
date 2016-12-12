@@ -24,6 +24,9 @@
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
 
+//    dispatch_async(dispatch_queue_create("aaa", DISPATCH_QUEUE_CONCURRENT), ^{
+//        NSLog(@"");
+//    });
     return YES;
 }
 

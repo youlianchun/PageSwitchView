@@ -15,17 +15,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(NSUInteger)numberOfRowInTableView:(HorizontalTableView*)tableView;
 
+- (void)tableView:(HorizontalTableView*)tableView cellContentView:(UIContentView*)contentView atRowIndex:(NSUInteger )rowIndex isReuse:(BOOL)isReuse;
+
+@optional
+-(CGFloat)cellSpaceInTableView:(HorizontalTableView*)tableView;
 @end
 
 @protocol HorizontalTableViewDelegate<NSObject>
 
-- (void)tableView:(HorizontalTableView*)tableView cellContentView:(UIContentView*)contentView atRowIndex:(NSUInteger )rowIndex isReuse:(BOOL)isReuse;
-
 @optional
-
--(CGFloat)cellSpaceInTableView:(HorizontalTableView*)tableView;
-
-
 -(void)tableView:(HorizontalTableView *)tableView willDisplayCellView:(UIContentView *)contentView atRowIndex:(NSUInteger )rowIndex;
 
 -(void)tableView:(HorizontalTableView *)tableView didEndDisplayingCellView:(UIContentView *)contentView atRowIndex:(NSUInteger )rowIndex;
@@ -42,6 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) UITableView *tableView;
 
 @property (nonatomic, readonly) NSUInteger currentPageIndex;
+@property (nonatomic, assign) BOOL syncGestureRecognizer;//兼容内外水平滑动手势
 
 @property (nonatomic, weak) id <HorizontalTableViewDataSource> dataSource;
 @property (nonatomic, weak) id <HorizontalTableViewDelegate> delegate;
