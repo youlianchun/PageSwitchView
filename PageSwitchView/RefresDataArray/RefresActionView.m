@@ -8,7 +8,7 @@
 
 #import "RefresActionView.h"
 
-inline MJRefreshStateHeader *refreshHeader(void(^action)()) {
+inline MJRefreshHeader *refreshHeader(void(^action)()) {
     //    NSMutableArray *idleImages = [NSMutableArray array];
     //    for (NSUInteger i = 1; i<=18; i++) {
     //        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"loading_%zd", i]];
@@ -41,7 +41,7 @@ inline MJRefreshStateHeader *refreshHeader(void(^action)()) {
 }
 
 
-inline MJRefreshAutoNormalFooter *refreshFooter(void(^action)()) {
+inline MJRefreshFooter *refreshFooter(void(^action)()) {
     MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         if (action) {
             action();

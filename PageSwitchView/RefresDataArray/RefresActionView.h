@@ -9,5 +9,5 @@
 #import "MJRefresh.h"
 
 
-extern MJRefreshStateHeader *refreshHeader(void(^action)());
-extern MJRefreshAutoNormalFooter *refreshFooter(void(^action)());
+extern MJRefreshHeader *refreshHeader(void(^action)());
+extern MJRefreshFooter *refreshFooter(void(^action)());

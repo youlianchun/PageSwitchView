@@ -36,7 +36,7 @@
 
 - (void)ref_addRefreshHeader {
     __weak typeof(self) weakSelf = self;
-    MJRefreshStateHeader *header = refreshHeader(^{
+    MJRefreshHeader *header = refreshHeader(^{
         [weakSelf loadNextPageData];
     });
     self.refresView.mj_header = header;

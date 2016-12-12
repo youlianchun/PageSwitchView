@@ -50,7 +50,7 @@ inline RefreshSet RefreshSetMake(BOOL header, BOOL footer, NSUInteger startPage,
 
 - (void)ref_addRefreshHeader {
     __weak typeof(self) weakSelf = self;
-    MJRefreshStateHeader *header = refreshHeader(^{
+    MJRefreshHeader *header = refreshHeader(^{
         weakSelf.page = weakSelf.refSet.startPage;
         if (weakSelf.refresView.mj_footer) {
             weakSelf.refresView.mj_footer.hidden=YES;
@@ -62,9 +62,10 @@ inline RefreshSet RefreshSetMake(BOOL header, BOOL footer, NSUInteger startPage,
 
 - (void)ref_addRefreshFooter {
     __weak typeof(self) weakSelf = self;
-    self.refresView.mj_footer = refreshFooter(^{
+    MJRefreshFooter *footer = refreshFooter(^{
         [weakSelf loadNextPageData];
     });
+    self.refresView.mj_footer = footer;
 }
 
 -(void)loadNextPageData {
