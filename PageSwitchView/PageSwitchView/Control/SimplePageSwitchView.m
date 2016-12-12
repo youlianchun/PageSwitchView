@@ -150,7 +150,9 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
                 __weak PageSwitchView *pageSwitchView = (PageSwitchView*)pageSwitchItem.contentView;
                 pageSwitchView.backgroundColor = self.backgroundColor;
                 pageSwitchView.tableView.backgroundColor = self.backgroundColor;
-                pageSwitchView.horizontalTableView.syncGestureRecognizer = YES;
+                if (!wself.hoverTitleBar) {
+                    pageSwitchView.horizontalTableView.syncGestureRecognizer = YES;
+                }
                 pageSwitchView.didScrollCallBack = ^(){
                    [wself pageSwitchViewDidScroll:pageSwitchView];
                 };
