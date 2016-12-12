@@ -150,9 +150,7 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
                 __weak PageSwitchView *pageSwitchView = (PageSwitchView*)pageSwitchItem.contentView;
                 pageSwitchView.backgroundColor = self.backgroundColor;
                 pageSwitchView.tableView.backgroundColor = self.backgroundColor;
-                if (!wself.hoverTitleBar) {
-                    pageSwitchView.horizontalTableView.syncGestureRecognizer = YES;
-                }
+                pageSwitchView.horizontalTableView.syncGestureRecognizer = YES;
                 pageSwitchView.didScrollCallBack = ^(){
                    [wself pageSwitchViewDidScroll:pageSwitchView];
                 };
@@ -242,12 +240,16 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
 //子page是PageSwitchView时候子page标题显示比例
 -(void)pageSwitchViewDidScroll:(PageSwitchView*)pageSwitchView {
     CGFloat maxOffsetY = pageSwitchView.tableView.contentSize.height-pageSwitchView.tableView.bounds.size.height;
-    CGFloat progress = (maxOffsetY - pageSwitchView.tableView.contentOffset.y) / pageSwitchView.titleHeight;
-    progress = MIN(1.0, MAX(0.0, progress));
     if (!self.hoverTitleBar) {
+        CGFloat progress = (maxOffsetY - pageSwitchView.tableView.contentOffset.y) / pageSwitchView.titleHeight;
+        progress = MIN(1.0, MAX(0.0, progress));
         self.segmentTableView_CT.constant = -self.titleHeight*(1-progress);
+        self.hTableView.syncGestureRecognizer = progress == 1;
+    }else {
+        CGFloat progress = (maxOffsetY - pageSwitchView.tableView.contentOffset.y - pageSwitchView.titleHeight) / pageSwitchView.titleHeight;
+        self.hTableView.syncGestureRecognizer = progress >= 0;
+        pageSwitchView.horizontalTableView.tableView.scrollEnabled = progress >= 0;
     }
-    self.hTableView.syncGestureRecognizer = progress == 1;
 }
 
 
