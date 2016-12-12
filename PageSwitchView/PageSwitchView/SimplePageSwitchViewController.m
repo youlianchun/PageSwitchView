@@ -81,6 +81,12 @@
 }
 
 #pragma mark -
+-(void)setHoverTitleBar:(BOOL)hoverTitleBar {
+    self.pageSwitchView.hoverTitleBar = hoverTitleBar;
+}
+-(BOOL)hoverTitleBar {
+    return self.pageSwitchView.hoverTitleBar;
+}
 -(void)setNormalTitleColor:(UIColor *)normalTitleColor {
     self.pageSwitchView.normalTitleColor = normalTitleColor;
 }

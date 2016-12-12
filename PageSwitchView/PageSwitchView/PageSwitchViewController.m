@@ -15,6 +15,7 @@
     PageSwitchItem *item1 = [PageSwitchItemViewController pageSwitchItem];
     return @[item1];
 }
+- (CGFloat)topeSpace {return 0;}
 - (CGFloat)titleHeight  {return 49;}
 - (void)movedToPageIndex:(NSUInteger)index{}
 - (void)movingAtPageIndex:(NSUInteger)inde{}
@@ -58,7 +59,9 @@
 - (CGFloat)titleHeightInPageSwitchView:(PageSwitchView *)pageSwitchView {
     return [self titleHeight];
 }
-
+-(CGFloat)topeSpaceInPageSwitchView:(PageSwitchView *)pageSwitchView {
+    return [self topeSpace];
+}
 - (UIView *)viewForHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView{
     return self.headerView;
 }

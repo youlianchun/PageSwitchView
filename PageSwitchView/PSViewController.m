@@ -39,8 +39,6 @@ static const CGFloat firstBarHeight = 49;
     [self reload];
 }
 
-
-
 -(CGFloat)topeSpace{
     return 0;
 }
