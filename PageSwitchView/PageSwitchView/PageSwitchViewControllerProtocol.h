@@ -33,6 +33,7 @@
 - (CGFloat)topeSpace;
 
 - (void)headerDisplayProgress:(CGFloat)progress;
+
 @property (nonatomic, readonly) PageSwitchView *pageSwitchView;
 
 @end

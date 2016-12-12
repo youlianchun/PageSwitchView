@@ -15,8 +15,7 @@
 #import "NavigationBarTitleView.h"
 #import "PSViewController.h"
 
-@interface ViewController()<PageSwitchViewDelegate, PageSwitchViewDataSource>
-@property (nonatomic) PageSwitchView *pageSwitchView;
+@interface ViewController()<PageSwitchViewControllerProtocol>
 @property (nonatomic) NavigationBarTitleView *titleView;
 @end
 
@@ -29,22 +28,15 @@
     self.titleView.titleLabel.text = self.title;
     self.titleView.titleView.backgroundColor = [UIColor orangeColor];
     
-    self.pageSwitchView = [[PageSwitchView alloc]initWithFrame:self.view.bounds];
-    self.pageSwitchView.titleFont = [UIFont systemFontOfSize:14];
-    self.pageSwitchView.maxTitleCount = 5;
-    self.pageSwitchView.adaptFull_maxTitleCount = YES;
-    self.pageSwitchView.titleCellSpace = YES;
-    self.pageSwitchView.titleSelectedStyle = SegmentSelectedStyleBackground;
-    self.pageSwitchView.titleCellSelectColor = [UIColor blueColor];
-    self.pageSwitchView.selectedTitleColor = [UIColor whiteColor];
-    
-    [self.view addSubview:self.pageSwitchView];
-    
-    [self.pageSwitchView layoutWithinserts:UIEdgeInsetsMake(0, 0, 0, 0)];
-    
-    self.pageSwitchView.delegate = self;
-    self.pageSwitchView.dataSource = self;
-    [self.pageSwitchView reloadData];
+    self.maxTitleCount = 5;
+    self.adaptFull_maxTitleCount = YES;
+    self.titleCellSpace = YES;
+    self.titleSelectedStyle = SegmentSelectedStyleBackground;
+    self.titleCellSelectColor = [UIColor blueColor];
+    self.selectedTitleColor = [UIColor whiteColor];
+    self.headerView = [self viewForHeader];
+    self.stretchingHeaderIf = YES;
+    [self reload];
     
 //    __weak typeof(self) wself = self;
 //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -59,22 +51,21 @@
     }
     return _titleView;
 }
-//-(BOOL)adaptTitleWidthInPageSwitchView:(PageSwitchView *)pageSwitchView {
-//    return YES;
-//}
-- (BOOL)stretchingHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView {
+
+- (BOOL)stretchingHeader {
     return YES;
 }
+
 //
-//-(CGFloat)topeSpaceInPageSwitchView:(PageSwitchView *)pageSwitchView {
+//-(CGFloat)topeSpace {
 //    return -1;
 //}
 
-- (void)pageSwitchView:(PageSwitchView *)pageSwitchView headerDisplayProgress:(CGFloat)progress {
+- (void)headerDisplayProgress:(CGFloat)progress {
     self.titleView.labelShowRatio = progress;
 }
 
-- (UIView *)viewForHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView{
+- (UIView *)viewForHeader {
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 150)];
     view.backgroundColor = [UIColor redColor];
     UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(100, 20, 100, 100)];
@@ -94,7 +85,7 @@
     
 }
 
--(NSArray<PageSwitchItem *> *)pageSwitchItemsInPageSwitchView:(PageSwitchView *)pageSwitchView {
+-(NSArray<PageSwitchItem *> *)pageSwitchItems {
     PageSwitchItem *item1 = [PageSwitchItem itemWithTitle:@"11" key:@"TwoScrollViewController.twoScrollView"];
     PageSwitchItem *item2 = [PageSwitchItem itemWithTitle:@"2" vcClsKey:@"TableViewController" viewKey:@"tableView"];
 //    PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" vcClsKey:@"SimpleViewController" viewKey:@"view"];

@@ -38,6 +38,12 @@
     }
 }
 
+-(void)setTableHeaderView:(UIView *)tableHeaderView {
+    BOOL b = [tableHeaderView isKindOfClass:[StretchingHeaderView class]];
+    NSAssert(b, @"请采用代理设置header，不能另外设置");
+    [super setTableHeaderView:tableHeaderView];
+}
+
 @end
 
 #pragma mark -

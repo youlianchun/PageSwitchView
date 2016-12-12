@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PageSwitchViewController.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : PageSwitchViewController
 
 
 @end
