@@ -11,7 +11,7 @@
 
 @implementation SimplePageSwitchViewController(Protocol)
 -(NSArray<PageSwitchItem *> *)pageSwitchItems {
-    PageSwitchItem *item1 = [PageSwitchItemViewController pageSwitchItem];
+    PageSwitchItem *item1 = [PageSwitchItemViewController pageSwitchItemWithTitle:@"item"];
     return @[item1];
 }
 - (CGFloat)titleHeight  {return 49;}

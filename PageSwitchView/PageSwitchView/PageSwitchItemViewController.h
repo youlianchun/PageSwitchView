@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PageViewControllerProtocol.h"
 #import "PageSwitchItem.h"
 
 @interface PageSwitchItemViewController : UIViewController
 
-+ (PageSwitchItem*)pageSwitchItem;
++ (PageSwitchItem*)pageSwitchItemWithTitle:(NSString*)title;
 
 @end

@@ -7,9 +7,9 @@
 //
 
 #import "PageSwitchItemViewController.h"
-#import "PageViewControllerProtocol.h"
 
-@interface PageSwitchItemViewController ()<PageViewControllerProtocol>
+
+@interface PageSwitchItemViewController ()
 
 @end
 
@@ -25,10 +25,10 @@
     // Dispose of any resources that can be recreated.
 }
 
-+ (PageSwitchItem*)pageSwitchItem {
-    PageSwitchItem *item = [PageSwitchItem itemWithTitle:@"item" page:^(DoReturn doReturn) {
++ (PageSwitchItem*)pageSwitchItemWithTitle:(NSString*)title{
+    PageSwitchItem *item = [PageSwitchItem itemWithTitle:title page:^(DoReturn doReturn) {
         PageSwitchItemViewController *vc = [[self alloc]init];
-        vc.title = @"item";
+        vc.title = title;
         doReturn(vc, vc.view);
     }];
     return item;
