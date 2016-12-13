@@ -171,6 +171,7 @@
         cell.transform = CGAffineTransformMakeRotation(M_PI/2);
         cell.layer.shadowOffset = CGSizeMake(0, 2);
         cell.layer.shadowOpacity = 0.50;
+        cell.view.bounds = self.bounds;
     }
     [self.dataSource tableView:self cellContentView:cell.view atRowIndex:indexPath.section isReuse:isReuse];
     return cell;
