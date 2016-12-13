@@ -45,7 +45,7 @@
             [UIView animateWithDuration:0.2 animations:^{
                 wself.view_CT.constant = 0;
                 [wself layoutIfNeeded];
-            }completion:^(BOOL finished) {
+            } completion:^(BOOL finished) {
                 wself.canAnimate = YES;
             }];
         }
