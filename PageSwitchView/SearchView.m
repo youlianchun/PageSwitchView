@@ -35,36 +35,43 @@
     return _animateView;
 }
 
--(void)doShow {
-    if (self.canAnimate && self.hidden) {
-        self.canAnimate = NO;
+-(void)doShowWithAnimate:(BOOL)animate {
+    if (animate) {
+        if (self.canAnimate && self.hidden) {
+            self.canAnimate = NO;
+            self.hidden = NO;
+            __weak typeof(self) wself = self;
+            self.view_CT.constant = -self.bounds.size.height;
+            [UIView animateWithDuration:0.2 animations:^{
+                wself.view_CT.constant = 0;
+                [wself layoutIfNeeded];
+            }completion:^(BOOL finished) {
+                wself.canAnimate = YES;
+            }];
+        }
+    }else {
+        self.view_CT.constant = 0;
         self.hidden = NO;
-        __weak typeof(self) wself = self;
-        [UIView animateWithDuration:0.2 animations:^{
-            wself.view_CT.constant = 0;
-            [wself layoutIfNeeded];
-//            wself.view.frame = wself.bounds;
-        }completion:^(BOOL finished) {
-            wself.canAnimate = YES;
-        }];
     }
 }
 
--(void)doHide {
-    if (self.canAnimate && !self.hidden) {
-        self.canAnimate = NO;
-        __weak typeof(self) wself = self;
-//        CGRect frame = self.bounds;
-//        frame.origin.y = -frame.size.height;
-        [UIView animateWithDuration:0.2 animations:^{
-            wself.view_CT.constant = -wself.bounds.size.height;
-            [wself layoutIfNeeded];
-//            wself.view.frame = frame;
-        } completion:^(BOOL finished) {
-            wself.hidden = YES;
-            wself.canAnimate = YES;
-        }];
+-(void)doHideWithAnimate:(BOOL)animate {
+    if (animate) {
+        if (self.canAnimate && !self.hidden) {
+            self.canAnimate = NO;
+            __weak typeof(self) wself = self;
+            self.view_CT.constant = 0;
+            [UIView animateWithDuration:0.2 animations:^{
+                wself.view_CT.constant = -wself.bounds.size.height;
+                [wself layoutIfNeeded];
+            } completion:^(BOOL finished) {
+                wself.hidden = YES;
+                wself.canAnimate = YES;
+            }];
+        }
+    }else {
+        self.view_CT.constant = 0;
+        self.hidden = YES;
     }
 }
-
 @end

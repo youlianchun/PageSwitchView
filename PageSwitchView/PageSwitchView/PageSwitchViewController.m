@@ -25,7 +25,7 @@
 -(UIView *)viewForHeaderInSection:(NSInteger)section {return nil;}
 -(CGFloat)heightForHeaderInSection:(NSInteger)section {return 0;}
 -(CGFloat)heightForRowAtIndexPath:(NSIndexPath *)indexPath {return 0;}
-- (void)didScrollContentOffset:(CGPoint)contentOffset {}
+- (void)didScrollContentOffset:(CGPoint)contentOffset velocity:(CGPoint)velocity {}
 @end
 
 @interface PageSwitchViewController ()<PageSwitchViewDelegate, PageSwitchViewDataSource>
@@ -98,8 +98,8 @@
     return [self heightForRowAtIndexPath:indexPath];
 }
 
--(void)pageSwitchViewDidScroll:(PageSwitchView *)pageSwitchView contentOffset:(CGPoint)contentOffset {
-    [self didScrollContentOffset:contentOffset];
+-(void)pageSwitchViewDidScroll:(PageSwitchView *)pageSwitchView contentOffset:(CGPoint)contentOffset velocity:(CGPoint)velocity {
+    [self didScrollContentOffset:contentOffset velocity:velocity];
 }
 
 #pragma mark -

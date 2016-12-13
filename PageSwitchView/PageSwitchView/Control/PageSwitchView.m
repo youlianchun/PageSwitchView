@@ -21,9 +21,15 @@
 
 @interface _PageSwitchView:UITableView
 @property (nonatomic)UIScrollView *otherScrollView;
+@property (nonatomic)CGPoint velocity;
 @end
 
 @implementation _PageSwitchView
+
+-(void)didMoveToSuperview {
+    [super didMoveToSuperview];
+    [self.panGestureRecognizer addTarget:self action:@selector(__handlePan:)];
+}
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     if (gestureRecognizer.groupTag.length>0 && [gestureRecognizer.groupTag isEqualToString:otherGestureRecognizer.groupTag]) {
@@ -42,6 +48,14 @@
     BOOL b = [tableHeaderView isKindOfClass:[StretchingHeaderView class]];
     NSAssert(b, @"请采用代理设置header，不能另外设置");
     [super setTableHeaderView:tableHeaderView];
+}
+
+-(void)__handlePan:(UIPanGestureRecognizer*)gestureRecognizer{
+    CGPoint p = [gestureRecognizer velocityInView:self];
+    self.velocity = p;
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded || gestureRecognizer.state == UIGestureRecognizerStateCancelled) {
+        self.velocity = CGPointZero;
+    }
 }
 
 @end
@@ -382,8 +396,8 @@
             offset_Y += MAX(offset_y, 0);
         }
     if (offset_Y_last != offset_Y) {
-        if ([self.delegate respondsToSelector:@selector(pageSwitchViewDidScroll:contentOffset:)]) {
-            [self.delegate pageSwitchViewDidScroll:self contentOffset:CGPointMake(0, offset_Y)];
+        if ([self.delegate respondsToSelector:@selector(pageSwitchViewDidScroll:contentOffset:velocity:)]) {
+            [self.delegate pageSwitchViewDidScroll:self contentOffset:CGPointMake(0, offset_Y) velocity:self.pageTableView.velocity];
         }
     }
     offset_Y_last = offset_Y;

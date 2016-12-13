@@ -34,7 +34,7 @@
 
 - (void)headerDisplayProgress:(CGFloat)progress;
 
-- (void)didScrollContentOffset:(CGPoint)contentOffset;
+- (void)didScrollContentOffset:(CGPoint)contentOffset velocity:(CGPoint)velocity;
 
 
 @property (nonatomic, readonly) PageSwitchView *pageSwitchView;

@@ -10,6 +10,6 @@
 
 @interface SearchView : UIView
 @property (nonatomic, readonly) UIView *animateView;
--(void)doShow;
--(void)doHide;
+-(void)doShowWithAnimate:(BOOL)animate;
+-(void)doHideWithAnimate:(BOOL)animate;
 @end
