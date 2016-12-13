@@ -40,13 +40,12 @@ static const CGFloat searchBarHeight = 44;
     self.titleCellSelectColor = [UIColor blueColor];
     self.selectedTitleColor = [UIColor blueColor];
     [self reload];
-    self.searchView.backgroundColor = [UIColor greenColor];
     
     [self.view addSubview:self.searchView];
     UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 0, 0)];
     lab.text = @"搜索";
     lab.backgroundColor = [UIColor lightGrayColor];
-    [self.searchView addSubview:lab];
+    [self.searchView.animateView addSubview:lab];
     [self addConstraint:lab inserts:UIEdgeInsetsMake(0, 0, 0, 0)];
 }
 
@@ -97,17 +96,14 @@ static const CGFloat searchBarHeight = 44;
 - (void)didScrollContentOffset:(CGPoint)contentOffset{
     static CGFloat Y = 0;
     CGFloat offset = Y - contentOffset.y;
-//    NSLog(@"%f  %f",Y,contentOffset.y);
+    //    NSLog(@"%f  %f",Y,contentOffset.y);
     if (contentOffset.y>200-searchBarHeight) {
         if (Y >= contentOffset.y) {//向下
             if (offset>=20) {
                 [self.searchView doShow];
             }
-//            NSLog(@"－－－");
         }else{
             [self.searchView doHide];
-//            NSLog(@"＋＋＋");
-//            NSLog(@"%f  %f",Y,contentOffset.y);
         }
     }else {
         if (contentOffset.y <= 200 && contentOffset.y >= 200-searchBarHeight ) {

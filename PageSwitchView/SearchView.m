@@ -9,7 +9,7 @@
 #import "SearchView.h"
 
 @interface SearchView ()
-@property (nonatomic, retain) UIView *view;
+@property (nonatomic, retain) UIView *animateView;
 @property (nonatomic) NSLayoutConstraint *view_CT;
 @property (nonatomic) BOOL canAnimate;
 @end
@@ -21,18 +21,18 @@
     self.canAnimate = YES;
 }
 
--(UIView *)view {
-    if (!_view) {
-        _view = [[UIView alloc]init];
-        [self addSubview:_view];
-        _view.translatesAutoresizingMaskIntoConstraints = NO;
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:_view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:_view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
-        self.view_CT = [NSLayoutConstraint constraintWithItem:_view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0];
+-(UIView *)animateView {
+    if (!_animateView) {
+        _animateView = [[UIView alloc]init];
+        [self addSubview:_animateView];
+        _animateView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:_animateView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:_animateView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
+        self.view_CT = [NSLayoutConstraint constraintWithItem:_animateView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0];
         [self addConstraint:self.view_CT];
-        [self addConstraint: [NSLayoutConstraint constraintWithItem:_view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
+        [self addConstraint: [NSLayoutConstraint constraintWithItem:_animateView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
     }
-    return _view;
+    return _animateView;
 }
 
 -(void)doShow {
@@ -43,6 +43,7 @@
         [UIView animateWithDuration:0.2 animations:^{
             wself.view_CT.constant = 0;
             [wself layoutIfNeeded];
+//            wself.view.frame = wself.bounds;
         }completion:^(BOOL finished) {
             wself.canAnimate = YES;
         }];
@@ -53,9 +54,12 @@
     if (self.canAnimate && !self.hidden) {
         self.canAnimate = NO;
         __weak typeof(self) wself = self;
+//        CGRect frame = self.bounds;
+//        frame.origin.y = -frame.size.height;
         [UIView animateWithDuration:0.2 animations:^{
             wself.view_CT.constant = -wself.bounds.size.height;
             [wself layoutIfNeeded];
+//            wself.view.frame = frame;
         } completion:^(BOOL finished) {
             wself.hidden = YES;
             wself.canAnimate = YES;

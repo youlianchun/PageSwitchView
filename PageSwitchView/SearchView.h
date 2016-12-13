@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface SearchView : UIView
-@property (nonatomic, readonly) UIView *view;
+@property (nonatomic, readonly) UIView *animateView;
 -(void)doShow;
 -(void)doHide;
 @end
