@@ -171,7 +171,8 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
             }
             if (pageSwitchItem.contentViewController.view != pageSwitchItem.contentView) {
                 [pageSwitchItem.contentView removeFromSuperview];
-                [pageSwitchItem.contentViewController.view addSubview:pageSwitchItem.contentView];
+                [pageSwitchItem.contentViewController.view insertSubview:pageSwitchItem.contentView atIndex:0];
+//                [pageSwitchItem.contentViewController.view addSubview:pageSwitchItem.contentView];
                 [wself addConstraint:pageSwitchItem.contentView inserts:UIEdgeInsetsMake(0, 0, 0, 0)];
             }
         };

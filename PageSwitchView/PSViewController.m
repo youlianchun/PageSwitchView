@@ -11,7 +11,7 @@
 static const CGFloat firstBarHeight = 49;
 @interface PSViewController()<PageSwitchViewControllerProtocol,RefresBoleDataArrayDelegate>
 @property (nonatomic) RefresBoleDataArray *dataArray;
-
+@property (nonatomic) UIView *searchView;
 @end
 
 @implementation PSViewController
@@ -37,6 +37,15 @@ static const CGFloat firstBarHeight = 49;
     self.titleCellSelectColor = [UIColor blueColor];
     self.selectedTitleColor = [UIColor blueColor];
     [self reload];
+    self.searchView = [[UIView alloc]initWithFrame:CGRectMake(0, firstBarHeight, CGRectGetWidth(self.view.bounds), 44)];
+    self.searchView.backgroundColor = [UIColor greenColor];
+    
+    [self.view addSubview:self.searchView];
+    UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 0, 0)];
+    lab.text = @"搜索";
+    lab.backgroundColor = [UIColor grayColor];
+    [self.searchView addSubview:lab];
+    [self addConstraint:lab inserts:UIEdgeInsetsMake(0, 0, 0, 0)];
 }
 
 -(CGFloat)topeSpace{
@@ -68,6 +77,18 @@ static const CGFloat firstBarHeight = 49;
 
 -(NSUInteger)numberOfRowsInSection:(NSInteger)section {
     return 2;
+}
+- (void)didScrollContentOffset:(CGPoint)contentOffset{
+    if (contentOffset.y <= 200 && contentOffset.y >= 200-44 ) {
+        self.searchView.hidden = NO;
+    }else{
+        self.searchView.hidden = YES;
+    }
+    static CGFloat Y = 0;
+    if (contentOffset.y-Y>20 || contentOffset.y-Y<-20) {
+        NSLog(@"%f",contentOffset.y-Y);
+    }
+    Y = contentOffset.y;
 }
 
 -(UIView *)viewForHeaderInSection:(NSInteger)section {

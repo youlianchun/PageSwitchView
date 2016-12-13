@@ -75,13 +75,7 @@
 
 - (void)pageSwitchView:(PageSwitchView *)pageSwitchView headerDisplayProgress:(CGFloat)progress;
 
-
-/**
- 垂直滚动代理
-
- @param pageSwitchView <#pageSwitchView description#>
- */
-- (void)pageSwitchViewDidScroll:(PageSwitchView *)pageSwitchView;
+- (void)pageSwitchViewDidScroll:(PageSwitchView *)pageSwitchView contentOffset:(CGPoint)contentOffset;
 
 
 @end

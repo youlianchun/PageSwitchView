@@ -375,11 +375,18 @@
 //            lastContentOffset_y = scrollView.contentOffset.y;
         }
 //    }
-    if (scrollView == self.pageTableView) {
-        if ([self.delegate respondsToSelector:@selector(pageSwitchViewDidScroll:)]) {
-            [self.delegate pageSwitchViewDidScroll:self];
+    static CGFloat offset_Y_last = 0;
+        CGFloat offset_Y = self.pageTableView.contentOffset.y;
+        if (self.pageTableView.otherScrollView) {
+            CGFloat offset_y = self.pageTableView.otherScrollView.contentOffset.y;
+            offset_Y += offset_y;
+        }
+    if (offset_Y_last != offset_Y) {
+        if ([self.delegate respondsToSelector:@selector(pageSwitchViewDidScroll:contentOffset:)]) {
+            [self.delegate pageSwitchViewDidScroll:self contentOffset:CGPointMake(0, offset_Y)];
         }
     }
+    offset_Y_last = offset_Y;
 }
 
 //- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
@@ -421,7 +428,8 @@
             }
             if (pageSwitchItem.contentViewController.view != pageSwitchItem.contentView) {
                 [pageSwitchItem.contentView removeFromSuperview];
-                [pageSwitchItem.contentViewController.view addSubview:pageSwitchItem.contentView];
+                [pageSwitchItem.contentViewController.view insertSubview:pageSwitchItem.contentView atIndex:0];
+//                [pageSwitchItem.contentViewController.view addSubview:pageSwitchItem.contentView];
                 [wself addConstraint:pageSwitchItem.contentView inserts:UIEdgeInsetsMake(0, 0, 0, 0)];
             }
         };
