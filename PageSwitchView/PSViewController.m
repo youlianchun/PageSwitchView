@@ -8,10 +8,13 @@
 
 #import "PSViewController.h"
 #import "PSTableViewController.h"
+#import "SearchView.h"
 static const CGFloat firstBarHeight = 49;
+static const CGFloat searchBarHeight = 44;
 @interface PSViewController()<PageSwitchViewControllerProtocol,RefresBoleDataArrayDelegate>
 @property (nonatomic) RefresBoleDataArray *dataArray;
-@property (nonatomic) UIView *searchView;
+@property (nonatomic) SearchView *searchView;
+
 @end
 
 @implementation PSViewController
@@ -37,17 +40,30 @@ static const CGFloat firstBarHeight = 49;
     self.titleCellSelectColor = [UIColor blueColor];
     self.selectedTitleColor = [UIColor blueColor];
     [self reload];
-    self.searchView = [[UIView alloc]initWithFrame:CGRectMake(0, firstBarHeight, CGRectGetWidth(self.view.bounds), 44)];
     self.searchView.backgroundColor = [UIColor greenColor];
     
     [self.view addSubview:self.searchView];
     UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 0, 0)];
     lab.text = @"搜索";
-    lab.backgroundColor = [UIColor grayColor];
+    lab.backgroundColor = [UIColor lightGrayColor];
     [self.searchView addSubview:lab];
     [self addConstraint:lab inserts:UIEdgeInsetsMake(0, 0, 0, 0)];
 }
 
+-(SearchView *)searchView {
+    if (!_searchView) {
+        _searchView = [[SearchView alloc]init];
+        [self.view addSubview:_searchView];
+        _searchView.translatesAutoresizingMaskIntoConstraints = NO;
+        UIView *view = _searchView;
+        UIView *superview = view.superview;
+        [superview addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
+        [superview addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
+        [superview addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeTop multiplier:1 constant:firstBarHeight]];
+        [view addConstraint: [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:searchBarHeight]];
+    }
+    return _searchView;
+}
 -(CGFloat)topeSpace{
     return 0;
 }
@@ -79,20 +95,32 @@ static const CGFloat firstBarHeight = 49;
     return 2;
 }
 - (void)didScrollContentOffset:(CGPoint)contentOffset{
-    if (contentOffset.y <= 200 && contentOffset.y >= 200-44 ) {
-        self.searchView.hidden = NO;
-    }else{
-        self.searchView.hidden = YES;
-    }
     static CGFloat Y = 0;
-    if (contentOffset.y-Y>20 || contentOffset.y-Y<-20) {
-        NSLog(@"%f",contentOffset.y-Y);
+    CGFloat offset = Y - contentOffset.y;
+//    NSLog(@"%f  %f",Y,contentOffset.y);
+    if (contentOffset.y>200-searchBarHeight) {
+        if (Y >= contentOffset.y) {//向下
+            if (offset>=20) {
+                [self.searchView doShow];
+            }
+//            NSLog(@"－－－");
+        }else{
+            [self.searchView doHide];
+//            NSLog(@"＋＋＋");
+//            NSLog(@"%f  %f",Y,contentOffset.y);
+        }
+    }else {
+        if (contentOffset.y <= 200 && contentOffset.y >= 200-searchBarHeight ) {
+            self.searchView.hidden = NO;
+        }else{
+            self.searchView.hidden = YES;
+        }
     }
     Y = contentOffset.y;
 }
 
 -(UIView *)viewForHeaderInSection:(NSInteger)section {
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 44+firstBarHeight)];//第一个tatileBar不选停需要设置参数
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, searchBarHeight+firstBarHeight)];//第一个tatileBar不选停需要设置参数
     view.backgroundColor = [UIColor clearColor];
     UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 0, 0)];
     lab.text = @"搜索";
@@ -103,7 +131,7 @@ static const CGFloat firstBarHeight = 49;
 }
 
 -(CGFloat)heightForHeaderInSection:(NSInteger)section {
-    return 44+firstBarHeight;
+    return searchBarHeight+firstBarHeight;
 }
 
 -(CGFloat)heightForRowAtIndexPath:(NSIndexPath *)indexPath {

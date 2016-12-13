@@ -379,7 +379,7 @@
         CGFloat offset_Y = self.pageTableView.contentOffset.y;
         if (self.pageTableView.otherScrollView) {
             CGFloat offset_y = self.pageTableView.otherScrollView.contentOffset.y;
-            offset_Y += offset_y;
+            offset_Y += MAX(offset_y, 0);
         }
     if (offset_Y_last != offset_Y) {
         if ([self.delegate respondsToSelector:@selector(pageSwitchViewDidScroll:contentOffset:)]) {
