@@ -95,18 +95,22 @@ static const CGFloat searchBarHeight = 44;
 }
 - (void)didScrollContentOffset:(CGPoint)contentOffset velocity:(CGPoint)velocity {
     static CGFloat Y = 0;
-        NSLog(@"%f  %f",Y,contentOffset.y);
+    //        NSLog(@"%f  %f",Y,contentOffset.y);
     
     if (contentOffset.y > 200) {
         if (velocity.y != 0) {
+            NSLog(@"velocity:%f", velocity.y);
             if (velocity.y > 0) {//向下
-                if (velocity.y >= 1000) {
+                if (velocity.y >= 800) {
                     if (contentOffset.y>240) {
                         [self.searchView doShowWithAnimate:YES];
                     }
                 }
-            }else{
-                [self.searchView doHideWithAnimate:YES];
+            }else {
+                if (velocity.y < -800)
+                {
+                    [self.searchView doHideWithAnimate:YES];
+                }
             }
         }
     }else {
