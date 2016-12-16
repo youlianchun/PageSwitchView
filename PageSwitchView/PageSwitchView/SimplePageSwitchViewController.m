@@ -34,6 +34,7 @@
     self.pageSwitchView.titleFont = [UIFont systemFontOfSize:14];
     [self.view addSubview:self.pageSwitchView];
     [self.pageSwitchView layoutWithinserts:UIEdgeInsetsMake(0, 0, 0, 0)];
+
 }
 
 #pragma mark - delegate dataSource

@@ -86,6 +86,10 @@
 @property (nonatomic) void(^layoutBlock)(UIView *superView);
 @property (nonatomic) NSUInteger sectionCount;
 @property (nonatomic) NSMutableArray<NSString*> *titleArray;
+@property (nonatomic, weak) NSLayoutConstraint *layout_CT;
+@property (nonatomic, weak) NSLayoutConstraint *layout_CB;
+@property (nonatomic, weak) NSLayoutConstraint *layout_CR;
+@property (nonatomic, weak) NSLayoutConstraint *layout_CL;
 @end
 
 @implementation PageSwitchView
@@ -538,12 +542,23 @@
     __weak typeof(self) wself = self;
     UIView *superview = wself.superview;
     self.layoutBlock = ^(UIView* superView){
-        wself.translatesAutoresizingMaskIntoConstraints = NO;
-        [superview addConstraint:[NSLayoutConstraint constraintWithItem:wself attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeLeft multiplier:1 constant:inserts.left]];
-        [superview addConstraint:[NSLayoutConstraint constraintWithItem:wself attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeRight multiplier:1 constant:inserts.right]];
-        [superview addConstraint: [NSLayoutConstraint constraintWithItem:wself attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeTop multiplier:1 constant:inserts.top]];
-        [superview addConstraint: [NSLayoutConstraint constraintWithItem:wself attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeBottom multiplier:1 constant:inserts.bottom]];
-        wself.layoutBlock = nil;
+        if (wself.layout_CT) {
+            wself.layout_CT.constant = inserts.top;
+            wself.layout_CL.constant = inserts.left;
+            wself.layout_CR.constant = inserts.right;
+            wself.layout_CB.constant = inserts.bottom;
+        }else{
+            wself.translatesAutoresizingMaskIntoConstraints = NO;
+            wself.layout_CT = [NSLayoutConstraint constraintWithItem:wself attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeTop multiplier:1 constant:inserts.top];
+            wself.layout_CL = [NSLayoutConstraint constraintWithItem:wself attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeLeft multiplier:1 constant:inserts.left];
+            wself.layout_CR = [NSLayoutConstraint constraintWithItem:wself attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeRight multiplier:1 constant:inserts.right];
+            wself.layout_CB =  [NSLayoutConstraint constraintWithItem:wself attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeBottom multiplier:1 constant:inserts.bottom];
+            [superview addConstraint:wself.layout_CT];
+            [superview addConstraint:wself.layout_CL];
+            [superview addConstraint:wself.layout_CR];
+            [superview addConstraint:wself.layout_CB];
+            wself.layoutBlock = nil;
+        }
     };
     if (superview) {
         self.layoutBlock(superview);

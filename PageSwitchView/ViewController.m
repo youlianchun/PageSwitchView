@@ -36,6 +36,7 @@
     self.selectedTitleColor = [UIColor whiteColor];
     self.headerView = [self viewForHeader];
     self.stretchingHeaderIf = YES;
+
     [self reload];
     
 //    __weak typeof(self) wself = self;

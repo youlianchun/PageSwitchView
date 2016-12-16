@@ -27,6 +27,7 @@
     self.titleSelectedStyle = SegmentSelectedStyleSubscript;
     self.selectedTitleColor = [UIColor blueColor];
     self.hoverTitleBar = YES;
+
     [self reload];
     
     __weak typeof(self) wself = self;
