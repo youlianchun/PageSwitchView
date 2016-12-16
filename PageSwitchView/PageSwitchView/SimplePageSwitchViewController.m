@@ -33,8 +33,10 @@
     self.pageSwitchView.dataSource = self;
     self.pageSwitchView.titleFont = [UIFont systemFontOfSize:14];
     [self.view addSubview:self.pageSwitchView];
-    [self.pageSwitchView layoutWithinserts:UIEdgeInsetsMake(0, 0, 0, 0)];
-
+    [self layoutPageSwitchViewWithinserts:UIEdgeInsetsMake(0, 0, 0, 0)];
+}
+-(void)layoutPageSwitchViewWithinserts:(UIEdgeInsets)inserts{
+    [self.pageSwitchView layoutWithinserts:inserts];
 }
 
 #pragma mark - delegate dataSource

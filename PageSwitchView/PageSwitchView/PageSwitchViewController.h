@@ -22,7 +22,7 @@
 @property (nonatomic) BOOL adaptFull_maxTitleCount;//maxTitleCount不为0的时候设置标题占满标题栏
 @property (nonatomic) UIColor* titleCellSelectColor;//选中态样式颜色
 
-
+-(void)layoutPageSwitchViewWithinserts:(UIEdgeInsets)inserts;
 
 -(void)reload;
 

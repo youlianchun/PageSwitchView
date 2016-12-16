@@ -39,9 +39,11 @@
     [self.view addSubview:self.pageSwitchView];
     self.pageSwitchView.delegate = self;
     self.pageSwitchView.dataSource = self;
-    [self.pageSwitchView layoutWithinserts:UIEdgeInsetsMake(0, 0, 0, 0)];
+    [self layoutPageSwitchViewWithinserts:UIEdgeInsetsMake(0, 0, 0, 0)];
 }
-
+-(void)layoutPageSwitchViewWithinserts:(UIEdgeInsets)inserts{
+    [self.pageSwitchView layoutWithinserts:inserts];
+}
 -(PageSwitchView *)pageSwitchView {
     if (!_pageSwitchView) {
         _pageSwitchView = [[PageSwitchView alloc] initWithFrame:self.view.bounds];
