@@ -22,6 +22,8 @@
 
 - (UIView *)viewForHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView;
 
+- (void)pageSwitchView:(PageSwitchView *)pageSwitchView emptyPageContentView:(UIContentView*)contentView isReuse:(BOOL)isReuse;
+
 
 /**
   是否是黏性头部

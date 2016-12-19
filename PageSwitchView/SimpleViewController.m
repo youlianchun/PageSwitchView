@@ -13,10 +13,16 @@
 @end
 
 @implementation SimpleViewController
-
+-(void)viewDidAdjustRect {
+    UILabel *lab = [[UILabel alloc]initWithFrame:self.view.bounds];
+    lab.text = @"空";
+    lab.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:lab];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor orangeColor];
+    
     // Do any additional setup after loading the view.
 }
 

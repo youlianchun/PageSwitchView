@@ -217,7 +217,7 @@
 
 #pragma mark - UITableViewDataSource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    NSInteger sectionCount = 2;
+    NSInteger sectionCount = self.pageSwitchItemArray.count > 0 ? 2 : 1;//2;
     if ([self.dataSource respondsToSelector:@selector(numberOfSectionsInTableView:)]) {
         sectionCount += [self.dataSource numberOfSectionsInTableView:self];
     }
@@ -227,8 +227,14 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSInteger sectionCount = self.sectionCount;
-    if (section >= sectionCount - 2) {
-        return  1;
+    if (self.pageSwitchItemArray.count > 0) {
+        if (section >= sectionCount - 2) {
+            return  1;
+        }
+    }else{
+        if (section >= sectionCount - 1) {
+            return  1;
+        }
     }
     if ([self.dataSource respondsToSelector:@selector(pageSwitchView:numberOfRowsInSection:)]) {
         return [self.dataSource pageSwitchView:self numberOfRowsInSection:section];
@@ -238,27 +244,48 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSInteger sectionCount = self.sectionCount;
-    if (indexPath.section == sectionCount-1) {
-        static NSString *identifier = @"CellIdentifier_PageSwitch";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-        if (!cell) {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.backgroundColor = [UIColor clearColor];
-            [cell.contentView addSubview:self.hTableView];
-            [self addConstraint:self.hTableView inserts:UIEdgeInsetsMake(0, 0, 0, 0)];
+    if (self.pageSwitchItemArray.count > 0) {
+        if (indexPath.section == sectionCount-1) {
+            static NSString *identifier = @"CellIdentifier_PageSwitch";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+            if (!cell) {
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cell.backgroundColor = [UIColor clearColor];
+                [cell.contentView addSubview:self.hTableView];
+                [self addConstraint:self.hTableView inserts:UIEdgeInsetsMake(0, 0, 0, 0)];
+            }
+            [self.hTableView reloadData];
+            return cell;
         }
-        [self.hTableView reloadData];
-        return cell;
-    }
-    if (indexPath.section == sectionCount-2) {
-        static NSString *identifier = @"CellIdentifier_Placeholder";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-        if (!cell) {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-            cell.alpha = 0;
+        if (indexPath.section == sectionCount-2) {
+            static NSString *identifier = @"CellIdentifier_Placeholder";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+            if (!cell) {
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+                cell.alpha = 0;
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            }
+            return cell;
         }
-        return cell;
+    }else{
+        if (indexPath.section == sectionCount-1) {
+            static NSString *identifier = @"CellIdentifier_Empty";
+            BOOL isReuse = YES;
+            UIContentViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+            if (!cell) {
+                cell = [[UIContentViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+                isReuse = NO;
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                CGRect bounds = self.bounds;
+                bounds.size.height -= self.superTitleHeight;
+                cell.view.bounds = bounds;
+            }
+            if ([self.dataSource respondsToSelector:@selector(pageSwitchView:cellContentView:atIndexPath:isReuse:)]) {
+                [self.dataSource pageSwitchView:self emptyPageContentView:cell.view isReuse:isReuse];
+            }
+            return cell;
+        }
     }
     static NSString *identifier = @"CellIdentifier_Other";
     BOOL isReuse = YES;
@@ -276,17 +303,24 @@
 
 #pragma mark - UITableViewDelegate
 
-
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     NSInteger sectionCount = self.sectionCount;
-    if (section >= sectionCount - 2) {
-        if (self.topeSpace < 0 && section == sectionCount - 2) {//标题不悬停
-            return  self.segmentTableView;
+    if (self.pageSwitchItemArray.count > 0) {
+        if (section >= sectionCount - 2) {
+            if (self.topeSpace < 0 && section == sectionCount - 2) {//标题不悬停
+                return  self.segmentTableView;
+            }
+            if (self.topeSpace >= 0 && section == sectionCount - 1) {//标题悬停
+                return  self.segmentTableView;
+            }
+            return nil;
         }
-        if (self.topeSpace >= 0 && section == sectionCount - 1) {//标题悬停
-            return  self.segmentTableView;
+    }else {
+        if (section >= sectionCount - 1) {
+            UIView *view = [[UIView alloc]init];
+            view.alpha = 0;
+            return view;
         }
-        return nil;
     }
     if ([self.dataSource respondsToSelector:@selector(pageSwitchView:viewForHeaderInSection:)]) {
         return [self.dataSource pageSwitchView:self viewForHeaderInSection:section];
@@ -296,14 +330,20 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     NSInteger sectionCount = self.sectionCount;
-    if (section >= sectionCount - 2) {
-        if (self.topeSpace < 0 && section == sectionCount - 2) {//标题不悬停
-            return  self.titleHeight;
+    if (self.pageSwitchItemArray.count > 0) {
+        if (section >= sectionCount - 2) {
+            if (self.topeSpace < 0 && section == sectionCount - 2) {//标题不悬停
+                return  self.titleHeight;
+            }
+            if (self.topeSpace >= 0 && section == sectionCount - 1) {//标题悬停
+                return  self.titleHeight;
+            }
+            return 0;
         }
-        if (self.topeSpace >= 0 && section == sectionCount - 1) {//标题悬停
-            return  self.titleHeight;
+    }else{
+        if (section >= sectionCount - 1) {
+            return 5;
         }
-        return 0;
     }
     if ([self.dataSource respondsToSelector:@selector(pageSwitchView:heightForHeaderInSection:)]) {
         return [self.dataSource pageSwitchView:self heightForHeaderInSection:section];
@@ -313,16 +353,21 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSInteger sectionCount = self.sectionCount;
-    if (indexPath.section >= sectionCount - 2) {
-        if (indexPath.section == sectionCount-2) {
-            return  0;
+    if (self.pageSwitchItemArray.count > 0) {
+        if (indexPath.section >= sectionCount - 2) {
+            if (indexPath.section == sectionCount-2) {
+                return  0;
+            }
+            if (indexPath.section == sectionCount-1) {
+                return  CGRectGetHeight(self.bounds)-CGRectGetHeight(self.segmentTableView.bounds)-self.topeSpace;
+            }
+            return 0;
         }
-        if (indexPath.section == sectionCount-1) {
-            return  CGRectGetHeight(self.bounds)-CGRectGetHeight(self.segmentTableView.bounds)-self.topeSpace;
+    }else{
+        if (indexPath.section >= sectionCount - 1) {
+            return  CGRectGetHeight(self.bounds)-self.superTitleHeight;
         }
-        return 0;
     }
-    
     if ([self.dataSource respondsToSelector:@selector(pageSwitchView:heightForRowAtIndexPath:)]) {
         CGFloat h = [self.dataSource pageSwitchView:self heightForRowAtIndexPath:indexPath];
         if (h>0) {
@@ -335,7 +380,8 @@
 
 #pragma mark UITableViewDelegate_Scroll
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//    if (self.pageTableView.scrollEnabled) {
+    if (self.pageSwitchItemArray.count > 0) {
+        //    if (self.pageTableView.scrollEnabled) {
         PageSwitchItem *item = self.contentPageSwitchItem;
         CGFloat maxOffsetY = self.pageTableView.contentSize.height-self.pageTableView.bounds.size.height;
         if (item.isScroll || item.is2Scroll) {//滚动视图
@@ -369,7 +415,7 @@
             }
             else if (scrollView == contentScrollView) {//滚动里面视图
                 if (self.pageTableView.contentOffset.y < maxOffsetY) {
-
+                    
                     scrollView.contentOffset = CGPointZero;
                     scrollView.showsVerticalScrollIndicator = NO;
                 }else {
@@ -382,29 +428,31 @@
             //            [self performSelector:@selector(scrollViewDidEndScrollingAnimation:) withObject:nil afterDelay:0.2];
             //            self.isScrolling = YES ;
             
-//            static CGFloat lastContentOffset_y=0;
-//            if (scrollView.contentOffset.y<lastContentOffset_y) {//向下
-//                
-//            } else if (scrollView.contentOffset.y>lastContentOffset_y) {//向上
-//                if (self.pageTableView.contentOffset.y >= maxOffsetY) {
-//                    self.pageTableView.contentOffset = CGPointMake(0.0f, maxOffsetY);
-//                }
-//            }
-//            lastContentOffset_y = scrollView.contentOffset.y;
+            //            static CGFloat lastContentOffset_y=0;
+            //            if (scrollView.contentOffset.y<lastContentOffset_y) {//向下
+            //
+            //            } else if (scrollView.contentOffset.y>lastContentOffset_y) {//向上
+            //                if (self.pageTableView.contentOffset.y >= maxOffsetY) {
+            //                    self.pageTableView.contentOffset = CGPointMake(0.0f, maxOffsetY);
+            //                }
+            //            }
+            //            lastContentOffset_y = scrollView.contentOffset.y;
         }
-//    }
-    static CGFloat offset_Y_last = 0;
+        //    }
+    }
+        static CGFloat offset_Y_last = 0;
         CGFloat offset_Y = self.pageTableView.contentOffset.y;
         if (self.pageTableView.otherScrollView) {
             CGFloat offset_y = self.pageTableView.otherScrollView.contentOffset.y;
             offset_Y += MAX(offset_y, 0);
         }
-    if (offset_Y_last != offset_Y) {
-        if ([self.delegate respondsToSelector:@selector(pageSwitchViewDidScroll:contentOffset:velocity:)]) {
-            [self.delegate pageSwitchViewDidScroll:self contentOffset:CGPointMake(0, offset_Y) velocity:self.pageTableView.velocity];
+        if (offset_Y_last != offset_Y) {
+            if ([self.delegate respondsToSelector:@selector(pageSwitchViewDidScroll:contentOffset:velocity:)]) {
+                [self.delegate pageSwitchViewDidScroll:self contentOffset:CGPointMake(0, offset_Y) velocity:self.pageTableView.velocity];
+            }
         }
-    }
-    offset_Y_last = offset_Y;
+        offset_Y_last = offset_Y;
+    
 }
 
 //- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
@@ -593,32 +641,34 @@
 //}
 
 -(void)reloadData {
-    if ([self.delegate respondsToSelector:@selector(topeSpaceInPageSwitchView:)]) {
-        self.topeSpace = [self.dataSource topeSpaceInPageSwitchView:self];
-    }
-    if ([self.dataSource respondsToSelector:@selector(titleHeightInPageSwitchView:)]) {
-        self.titleHeight = MIN([self.dataSource titleHeightInPageSwitchView:self], kMinTitleBarHeight);
-    }
     self.pageSwitchItemArray = [[self.dataSource pageSwitchItemsInPageSwitchView:self] mutableCopy];
-
-    self.headerView = nil;
-    if (self.headerView) {
-        self.pageTableView.scrollEnabled = YES;
-        BOOL stretching = NO;
-        if ([self.dataSource respondsToSelector:@selector(stretchingHeaderInPageSwitchView:)]) {
-            stretching = [self.dataSource stretchingHeaderInPageSwitchView:self];
+    if (self.pageSwitchItemArray.count > 0) {
+        if ([self.delegate respondsToSelector:@selector(topeSpaceInPageSwitchView:)]) {
+            self.topeSpace = [self.dataSource topeSpaceInPageSwitchView:self];
         }
-        StretchingHeaderView *sHeaderView = [[StretchingHeaderView alloc]initWithContentView:self.headerView stretching:stretching];
-        self.pageTableView.tableHeaderView = sHeaderView;
-        sHeaderView.delegate = self;
-    }else {
-        self.pageTableView.scrollEnabled = NO;
+        if ([self.dataSource respondsToSelector:@selector(titleHeightInPageSwitchView:)]) {
+            self.titleHeight = MIN([self.dataSource titleHeightInPageSwitchView:self], kMinTitleBarHeight);
+        }
+        
+        self.headerView = nil;
+        if (self.headerView) {
+            self.pageTableView.scrollEnabled = YES;
+            BOOL stretching = NO;
+            if ([self.dataSource respondsToSelector:@selector(stretchingHeaderInPageSwitchView:)]) {
+                stretching = [self.dataSource stretchingHeaderInPageSwitchView:self];
+            }
+            StretchingHeaderView *sHeaderView = [[StretchingHeaderView alloc]initWithContentView:self.headerView stretching:stretching];
+            self.pageTableView.tableHeaderView = sHeaderView;
+            sHeaderView.delegate = self;
+        }else {
+            self.pageTableView.scrollEnabled = NO;
+        }
+        self.segmentTableView.selectColor = self.titleCellSelectColor;
+        self.segmentTableView.allowCellSpace = self.titleCellSpace;
+        self.segmentTableView.maxTitleCount = self.maxTitleCount;
+        self.segmentTableView.adaptFull_maxTitleCount = self.adaptFull_maxTitleCount;
+        [self.segmentTableView reloadData];
     }
-    self.segmentTableView.selectColor = self.titleCellSelectColor;
-    self.segmentTableView.allowCellSpace = self.titleCellSpace;
-    self.segmentTableView.maxTitleCount = self.maxTitleCount;
-    self.segmentTableView.adaptFull_maxTitleCount = self.adaptFull_maxTitleCount;
-    [self.segmentTableView reloadData];
     
     [self.pageTableView reloadData];
 }

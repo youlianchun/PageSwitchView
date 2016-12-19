@@ -9,6 +9,7 @@
 @class HorizontalTableView;
 @interface PageSwitchView()
 @property (nonatomic) CGFloat titleHeight;
+@property (nonatomic) CGFloat superTitleHeight;
 
 @property (nonatomic) void(^didScrollCallBack)();
 @property (nonatomic, readonly) HorizontalTableView *horizontalTableView ;

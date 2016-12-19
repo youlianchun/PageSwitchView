@@ -152,6 +152,7 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
             [wself.selfViewController addChildViewController:pageSwitchItem.contentViewController];
             if (pageSwitchItem.isPSView) {
                 __weak PageSwitchView *pageSwitchView = (PageSwitchView*)pageSwitchItem.contentView;
+                pageSwitchView.superTitleHeight = self.titleHeight;
                 pageSwitchView.backgroundColor = self.backgroundColor;
                 pageSwitchView.tableView.backgroundColor = self.backgroundColor;
                 pageSwitchView.horizontalTableView.syncGestureRecognizer = YES;

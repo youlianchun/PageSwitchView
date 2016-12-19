@@ -20,7 +20,7 @@ static const CGFloat searchBarHeight = 44;
 @implementation PSViewController
 
 -(void)viewDidAdjustRect {
-    
+     [self reload];
 }
 
 -(void)loadDataInRefresView:(RefresView *)view res:(void (^)(NSArray *, BOOL))netRes {
@@ -39,7 +39,7 @@ static const CGFloat searchBarHeight = 44;
     self.titleSelectedStyle = SegmentSelectedStyleUnderline;
     self.titleCellSelectColor = [UIColor blueColor];
     self.selectedTitleColor = [UIColor blueColor];
-    [self reload];
+   
     
     [self.view addSubview:self.searchView];
     UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 0, 0)];
@@ -69,6 +69,7 @@ static const CGFloat searchBarHeight = 44;
 
 
 -(NSArray<PageSwitchItem *> *)pageSwitchItems{
+    return @[];
     PageSwitchItem *item1 = [PageSwitchItem itemWithTitle:@"1" vcClsKey:@"PSTableViewController" viewKey:@"tableView"];
     PageSwitchItem *item2 = [PageSwitchItem itemWithTitle:@"2" vcClsKey:@"PSTableViewController" viewKey:@"tableView"];
     PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" vcClsKey:@"PSTableViewController" viewKey:@"tableView"];
@@ -76,7 +77,12 @@ static const CGFloat searchBarHeight = 44;
     return @[item1,item2,item3,item4];
 }
 
-
+- (void)pageSwitchView:(PageSwitchView *)pageSwitchView emptyPageContentView:(UIContentView*)contentView isReuse:(BOOL)isReuse{
+    UILabel *lab = [[UILabel alloc]initWithFrame:contentView.bounds];
+    lab.text = @"空";
+    lab.textAlignment = NSTextAlignmentCenter;
+    [contentView addSubview:lab];
+}
 
 - (void)cellContentView:(UIContentView*)contentView atIndexPath:(NSIndexPath*)indexPath isReuse:(BOOL)isReuse {
     if (indexPath.row == 0) {
