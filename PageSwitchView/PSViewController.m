@@ -69,7 +69,7 @@ static const CGFloat searchBarHeight = 44;
 
 
 -(NSArray<PageSwitchItem *> *)pageSwitchItems{
-    return @[];
+//    return @[];
     PageSwitchItem *item1 = [PageSwitchItem itemWithTitle:@"1" vcClsKey:@"PSTableViewController" viewKey:@"tableView"];
     PageSwitchItem *item2 = [PageSwitchItem itemWithTitle:@"2" vcClsKey:@"PSTableViewController" viewKey:@"tableView"];
     PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"3" vcClsKey:@"PSTableViewController" viewKey:@"tableView"];

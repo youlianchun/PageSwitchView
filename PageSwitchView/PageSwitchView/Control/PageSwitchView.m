@@ -407,9 +407,7 @@
                         self.pageTableView.contentOffset = CGPointMake(0.0f, maxOffsetY);
                     }
                 }
-                if (self.didScrollCallBack) {
-                    self.didScrollCallBack();
-                }
+                
                 lastContentOffset_y = scrollView.contentOffset.y;
                 
             }
@@ -440,6 +438,10 @@
         }
         //    }
     }
+    if (self.didScrollCallBack) {
+        self.didScrollCallBack();
+    }
+    
         static CGFloat offset_Y_last = 0;
         CGFloat offset_Y = self.pageTableView.contentOffset.y;
         if (self.pageTableView.otherScrollView) {

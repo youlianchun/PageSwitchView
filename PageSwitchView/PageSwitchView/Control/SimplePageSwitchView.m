@@ -277,6 +277,7 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
             wself.layout_CL.constant = inserts.left;
             wself.layout_CR.constant = inserts.right;
             wself.layout_CB.constant = inserts.bottom;
+            wself.layoutBlock = nil;
         }else{
             wself.translatesAutoresizingMaskIntoConstraints = NO;
             wself.layout_CT = [NSLayoutConstraint constraintWithItem:wself attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeTop multiplier:1 constant:inserts.top];
@@ -351,9 +352,9 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
 }
 -(void)didMoveToSuperview {
     [super didMoveToSuperview];
-    //    self.selfViewController.edgesForExtendedLayout =  UIRectEdgeLeft | UIRectEdgeBottom | UIRectEdgeRight;
-    //    self.selfViewController.extendedLayoutIncludesOpaqueBars = NO;
-    //    self.selfViewController.modalPresentationCapturesStatusBarAppearance = NO;
+//        self.selfViewController.edgesForExtendedLayout =  UIRectEdgeLeft | UIRectEdgeBottom | UIRectEdgeRight;
+//        self.selfViewController.extendedLayoutIncludesOpaqueBars = NO;
+//        self.selfViewController.modalPresentationCapturesStatusBarAppearance = NO;
     self.selfViewController.automaticallyAdjustsScrollViewInsets = NO;
     //    [self navigationBar_placeholderView];
     if (self.layoutBlock) {
