@@ -383,7 +383,11 @@
     if (self.pageSwitchItemArray.count > 0) {
         //    if (self.pageTableView.scrollEnabled) {
         PageSwitchItem *item = self.contentPageSwitchItem;
-        CGFloat maxOffsetY = self.pageTableView.contentSize.height-self.pageTableView.bounds.size.height;
+        static CGFloat maxOffsetY = 0;
+        static BOOL b = NO;
+        if (!b) {
+            maxOffsetY = self.pageTableView.contentSize.height-self.pageTableView.bounds.size.height;
+        }
         if (item.isScroll || item.is2Scroll) {//滚动视图
             UIScrollView *contentScrollView =  self.pageTableView.otherScrollView;//(UIScrollView*)item.contentView;
             
@@ -396,6 +400,8 @@
                 if (scrollView.contentOffset.y<lastContentOffset_y) {//向下
                     if (contentScrollView && contentScrollView.contentOffset.y > 0) {
                         self.pageTableView.contentOffset = CGPointMake(0.0f, maxOffsetY);
+                        maxOffsetY = self.pageTableView.contentOffset.y;
+                        b = YES;
                     }else{
                         CGFloat offsetY = scrollView.contentOffset.y;
                         if(offsetY <= maxOffsetY) {
@@ -405,6 +411,9 @@
                 } else if (scrollView.contentOffset.y>lastContentOffset_y) {//向上
                     if (self.pageTableView.contentOffset.y >= maxOffsetY) {
                         self.pageTableView.contentOffset = CGPointMake(0.0f, maxOffsetY);
+                        maxOffsetY = self.pageTableView.contentOffset.y;
+                        b = YES;
+                        NSLog(@"");
                     }
                 }
                 
@@ -418,6 +427,8 @@
                     scrollView.showsVerticalScrollIndicator = NO;
                 }else {
                     self.pageTableView.contentOffset = CGPointMake(0.0f, maxOffsetY);
+                    maxOffsetY = self.pageTableView.contentOffset.y;
+                    b = YES;
                     scrollView.showsVerticalScrollIndicator = YES;
                 }
             }
@@ -438,23 +449,22 @@
         }
         //    }
     }
+    static CGFloat offset_Y_last = 0;
+    CGFloat offset_Y = self.pageTableView.contentOffset.y;
+    if (self.pageTableView.otherScrollView) {
+        CGFloat offset_y = self.pageTableView.otherScrollView.contentOffset.y;
+        offset_Y += MAX(offset_y, 0);
+    }
+    if (offset_Y_last != offset_Y) {
+        if ([self.delegate respondsToSelector:@selector(pageSwitchViewDidScroll:contentOffset:velocity:)]) {
+            [self.delegate pageSwitchViewDidScroll:self contentOffset:CGPointMake(0, offset_Y) velocity:self.pageTableView.velocity];
+        }
+    }
+    offset_Y_last = offset_Y;
     if (self.didScrollCallBack) {
         self.didScrollCallBack();
     }
-    
-        static CGFloat offset_Y_last = 0;
-        CGFloat offset_Y = self.pageTableView.contentOffset.y;
-        if (self.pageTableView.otherScrollView) {
-            CGFloat offset_y = self.pageTableView.otherScrollView.contentOffset.y;
-            offset_Y += MAX(offset_y, 0);
-        }
-        if (offset_Y_last != offset_Y) {
-            if ([self.delegate respondsToSelector:@selector(pageSwitchViewDidScroll:contentOffset:velocity:)]) {
-                [self.delegate pageSwitchViewDidScroll:self contentOffset:CGPointMake(0, offset_Y) velocity:self.pageTableView.velocity];
-            }
-        }
-        offset_Y_last = offset_Y;
-    
+    //    NSLog(@"%@",scrollView);
 }
 
 //- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
@@ -597,6 +607,8 @@
             wself.layout_CL.constant = inserts.left;
             wself.layout_CR.constant = inserts.right;
             wself.layout_CB.constant = inserts.bottom;
+            wself.layoutBlock = nil;
+            [wself setNeedsLayout];
         }else{
             wself.translatesAutoresizingMaskIntoConstraints = NO;
             wself.layout_CT = [NSLayoutConstraint constraintWithItem:wself attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeTop multiplier:1 constant:inserts.top];
@@ -608,6 +620,7 @@
             [superview addConstraint:wself.layout_CR];
             [superview addConstraint:wself.layout_CB];
             wself.layoutBlock = nil;
+            [wself setNeedsLayout];
         }
     };
     if (superview) {
