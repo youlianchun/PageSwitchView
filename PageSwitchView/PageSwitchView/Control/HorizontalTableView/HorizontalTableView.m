@@ -95,8 +95,6 @@
     [self addSubview:self.tableView];
 
     self.tableView.pagingEnabled = YES;
-    self.tableView.transform = CGAffineTransformIdentity;//在设置frame前将transform重置
-    self.tableView.transform = CGAffineTransformMakeRotation(M_PI/-2);
     
     self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
@@ -104,6 +102,10 @@
     self.horizontalTableView_CW = [NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
     [self addConstraint:self.horizontalTableView_CW];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0]];
+    
+    self.tableView.transform = CGAffineTransformIdentity;//在设置frame前将transform重置
+    self.tableView.transform = CGAffineTransformMakeRotation(M_PI/-2);
+
 }
 
 #pragma mark - Get Set

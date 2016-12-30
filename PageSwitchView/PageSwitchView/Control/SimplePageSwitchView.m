@@ -278,6 +278,7 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
             wself.layout_CR.constant = inserts.right;
             wself.layout_CB.constant = inserts.bottom;
             wself.layoutBlock = nil;
+            [wself setNeedsLayout];
         }else{
             wself.translatesAutoresizingMaskIntoConstraints = NO;
             wself.layout_CT = [NSLayoutConstraint constraintWithItem:wself attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeTop multiplier:1 constant:inserts.top];
@@ -289,6 +290,7 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
             [superview addConstraint:wself.layout_CR];
             [superview addConstraint:wself.layout_CB];
             wself.layoutBlock = nil;
+            [wself setNeedsLayout];
         }
     };
     if (superview) {
