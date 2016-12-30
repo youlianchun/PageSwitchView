@@ -139,6 +139,7 @@ inline RefreshSet RefreshSetMake(BOOL header, BOOL footer, NSUInteger startPage,
         if ([wself.delegate respondsToSelector:@selector(didLoadDataInRefresView:page:firstPage:)]) {
             [wself.delegate didLoadDataInRefresView:wself.refresView page:page firstPage:page == wself.refSet.startPage];
         }
+        [wself didLoadDataWithPage:page firstPage:page == wself.refSet.startPage];
     }];
     self.loadingFirst = loadingFirst;
 }
@@ -183,4 +184,7 @@ inline RefreshSet RefreshSetMake(BOOL header, BOOL footer, NSUInteger startPage,
     _refSet = refSet;
 }
 
+-(void)didLoadDataWithPage:(NSUInteger)page firstPage:(BOOL)firstPage {
+    
+}
 @end

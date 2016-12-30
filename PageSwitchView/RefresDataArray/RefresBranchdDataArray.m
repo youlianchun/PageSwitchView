@@ -12,6 +12,10 @@
 -(void)setRefSet:(RefreshSet)refSet;
 @end
 
+@interface RefresBranchdDataArray ()
+@property (nonatomic, copy) void(^didLoadData)(NSUInteger page, BOOL firstPage);
+@end
+
 @implementation RefresBranchdDataArray
 
 -(instancetype)initSelf {
@@ -30,5 +34,9 @@
     refSet.header = NO;
     [super setRefSet:refSet];
 }
-
+-(void)didLoadDataWithPage:(NSUInteger)page firstPage:(BOOL)firstPage {
+    if (self.didLoadData) {
+        self.didLoadData(page,firstPage);
+    }
+}
 @end

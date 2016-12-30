@@ -12,5 +12,6 @@ typedef NS_ENUM(NSInteger, SegmentSelectedStyle) {
     SegmentSelectedStyleNone = 0,
     SegmentSelectedStyleBackground,
     SegmentSelectedStyleUnderline,
-    SegmentSelectedStyleSubscript
+    SegmentSelectedStyleSubscript,
+    SegmentSelectedStyleCustomBG
 };
