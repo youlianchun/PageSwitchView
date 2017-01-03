@@ -311,6 +311,7 @@ static const CGFloat bottomSpace = -5;
         rightCell.textLabel.textColor = [self.gradientColor colorAChangeToColorB:scale];
     }
     if (leftScale >= 0.8) {
+        rightCell.textLabel.textColor = [self.gradientColor colorAChangeToColorB:0];
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:leftPageIndex] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
     }
     CGFloat w = 0;
