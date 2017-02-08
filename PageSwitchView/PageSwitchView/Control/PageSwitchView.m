@@ -24,6 +24,8 @@
 @property (nonatomic)UIScrollView *otherScrollView;
 @property (nonatomic)CGPoint velocity;
 @property (nonatomic) void(^reloadDataCallBack)();
+@property (nonatomic) void(^changeContentSizeCallBack)();
+
 @end
 
 @implementation _PageSwitchView
@@ -45,12 +47,21 @@
         return NO;
     }
 }
+
 -(void)reloadData {
     [super reloadData];
     if(self.reloadDataCallBack) {
         self.reloadDataCallBack();
     }
 }
+
+-(void)setContentSize:(CGSize)contentSize {
+    if (self.changeContentSizeCallBack && self.contentSize.height != contentSize.height) {
+        self.changeContentSizeCallBack();
+    }
+    [super setContentSize:contentSize];
+}
+
 -(void)setTableHeaderView:(UIView *)tableHeaderView {
 //    BOOL b = [tableHeaderView isKindOfClass:[StretchingHeaderView class]];
 //    NSAssert(b, @"请采用代理设置header，不能另外设置");
@@ -152,9 +163,9 @@
         [self addConstraint: [NSLayoutConstraint constraintWithItem:_pageTableView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
         [self addConstraint: [NSLayoutConstraint constraintWithItem:_pageTableView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
         __weak typeof(self) wself = self;
-        _pageTableView.reloadDataCallBack = ^{
-            wself.offset_Y_last = 0;
+        _pageTableView.changeContentSizeCallBack = ^{
             wself.maxOffsetY_didSet_didScroll = NO;
+            wself.offset_Y_last = 0;
         };
     }
     return _pageTableView;
