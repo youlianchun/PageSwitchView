@@ -452,10 +452,10 @@
                     self.panelScrollView_maxOffsetY = panelScrollView.contentOffset.y;
                     self.maxOffsetY_didSet_didScroll = YES;
                 }else{
-//                    CGFloat offsetY = scrollView.contentOffset.y;
-//                    if(offsetY <= self.panelScrollView_maxOffsetY) {
-//                        contentScrollView.contentOffset = CGPointZero;
-//                    }
+                    CGFloat offsetY = scrollView.contentOffset.y;
+                    if(offsetY <= self.panelScrollView_maxOffsetY) {
+                        contentScrollView.contentOffset = CGPointZero;
+                    }
                 }
             }
             else if (scrollView == contentScrollView) {//滚动里面视图
@@ -463,10 +463,10 @@
                     contentScrollView.contentOffset = CGPointZero;
                     contentScrollView.showsVerticalScrollIndicator = NO;
                 }else {
-//                    self.pageTableView.contentOffset = CGPointMake(0.0f, self.panelScrollView_maxOffsetY);
-//                    self.panelScrollView_maxOffsetY = self.pageTableView.contentOffset.y;
-//                    self.maxOffsetY_didSet_didScroll = YES;
-//                    scrollView.showsVerticalScrollIndicator = YES;
+                    panelScrollView.contentOffset = CGPointMake(0.0f, self.panelScrollView_maxOffsetY);
+                    self.panelScrollView_maxOffsetY = panelScrollView.contentOffset.y;
+                    self.maxOffsetY_didSet_didScroll = YES;
+                    scrollView.showsVerticalScrollIndicator = YES;
                 }
             }
             
