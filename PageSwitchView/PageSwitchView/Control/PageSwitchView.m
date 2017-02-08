@@ -15,6 +15,7 @@
 #import "_TwoScrollView.h"
 #import "UIContentViewCell.h"
 #import "_PageSwitchViewStatic.h"
+#import "UIScrollView+ScrollToTop.h"
 
 #pragma mark -
 #pragma mark - _PageSwitchView
