@@ -24,7 +24,7 @@
 
 @optional
 - (void)emptyPageContentView:(UIContentView*)contentView isReuse:(BOOL)isReuse;
-- (void)cellContentView:(UIContentView*)contentView atIndexPath:(NSIndexPath*)indexPath isReuse:(BOOL)isReuse;
+-(UITableViewCell *)pageSwitchView:(PageSwitchView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 -(NSUInteger)numberOfSections;
 -(NSUInteger)numberOfRowsInSection:(NSInteger)section;
 -(UIView *)viewForHeaderInSection:(NSInteger)section;

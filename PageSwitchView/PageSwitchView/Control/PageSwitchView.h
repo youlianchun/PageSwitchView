@@ -45,15 +45,7 @@
 
 
 
-/**
- 创建单元格内容
-
- @param pageSwitchView <#pageSwitchView description#>
- @param contentView 单元格内容所在试图（往这加东西）
- @param indexPath 下标
- @param isReuse 是否是复用的
- */
-- (void)pageSwitchView:(PageSwitchView *)pageSwitchView cellContentView:(UIContentView*)contentView atIndexPath:(NSIndexPath*)indexPath isReuse:(BOOL)isReuse;
+-(UITableViewCell *)pageSwitchView:(PageSwitchView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 
 -(NSUInteger)numberOfSectionsInTableView:(PageSwitchView *)tableView;
 
@@ -138,5 +130,10 @@
 -(void)reloadData;
 
 -(void)scrollToTopWithCompletion:(void(^)())completion;
+
+- (UITableViewCell *)dequeueReusableCellWithIdentifier:(NSString *)identifier;
+
+- (void)registerNib:(UINib *)nib forCellReuseIdentifier:(NSString *)identifier;
+- (void)registerClass:(Class)cellClass forCellReuseIdentifier:(NSString *)identifier;
 
 @end

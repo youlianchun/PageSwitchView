@@ -84,12 +84,18 @@ static const CGFloat searchBarHeight = 44;
     [contentView addSubview:lab];
 }
 
-- (void)cellContentView:(UIContentView*)contentView atIndexPath:(NSIndexPath*)indexPath isReuse:(BOOL)isReuse {
-    if (indexPath.row == 0) {
-        contentView.backgroundColor = [UIColor redColor];
-    }else{
-        contentView.backgroundColor = [UIColor orangeColor];
+-(UITableViewCell *)pageSwitchView:(PageSwitchView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *identifier = @"cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (!cell) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
+    if (indexPath.row == 0) {
+        cell.backgroundColor = [UIColor redColor];
+    }else{
+        cell.backgroundColor = [UIColor orangeColor];
+    }
+    return cell;
 }
 
 -(NSUInteger)numberOfSections {

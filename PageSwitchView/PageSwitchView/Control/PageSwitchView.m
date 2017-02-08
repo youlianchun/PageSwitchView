@@ -318,29 +318,14 @@
                 bounds.size.height -= self.superTitleHeight;
                 cell.view.bounds = bounds;
             }
-            if ([self.dataSource respondsToSelector:@selector(pageSwitchView:cellContentView:atIndexPath:isReuse:)]) {
+            if ([self.dataSource respondsToSelector:@selector(pageSwitchView:emptyPageContentView:isReuse:)]) {
                 [self.dataSource pageSwitchView:self emptyPageContentView:cell.view isReuse:isReuse];
             }
             return cell;
         }
     }
-    static NSString *identifier = @"CellIdentifier_Other";
-    BOOL isReuse = YES;
-    UIContentViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!cell) {
-        cell = [[UIContentViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        isReuse = NO;
-        cell.backgroundColor = self.backgroundColor;
-    }
-    if ([self.dataSource respondsToSelector:@selector(pageSwitchView:cellContentView:atIndexPath:isReuse:)]) {
-        CGFloat h = 44;
-        if ([self.dataSource respondsToSelector:@selector(pageSwitchView:heightForRowAtIndexPath:)]) {
-            h = [self.dataSource pageSwitchView:self heightForRowAtIndexPath:indexPath];
-        }
-        CGRect bounds = CGRectMake(0, 0, CGRectGetWidth(self.bounds), h);
-        cell.view.bounds = bounds;
-        [self.dataSource pageSwitchView:self cellContentView:cell.view atIndexPath:indexPath isReuse:isReuse];
-    }
+    
+    UITableViewCell *cell = [self.dataSource pageSwitchView:self cellForRowAtIndexPath:indexPath];
     return cell;
 }
 
@@ -866,5 +851,20 @@
     }
     _completion();
 }
+
+
+#pragma mark - tableViewFuction
+- (UITableViewCell *)dequeueReusableCellWithIdentifier:(NSString *)identifier {
+    return [self.pageTableView dequeueReusableCellWithIdentifier:identifier];
+}
+
+- (void)registerNib:(UINib *)nib forCellReuseIdentifier:(NSString *)identifier {
+    [self.pageTableView registerNib:nib forCellReuseIdentifier:identifier];
+}
+
+- (void)registerClass:(Class)cellClass forCellReuseIdentifier:(NSString *)identifier {
+    [self.pageTableView registerClass:cellClass forCellReuseIdentifier:identifier];
+}
+
 @end
 
