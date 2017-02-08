@@ -90,7 +90,6 @@
 @property (nonatomic) SegmentTableView *segmentTableView;
 @property (nonatomic) UIView *headerView;
 @property (nonatomic) CGFloat topeSpace;
-//@property (nonatomic) BOOL isScrolling;
 @property (nonatomic) UIView *navigationBar_placeholderView;
 @property (nonatomic) void(^layoutBlock)(UIView *superView);
 @property (nonatomic) NSUInteger sectionCount;
@@ -474,11 +473,6 @@
 }
 
 
-//- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
-//    [NSObject cancelPreviousPerformRequestsWithTarget:self];
-//    self.isScrolling = NO ;
-//}
-
 #pragma mark - HorizontalTableViewDataSource
 
 -(NSUInteger)numberOfRowInTableView:(HorizontalTableView*)tableView {
@@ -693,7 +687,6 @@
         
         self.headerView = nil;
         if (self.headerView) {
-//            self.pageTableView.scrollEnabled = YES;
             BOOL stretching = NO;
             if ([self.dataSource respondsToSelector:@selector(stretchingHeaderInPageSwitchView:)]) {
                 stretching = [self.dataSource stretchingHeaderInPageSwitchView:self];
@@ -702,7 +695,6 @@
             self.pageTableView.tableHeaderView = sHeaderView;
             sHeaderView.delegate = self;
         }else {
-//            self.pageTableView.scrollEnabled = NO;
         }
         if ([self.dataSource respondsToSelector:@selector(selectedImageInTitleAtPageSwitchView:)]) {
             self.segmentTableView.selectedBgImage = [self.dataSource selectedImageInTitleAtPageSwitchView:self];
@@ -808,27 +800,11 @@
                         _completion();
                     }];
                 }];
-//                [scrollView scrollToTopWithAnimatie:YES completion:^{
-//                        [wself.pageTableView scrollToTopWithAnimatie:YES completion:^{
-//                            _completion();
-//                        }];
-//                }];
-//                [scrollView setContentOffset:CGPointZero animated:YES];
-//                doCodeDelay(self, 0.25, ^{
-//                    [self.pageTableView setContentOffset:CGPointZero animated:YES];
-//                    doCodeDelay(self, 0.22, ^{
-//                        _completion();
-//                    });
-//                });
                 return;
             }else if (time_o>0) {
                 [self.pageTableView scrollToTopWithAnimatie:YES completion:^{
                     _completion();
                 }];
-//                    [self.pageTableView setContentOffset:CGPointZero animated:YES];
-//                    doCodeDelay(self, 0.22, ^{
-//                        _completion();
-//                    });
                 return;
             }else{
                 _completion();
@@ -843,10 +819,6 @@
             [self.pageTableView scrollToTopWithAnimatie:YES completion:^{
                 _completion();
             }];
-//            [self.pageTableView setContentOffset:CGPointZero animated:YES];
-//            doCodeDelay(self, 0.22, ^{
-//                _completion();
-//            });
             return;
         }
     }
@@ -854,7 +826,7 @@
 }
 
 
-#pragma mark - tableViewFuction
+#pragma mark - tableViewFunction
 - (UITableViewCell *)dequeueReusableCellWithIdentifier:(NSString *)identifier {
     return [self.pageTableView dequeueReusableCellWithIdentifier:identifier];
 }

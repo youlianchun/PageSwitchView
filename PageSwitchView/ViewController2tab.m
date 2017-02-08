@@ -26,8 +26,9 @@
     self.maxTitleCount = 6;
     self.titleSelectedStyle = SegmentSelectedStyleSubscript;
     self.selectedTitleColor = [UIColor blueColor];
-    self.hoverTitleBar = YES;
-//    [self layoutPageSwitchViewWithinserts:UIEdgeInsetsMake(0, 0, -49, 0)];
+//    self.hoverTitleBar = YES;
+    
+//    [self layoutPageSwitchViewWithinserts:UIEdgeInsetsMake(0, 0, -50, 0)];
 
     [self reload];
     
