@@ -11,6 +11,10 @@
 #import "PageSwitchViewControllerProtocol.h"
 
 @interface PageSwitchViewController : UIViewController
+
+@property (nonatomic, readonly) PageSwitchView *pageSwitchView;
+
+
 @property (nonatomic, assign) BOOL stretchingHeaderIf;
 @property (nonatomic, retain) UIView *headerView;
 
@@ -21,6 +25,7 @@
 @property (nonatomic) NSUInteger maxTitleCount;//同时显示最多标题数，0时候不限制
 @property (nonatomic) BOOL adaptFull_maxTitleCount;//maxTitleCount不为0的时候设置标题占满标题栏
 @property (nonatomic) UIColor* titleCellSelectColor;//选中态样式颜色
+@property (nonatomic) BOOL horizontalScrollEnabled;
 
 -(void)layoutPageSwitchViewWithinserts:(UIEdgeInsets)inserts;
 

@@ -22,19 +22,22 @@
 
 @interface SimplePageSwitchViewController ()<SimplePageSwitchViewDelegate, SimplePageSwitchViewDataSource>
 @property (nonatomic) SimplePageSwitchView *pageSwitchView;
+@property (nonatomic) void(^switchBlock)();
+@property (nonatomic) void(^setNumberBlock)();
+
 @end
 
 @implementation SimplePageSwitchViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
     self.pageSwitchView = [[SimplePageSwitchView alloc]initWithFrame:self.view.bounds];
     self.pageSwitchView.delegate = self;
     self.pageSwitchView.dataSource = self;
     self.pageSwitchView.titleFont = [UIFont systemFontOfSize:14];
+    self.pageSwitchView.normalTitleColor = [UIColor colorWithHexString:@"#323232"];
     [self.view addSubview:self.pageSwitchView];
-    [self layoutPageSwitchViewWithinserts:UIEdgeInsetsMake(0, 0, -49, 0)];
+    [self layoutPageSwitchViewWithinserts:UIEdgeInsetsMake(0, 0, 0, 0)];
 }
 -(void)layoutPageSwitchViewWithinserts:(UIEdgeInsets)inserts{
     [self.pageSwitchView layoutWithinserts:inserts];
@@ -64,24 +67,64 @@
 }
 
 -(void)switchNewPageWithNewIndex:(NSUInteger)newIndex {
-    [self.pageSwitchView switchNewPageWithNewIndex:newIndex];
+    __weak typeof(self) wself = self;
+    self.switchBlock = ^(){
+        [wself.pageSwitchView switchNewPageWithNewIndex:newIndex];
+        wself.switchBlock = nil;
+    };
+    if (self.pageSwitchView) {
+        self.switchBlock();
+    }
 }
 
 -(void)switchNewPageWithTitle:(NSString*)title {
-    [self.pageSwitchView switchNewPageWithTitle:title];
+    __weak typeof(self) wself = self;
+    self.switchBlock = ^(){
+        [wself.pageSwitchView switchNewPageWithTitle:title];
+        wself.switchBlock = nil;
+    };
+    if (self.pageSwitchView) {
+        self.switchBlock();
+    }
 }
 
 -(void)setNumber:(NSInteger)number atIndex:(NSUInteger)index {
-    [self.pageSwitchView setNumber:number atIndex:index];
+    __weak typeof(self) wself = self;
+    self.setNumberBlock = ^(){
+        [wself.pageSwitchView setNumber:number atIndex:index];
+        wself.switchBlock = nil;
+    };
+    if (self.pageSwitchView) {
+        self.setNumberBlock();
+    }
 }
 
 -(void)setNumber:(NSInteger)number atTitle:(NSString*)title {
-    [self.pageSwitchView setNumber:number atTitle:title];
+    __weak typeof(self) wself = self;
+    self.setNumberBlock = ^(){
+        [wself.pageSwitchView setNumber:number atTitle:title];
+        wself.switchBlock = nil;
+    };
+    if (self.pageSwitchView) {
+        self.setNumberBlock();
+    }
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (self.switchBlock) {
+        self.switchBlock();
+        self.switchBlock = nil;
+    }
+    if (self.setNumberBlock) {
+        self.setNumberBlock();
+        self.setNumberBlock = nil;
+    }
 }
 
 #pragma mark -

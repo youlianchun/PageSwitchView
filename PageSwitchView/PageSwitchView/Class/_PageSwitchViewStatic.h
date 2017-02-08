@@ -13,5 +13,6 @@ static NSString *kUIGestureRecognizer_H = @"kUIGestureRecognizer_H";
 static const NSInteger kNull_PageIndex = 999999999;
 
 static const CGFloat defauleBackgroungColor = 240/255.0;
+
 static const CGFloat kMinTitleBarHeight = 49;
 

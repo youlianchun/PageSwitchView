@@ -58,7 +58,9 @@
 @interface HorizontalTableView ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, retain) _HorizontalTableView *tableView ;
-@property (nonatomic, strong) NSLayoutConstraint *horizontalTableView_CW;
+@property (nonatomic, strong) NSLayoutConstraint *horizontalTableView_CL;
+@property (nonatomic, strong) NSLayoutConstraint *horizontalTableView_CR;
+@property (nonatomic, retain) UIView *panelView;
 
 @property (nonatomic, assign) CGFloat cellSpace_2;
 @property (nonatomic, assign) NSUInteger cellCount;
@@ -95,20 +97,36 @@
     [self addSubview:self.tableView];
 
     self.tableView.pagingEnabled = YES;
+    __weak typeof(self) wself = self;
+    [UIView performWithoutAnimation:^{
+        wself.tableView.transform = CGAffineTransformIdentity;//在设置frame前将transform重置
+        wself.tableView.transform = CGAffineTransformMakeRotation(M_PI/-2);
+    }];
     
     self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
-    self.horizontalTableView_CW = [NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
-    [self addConstraint:self.horizontalTableView_CW];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0]];
-    
-    self.tableView.transform = CGAffineTransformIdentity;//在设置frame前将transform重置
-    self.tableView.transform = CGAffineTransformMakeRotation(M_PI/-2);
-
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.panelView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.panelView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0]];
 }
 
 #pragma mark - Get Set
+
+-(UIView *)panelView {
+    if (!_panelView) {
+        _panelView = [[UIView alloc]init];
+        _panelView.hidden = YES;
+        [self addSubview:_panelView];
+        _panelView.translatesAutoresizingMaskIntoConstraints = NO;
+        self.horizontalTableView_CL = [NSLayoutConstraint constraintWithItem:_panelView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:0];
+        self.horizontalTableView_CR = [NSLayoutConstraint constraintWithItem:_panelView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:0];
+        [self addConstraint: [NSLayoutConstraint constraintWithItem:_panelView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+        [self addConstraint: [NSLayoutConstraint constraintWithItem:_panelView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+        [self addConstraint:self.horizontalTableView_CL];
+        [self addConstraint:self.horizontalTableView_CR];
+    }
+    return _panelView;
+}
 -(void)setSyncGestureRecognizer:(BOOL)syncGestureRecognizer {
     if (_syncGestureRecognizer == syncGestureRecognizer) {
         return;
@@ -122,10 +140,14 @@
 }
 -(void)setCellSpace_2:(CGFloat)cellSpace_2 {
     _cellSpace_2 = cellSpace_2;
-    self.horizontalTableView_CW.constant = cellSpace_2+cellSpace_2;
+    self.horizontalTableView_CL.constant = -_cellSpace_2;
+    self.horizontalTableView_CR.constant = _cellSpace_2;
 }
 
 -(NSUInteger)currentPageIndex {
+    if (self.tableView.contentSize.height<1) {
+        return 0;
+    }
     return (self.tableView.contentOffset.y+CGRectGetHeight(self.tableView.bounds)/2.0)/CGRectGetHeight(self.tableView.bounds);
 }
 
@@ -148,14 +170,16 @@
     if (!cell) {
         cell = [[UIContentViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         isReuse = NO;
-        cell.backgroundColor = [UIColor colorWithWhite:1 alpha:0.3];
+        cell.backgroundColor = [UIColor colorWithWhite:1 alpha:0];
         cell.opaque = self.opaque;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.transform = CGAffineTransformIdentity;
-        cell.transform = CGAffineTransformMakeRotation(M_PI/2);
-        cell.layer.shadowOffset = CGSizeMake(0, 2);
-        cell.layer.shadowOpacity = 0.50;
-        cell.view.bounds = self.bounds;
+        [UIView performWithoutAnimation:^{
+            cell.transform = CGAffineTransformIdentity;
+            cell.transform = CGAffineTransformMakeRotation(M_PI/2);
+            cell.layer.shadowOffset = CGSizeMake(0, 2);
+        }];
+//        cell.layer.shadowOpacity = 0.50;
+        cell .view.bounds = self.bounds;
     }
     [self.dataSource tableView:self cellContentView:cell.view atRowIndex:indexPath.section isReuse:isReuse];
     return cell;
@@ -252,6 +276,7 @@
 }
 
 - (void)reloadData {
+    self.initPageIndex = self.currentPageIndex;
     if ([self.dataSource respondsToSelector:@selector(cellSpaceInTableView:)]) {
         self.cellSpace_2 = ABS([self.dataSource cellSpaceInTableView:self])/2.0;
     }else {

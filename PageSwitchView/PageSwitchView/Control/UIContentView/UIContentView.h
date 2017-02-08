@@ -12,6 +12,12 @@
 /**
  清空所有子视图
  */
+
+@property (nonatomic,weak) id mountObject;
 -(void)clearSubviews;
+
+-(void)setContent:(UIView*)content;
+
+-(id)content;
 
 @end

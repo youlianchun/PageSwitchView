@@ -65,6 +65,11 @@
 
 -(CGFloat)pageSwitchView:(PageSwitchView *)pageSwitchView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 
+-(NSArray*)selectedImageInTitleAtPageSwitchView:(PageSwitchView *)pageSwitchView;
+
+-(UIColor*)bgColorInTitleAtPageSwitchView:(PageSwitchView *)pageSwitchView;
+
+
 @end
 
 @protocol PageSwitchViewDelegate<NSObject>
@@ -78,6 +83,10 @@
 - (void)pageSwitchView:(PageSwitchView *)pageSwitchView headerDisplayProgress:(CGFloat)progress;
 
 - (void)pageSwitchViewDidScroll:(PageSwitchView *)pageSwitchView contentOffset:(CGPoint)contentOffset velocity:(CGPoint)velocity;
+
+-(void)pageSwitchView:(PageSwitchView *)pageSwitchView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+
+
 
 
 @end
@@ -95,6 +104,9 @@
 @property (nonatomic) NSUInteger maxTitleCount;//同时显示最多标题数，0时候不限制
 @property (nonatomic) BOOL adaptFull_maxTitleCount;//maxTitleCount不为0的时候设置标题占满标题栏
 @property (nonatomic) UIColor* titleCellSelectColor;//选中态样式颜色
+
+@property (nonatomic) BOOL horizontalScrollEnabled;
+@property (nonatomic, readonly) UIViewController* currentViewController;
 
 /**
  设置位于父试图的约束
@@ -124,5 +136,7 @@
 
 
 -(void)reloadData;
+
+-(void)scrollToTopWithCompletion:(void(^)())completion;
 
 @end

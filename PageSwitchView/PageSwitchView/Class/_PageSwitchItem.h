@@ -21,5 +21,7 @@
 @property (nonatomic) BOOL isCurrent;
 
 @property (nonatomic) void (^didLoadBock)();
+@property (nonatomic) void (^moveToSuperBock)();
+
 
 @end

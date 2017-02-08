@@ -49,6 +49,8 @@
 @property (nonatomic) NSUInteger maxTitleCount;//同时显示最多标题数，0时候不限制
 @property (nonatomic) BOOL adaptFull_maxTitleCount;//maxTitleCount不为0的时候设置标题占满标题栏
 
+@property (nonatomic, readonly) UIViewController* currentViewController;
+@property (nonatomic, readonly) id pageContentView;
 
 /**
  设置位于父试图的约束

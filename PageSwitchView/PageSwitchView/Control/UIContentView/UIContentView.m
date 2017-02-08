@@ -18,13 +18,35 @@
 #pragma mark -
 #pragma mark - UIContentView
 @interface UIContentView ()
+{
+    UIView* _content;
+}
 @property (nonatomic, retain) UIView *contentView;
 @end
 
 @implementation UIContentView
 
+-(void)dealloc {
+    [self clearSubviews];
+}
+
+-(void)setContent:(UIView*)content {
+    [self clearSubviews];
+    [self addSubview:content];
+    _content = content;
+}
+
+-(id)content {
+    return _content;
+}
+
 -(NSArray<UIView *> *)subviews {
     return self.contentView.subviews;
+}
+
+-(void)setBounds:(CGRect)bounds {
+    [super setBounds:bounds];
+    self.contentView.frame = bounds;
 }
 
 -(void)addSubview:(UIView *)view {
@@ -34,12 +56,14 @@
 -(void)clearSubviews {
     [self.contentView removeFromSuperview];
     self.contentView = nil;
+    _content = nil;
 }
 
 -(UIView *)contentView {
     if (!_contentView) {
         _contentView = [[_UIContentView alloc] init];
         _contentView.backgroundColor = [UIColor clearColor];
+        _contentView.frame = self.bounds;
         _contentView.opaque = NO;
         [super addSubview:_contentView];
         _contentView.translatesAutoresizingMaskIntoConstraints = NO;

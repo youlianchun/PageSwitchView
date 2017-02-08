@@ -11,6 +11,9 @@
 #import "PageSwitchViewControllerProtocol.h"
 
 @interface SimplePageSwitchViewController : UIViewController
+
+@property (nonatomic, readonly) SimplePageSwitchView *pageSwitchView;
+
 @property (nonatomic, assign) BOOL hoverTitleBar;
 
 @property (nonatomic) UIColor *normalTitleColor;

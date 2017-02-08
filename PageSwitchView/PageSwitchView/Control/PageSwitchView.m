@@ -22,6 +22,8 @@
 @interface _PageSwitchView:UITableView
 @property (nonatomic)UIScrollView *otherScrollView;
 @property (nonatomic)CGPoint velocity;
+@property (nonatomic) void(^reloadDataCallBack)();
+@property (nonatomic) void(^willReloadDataCallBack)();
 @end
 
 @implementation _PageSwitchView
@@ -43,10 +45,18 @@
         return NO;
     }
 }
-
+-(void)reloadData {
+    if(self.willReloadDataCallBack) {
+        self.willReloadDataCallBack();
+    }
+    [super reloadData];
+    if(self.reloadDataCallBack) {
+        self.reloadDataCallBack();
+    }
+}
 -(void)setTableHeaderView:(UIView *)tableHeaderView {
-    //    BOOL b = [tableHeaderView isKindOfClass:[StretchingHeaderView class]];
-    //    NSAssert(b, @"请采用代理设置header，不能另外设置");
+//    BOOL b = [tableHeaderView isKindOfClass:[StretchingHeaderView class]];
+//    NSAssert(b, @"请采用代理设置header，不能另外设置");
     [super setTableHeaderView:tableHeaderView];
 }
 
@@ -58,6 +68,7 @@
     }
 }
 
+
 @end
 
 #pragma mark -
@@ -65,10 +76,10 @@
 
 
 @interface PageSwitchView ()< UIGestureRecognizerDelegate,
-StretchingHeaderViewDelegate,
-UITableViewDelegate, UITableViewDataSource,
-SegmentTableViewDelegate, SegmentTableViewDataSource,
-HorizontalTableViewDelegate, HorizontalTableViewDataSource >
+                            StretchingHeaderViewDelegate,
+                            UITableViewDelegate, UITableViewDataSource,
+                            SegmentTableViewDelegate, SegmentTableViewDataSource,
+                            HorizontalTableViewDelegate, HorizontalTableViewDataSource >
 
 @property (nonatomic) _PageSwitchView *pageTableView;
 
@@ -77,6 +88,7 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
 
 @property (nonatomic, strong) NSMutableArray<PageSwitchItem *>*pageSwitchItemArray;
 @property (nonatomic) UIViewController *selfViewController;
+
 
 @property (nonatomic) SegmentTableView *segmentTableView;
 @property (nonatomic) UIView *headerView;
@@ -91,7 +103,7 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
 @property (nonatomic, weak) NSLayoutConstraint *layout_CR;
 @property (nonatomic, weak) NSLayoutConstraint *layout_CL;
 
-@property (nonatomic, assign) CGFloat maxOffsetY_didScroll;
+@property (nonatomic, assign) CGFloat panelScrollView_maxOffsetY;
 @property (nonatomic, assign) BOOL maxOffsetY_didSet_didScroll;
 
 @property (nonatomic, assign) CGFloat lastContentOffset_y;
@@ -108,7 +120,7 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
         self.titleHeight = kMinTitleBarHeight;
         self.backgroundColor = [UIColor colorWithWhite:defauleBackgroungColor alpha:1];
         self.maxOffsetY_didSet_didScroll = NO;
-        self.maxOffsetY_didScroll = 0;
+        self.panelScrollView_maxOffsetY = 0;
         self.lastContentOffset_y = 0;
         self.offset_Y_last = 0;
     }
@@ -145,6 +157,11 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
         [self addConstraint:[NSLayoutConstraint constraintWithItem:_pageTableView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
         [self addConstraint: [NSLayoutConstraint constraintWithItem:_pageTableView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
         [self addConstraint: [NSLayoutConstraint constraintWithItem:_pageTableView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+        __weak typeof(self) wself = self;
+        _pageTableView.reloadDataCallBack = ^{
+            wself.offset_Y_last = 0;
+            wself.maxOffsetY_didSet_didScroll = NO;
+        };
     }
     return _pageTableView;
 }
@@ -156,8 +173,15 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
         _hTableView = [[HorizontalTableView alloc]initWithFrame:CGRectZero];
         _hTableView.delegate = self;
         _hTableView.dataSource = self;
+        _hTableView.tableView.scrollEnabled = self.horizontalScrollEnabled;
     }
     return _hTableView;
+}
+-(void)setHorizontalScrollEnabled:(BOOL)horizontalScrollEnabled {
+    _horizontalScrollEnabled = horizontalScrollEnabled;
+    if (_hTableView) {
+        _hTableView.tableView.scrollEnabled = _horizontalScrollEnabled;
+    }
 }
 -(SegmentTableView *)segmentTableView {
     if (!_segmentTableView) {
@@ -184,7 +208,10 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
 
 -(PageSwitchItem *)contentPageSwitchItem {
     NSUInteger currentPageIndex = self.hTableView.currentPageIndex;
-    return  self.pageSwitchItemArray[currentPageIndex];
+    if (currentPageIndex< self.pageSwitchItemArray.count) {
+        return  self.pageSwitchItemArray[currentPageIndex];
+    }
+    return nil;
 }
 
 -(CGFloat)topeSpace {
@@ -192,12 +219,15 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
         return -self.titleHeight;
     }
     if (self.headerView) {
-        CGFloat h = CGRectGetHeight(self.headerView.bounds);
-        if (_topeSpace > h) {
-            return h;
-        }
+            CGFloat h = CGRectGetHeight(self.headerView.bounds);
+            if (_topeSpace > h) {
+                return h;
+            }
     }
     return _topeSpace;
+}
+-(UIViewController *)currentViewController {
+    return self.pageSwitchItemArray[self.hTableView.currentPageIndex].contentViewController;
 }
 
 -(UIView *)navigationBar_placeholderView {
@@ -307,6 +337,12 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
         cell.backgroundColor = self.backgroundColor;
     }
     if ([self.dataSource respondsToSelector:@selector(pageSwitchView:cellContentView:atIndexPath:isReuse:)]) {
+        CGFloat h = 44;
+        if ([self.dataSource respondsToSelector:@selector(pageSwitchView:heightForRowAtIndexPath:)]) {
+            h = [self.dataSource pageSwitchView:self heightForRowAtIndexPath:indexPath];
+        }
+        CGRect bounds = CGRectMake(0, 0, CGRectGetWidth(self.bounds), h);
+        cell.view.bounds = bounds;
         [self.dataSource pageSwitchView:self cellContentView:cell.view atIndexPath:indexPath isReuse:isReuse];
     }
     return cell;
@@ -389,59 +425,51 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
     return 0;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSInteger sectionCount = self.sectionCount;
+    if (indexPath.section<sectionCount-2) {
+        if ([self.delegate respondsToSelector:@selector(pageSwitchView:didSelectRowAtIndexPath:)]) {
+            [self.delegate pageSwitchView:self didSelectRowAtIndexPath:indexPath];
+        }
+    }
+}
+
 #pragma mark UITableViewDelegate_Scroll
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (self.pageSwitchItemArray.count > 0) {
-        //    if (self.pageTableView.scrollEnabled) {
         PageSwitchItem *item = self.contentPageSwitchItem;
         if (!self.maxOffsetY_didSet_didScroll) {
-            self.maxOffsetY_didScroll = self.pageTableView.contentSize.height-self.pageTableView.bounds.size.height;
+            self.panelScrollView_maxOffsetY = self.pageTableView.contentSize.height-self.pageTableView.bounds.size.height;
         }
+        
         if (item.isScroll || item.is2Scroll) {//滚动视图
+            UIScrollView *panelScrollView = self.pageTableView;
             UIScrollView *contentScrollView =  self.pageTableView.otherScrollView;//(UIScrollView*)item.contentView;
             
-            if (scrollView == self.pageTableView) {//滚动外部视图
-                //                [NSObject cancelPreviousPerformRequestsWithTarget:self];
-                //                [self performSelector:@selector(scrollViewDidEndScrollingAnimation:) withObject:nil afterDelay:0.2];
-                //                self.isScrolling = YES ;
-                
-                
-                if (scrollView.contentOffset.y<self.lastContentOffset_y) {//向下
-                    if (contentScrollView && contentScrollView.contentOffset.y > 0) {
-                        self.pageTableView.contentOffset = CGPointMake(0.0f, self.maxOffsetY_didScroll);
-                        self.maxOffsetY_didScroll = self.pageTableView.contentOffset.y;
-                        
-                        self.maxOffsetY_didSet_didScroll = YES;
-                    }else{
-                        CGFloat offsetY = scrollView.contentOffset.y;
-                        if(offsetY <= self.maxOffsetY_didScroll) {
-                            contentScrollView.contentOffset = CGPointZero;
-                        }
-                    }
-                } else if (scrollView.contentOffset.y>self.lastContentOffset_y) {//向上
-                    if (self.pageTableView.contentOffset.y >= self.maxOffsetY_didScroll) {
-                        self.pageTableView.contentOffset = CGPointMake(0.0f, self.maxOffsetY_didScroll);
-                        self.maxOffsetY_didScroll = self.pageTableView.contentOffset.y;
-                        
-                        self.maxOffsetY_didSet_didScroll = YES;
-                    }
+            if (scrollView == panelScrollView) {//滚动外部视图
+                if ((panelScrollView.contentOffset.y > self.panelScrollView_maxOffsetY)||(contentScrollView && contentScrollView.contentOffset.y > 0)) {
+                    panelScrollView.contentOffset = CGPointMake(0.0f, self.panelScrollView_maxOffsetY);
+                    self.panelScrollView_maxOffsetY = panelScrollView.contentOffset.y;
+                    self.maxOffsetY_didSet_didScroll = YES;
+                }else{
+//                    CGFloat offsetY = scrollView.contentOffset.y;
+//                    if(offsetY <= self.panelScrollView_maxOffsetY) {
+//                        contentScrollView.contentOffset = CGPointZero;
+//                    }
                 }
-                
-                self.lastContentOffset_y = scrollView.contentOffset.y;
-                
             }
             else if (scrollView == contentScrollView) {//滚动里面视图
-                if (self.pageTableView.contentOffset.y < self.maxOffsetY_didScroll) {
-                    
-                    scrollView.contentOffset = CGPointZero;
-                    scrollView.showsVerticalScrollIndicator = NO;
+                if (panelScrollView.contentOffset.y < self.panelScrollView_maxOffsetY) {
+                    contentScrollView.contentOffset = CGPointZero;
+                    contentScrollView.showsVerticalScrollIndicator = NO;
                 }else {
-                    self.pageTableView.contentOffset = CGPointMake(0.0f, self.maxOffsetY_didScroll);
-                    self.maxOffsetY_didScroll = self.pageTableView.contentOffset.y;
-                    self.maxOffsetY_didSet_didScroll = YES;
-                    scrollView.showsVerticalScrollIndicator = YES;
+//                    self.pageTableView.contentOffset = CGPointMake(0.0f, self.panelScrollView_maxOffsetY);
+//                    self.panelScrollView_maxOffsetY = self.pageTableView.contentOffset.y;
+//                    self.maxOffsetY_didSet_didScroll = YES;
+//                    scrollView.showsVerticalScrollIndicator = YES;
                 }
             }
+            
         }else{//普通视图
             //            [NSObject cancelPreviousPerformRequestsWithTarget:self];
             //            [self performSelector:@selector(scrollViewDidEndScrollingAnimation:) withObject:nil afterDelay:0.2];
@@ -476,6 +504,7 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
     //    NSLog(@"%@",scrollView);
 }
 
+
 //- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
 //    [NSObject cancelPreviousPerformRequestsWithTarget:self];
 //    self.isScrolling = NO ;
@@ -489,37 +518,48 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
 
 #pragma mark - HorizontalTableViewDelegate
 - (void)tableView:(HorizontalTableView*)tableView cellContentView:(UIContentView*)contentView atRowIndex:(NSUInteger )rowIndex isReuse:(BOOL)isReuse {
-    if (!isReuse) {
-        __weak UIContentView *wContentView = contentView;
-        __weak PageSwitchItem * pageSwitchItem = self.pageSwitchItemArray[rowIndex];
-        __weak typeof(self) wself = self;
-        pageSwitchItem.didLoadBock = ^{
-            [wself.selfViewController addChildViewController:pageSwitchItem.contentViewController];
-            if (pageSwitchItem.isScroll) {
-                UIScrollView *scrollView =  (UIScrollView *)pageSwitchItem.contentView;
-                scrollView.panGestureRecognizer.groupTag = kUIGestureRecognizer_V;
-                scrollView.backgroundColor = self.backgroundColor;
-            }
-            if (pageSwitchItem.is2Scroll) {
-                TwoScrollView *twoScrollView = (TwoScrollView*)pageSwitchItem.contentView;
-                twoScrollView.panGestureRecognizerGroupTag = kUIGestureRecognizer_V;
-                twoScrollView.haveHeader = self.headerView != nil;
-                twoScrollView.backgroundColor = self.backgroundColor;
-            }
-            pageSwitchItem.scrollDelegate = wself;
-            
-            [wContentView addSubview:pageSwitchItem.contentViewController.view];
-            pageSwitchItem.contentViewController.view.frame = wContentView.bounds;
-            if ([pageSwitchItem.contentViewController respondsToSelector:@selector(viewDidAdjustRect)]) {
-                [pageSwitchItem.contentViewController viewDidAdjustRect];
-            }
-            if (pageSwitchItem.contentViewController.view != pageSwitchItem.contentView) {
-                [pageSwitchItem.contentView removeFromSuperview];
-                [pageSwitchItem.contentViewController.view insertSubview:pageSwitchItem.contentView atIndex:0];
-                //                [pageSwitchItem.contentViewController.view addSubview:pageSwitchItem.contentView];
-                [wself addConstraint:pageSwitchItem.contentView inserts:UIEdgeInsetsMake(0, 0, 0, 0)];
-            }
-        };
+    __weak PageSwitchItem * pageSwitchItem = self.pageSwitchItemArray[rowIndex];
+    __weak typeof(self) wself = self;
+    __weak UIContentView *wContentView = contentView;
+    pageSwitchItem.didLoadBock = ^{
+        [wself.selfViewController addChildViewController:pageSwitchItem.contentViewController];
+        if (pageSwitchItem.isScroll) {
+            UIScrollView *scrollView =  (UIScrollView *)pageSwitchItem.contentView;
+            scrollView.panGestureRecognizer.groupTag = kUIGestureRecognizer_V;
+            scrollView.backgroundColor = self.backgroundColor;
+        }
+        if (pageSwitchItem.is2Scroll) {
+            TwoScrollView *twoScrollView = (TwoScrollView*)pageSwitchItem.contentView;
+            twoScrollView.panGestureRecognizerGroupTag = kUIGestureRecognizer_V;
+            twoScrollView.haveHeader = self.headerView != nil;
+            twoScrollView.backgroundColor = self.backgroundColor;
+        }
+        pageSwitchItem.scrollDelegate = wself;
+        pageSwitchItem.contentViewController.view.frame = wContentView.bounds;
+        
+        if (pageSwitchItem.moveToSuperBock) {
+            pageSwitchItem.moveToSuperBock();
+        }
+        
+        if ([pageSwitchItem.contentViewController respondsToSelector:@selector(viewDidAdjustRect)]) {
+            [pageSwitchItem.contentViewController viewDidAdjustRect];
+        }
+        if (pageSwitchItem.contentViewController.view != pageSwitchItem.contentView) {
+            [pageSwitchItem.contentView removeFromSuperview];
+            [pageSwitchItem.contentViewController.view insertSubview:pageSwitchItem.contentView atIndex:0];
+            [wself addConstraint:pageSwitchItem.contentView inserts:UIEdgeInsetsMake(0, 0, 0, 0)];
+        }
+    };
+    if (contentView.mountObject != pageSwitchItem) {
+        contentView.mountObject = pageSwitchItem;
+        [contentView clearSubviews];
+        if (pageSwitchItem.didLoad) {
+            contentView.content = pageSwitchItem.contentViewController.view;
+        }else{
+            pageSwitchItem.moveToSuperBock = ^{
+                contentView.content = pageSwitchItem.contentViewController.view;
+            };
+        }
     }
 }
 
@@ -662,7 +702,18 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
 //}
 
 -(void)reloadData {
-    self.pageSwitchItemArray = [[self.dataSource pageSwitchItemsInPageSwitchView:self] mutableCopy];
+    self.maxOffsetY_didSet_didScroll = NO;
+    self.offset_Y_last = 0;
+    NSArray<PageSwitchItem*> *arr = [self.dataSource pageSwitchItemsInPageSwitchView:self] ;
+    for (PageSwitchItem *item in self.pageSwitchItemArray) {
+        if (![arr containsObject:item]) {
+            if (item.didLoad) {
+                [item.contentViewController removeFromParentViewController];
+            }
+        }
+    }
+    self.pageSwitchItemArray = [arr mutableCopy];
+    
     if (self.pageSwitchItemArray.count > 0) {
         if ([self.delegate respondsToSelector:@selector(topeSpaceInPageSwitchView:)]) {
             self.topeSpace = [self.dataSource topeSpaceInPageSwitchView:self];
@@ -673,7 +724,7 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
         
         self.headerView = nil;
         if (self.headerView) {
-            //            self.pageTableView.scrollEnabled = YES;
+//            self.pageTableView.scrollEnabled = YES;
             BOOL stretching = NO;
             if ([self.dataSource respondsToSelector:@selector(stretchingHeaderInPageSwitchView:)]) {
                 stretching = [self.dataSource stretchingHeaderInPageSwitchView:self];
@@ -682,7 +733,13 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
             self.pageTableView.tableHeaderView = sHeaderView;
             sHeaderView.delegate = self;
         }else {
-            //            self.pageTableView.scrollEnabled = NO;
+//            self.pageTableView.scrollEnabled = NO;
+        }
+        if ([self.dataSource respondsToSelector:@selector(selectedImageInTitleAtPageSwitchView:)]) {
+            self.segmentTableView.selectedBgImage = [self.dataSource selectedImageInTitleAtPageSwitchView:self];
+        }
+        if ([self.dataSource respondsToSelector:@selector(bgColorInTitleAtPageSwitchView:)]) {
+            self.segmentTableView.bgColor = [self.dataSource bgColorInTitleAtPageSwitchView:self];;
         }
         self.segmentTableView.selectColor = self.titleCellSelectColor;
         self.segmentTableView.allowCellSpace = self.titleCellSpace;
@@ -703,7 +760,7 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
     if (pageSwitchItem.didLoad && [pageSwitchItem.contentViewController respondsToSelector:@selector(pageScrolling)]) {
         [pageSwitchItem.contentViewController pageScrolling];
     }
-    
+
     self.segmentTableView.currentIndex = newIndex;
 }
 
@@ -734,16 +791,97 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
 }
 
 -(void)didMoveToSuperview {
-    [super didMoveToSuperview];
-    //    self.selfViewController.edgesForExtendedLayout =  UIRectEdgeLeft | UIRectEdgeBottom | UIRectEdgeRight;
-    //    self.selfViewController.extendedLayoutIncludesOpaqueBars = NO;
-    //    self.selfViewController.modalPresentationCapturesStatusBarAppearance = NO;
+    [super didMoveToSuperview]; 
+//    self.selfViewController.edgesForExtendedLayout =  UIRectEdgeLeft | UIRectEdgeBottom | UIRectEdgeRight;
+//    self.selfViewController.extendedLayoutIncludesOpaqueBars = NO;
+//    self.selfViewController.modalPresentationCapturesStatusBarAppearance = NO;
     self.selfViewController.automaticallyAdjustsScrollViewInsets = NO;
-    //    [self navigationBar_placeholderView];
+//    [self navigationBar_placeholderView];
     if (self.layoutBlock) {
         self.layoutBlock(self.superview);
     }
 }
 
+-(void)scrollToTopWithCompletion:(void(^)())completion {
+    //判断动画
+//    return;
+    PageSwitchItem *item = self.contentPageSwitchItem;
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    NSUInteger tag = 100110110;
+    UIView *markView = [keyWindow viewWithTag:tag];
+    [markView removeFromSuperview];
+    if (!markView) {
+        markView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        markView.tag = tag;
+//        markView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
+    }
+    [keyWindow addSubview:markView];
+    void (^_completion) () = ^{
+        [markView removeFromSuperview];
+        if (completion) {
+            completion();
+        }
+    };
+    if (item.didLoad) {
+        if (item.isScroll) {
+            UIScrollView *scrollView = (UIScrollView*)item.contentView;
+            CGFloat ally = scrollView.contentOffset.y+self.pageTableView.contentOffset.y;
+            CGFloat time_i = 0;
+            CGFloat time_o = 0;
+            if (ally>0) {
+                time_i = scrollView.contentOffset.y/ally*0.2;
+                time_o = 0.2-time_i;
+            }
+            if (time_i>0) {
+                __weak typeof(self) wself = self;
+                [scrollView scrollToTopWithTime:time_i animatie:YES completion:^{
+                    [wself.pageTableView scrollToTopWithTime:time_o animatie:YES completion:^{
+                        _completion();
+                    }];
+                }];
+//                [scrollView scrollToTopWithAnimatie:YES completion:^{
+//                        [wself.pageTableView scrollToTopWithAnimatie:YES completion:^{
+//                            _completion();
+//                        }];
+//                }];
+//                [scrollView setContentOffset:CGPointZero animated:YES];
+//                doCodeDelay(self, 0.25, ^{
+//                    [self.pageTableView setContentOffset:CGPointZero animated:YES];
+//                    doCodeDelay(self, 0.22, ^{
+//                        _completion();
+//                    });
+//                });
+                return;
+            }else if (time_o>0) {
+                [self.pageTableView scrollToTopWithAnimatie:YES completion:^{
+                    _completion();
+                }];
+//                    [self.pageTableView setContentOffset:CGPointZero animated:YES];
+//                    doCodeDelay(self, 0.22, ^{
+//                        _completion();
+//                    });
+                return;
+            }else{
+                _completion();
+            }
+            return;
+        }else if (item.is2Scroll) {
+            //...
+            //双列scrollView
+            _completion();
+            return;
+        }else{
+            [self.pageTableView scrollToTopWithAnimatie:YES completion:^{
+                _completion();
+            }];
+//            [self.pageTableView setContentOffset:CGPointZero animated:YES];
+//            doCodeDelay(self, 0.22, ^{
+//                _completion();
+//            });
+            return;
+        }
+    }
+    _completion();
+}
 @end
 

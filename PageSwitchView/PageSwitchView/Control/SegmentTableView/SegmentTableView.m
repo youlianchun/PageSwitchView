@@ -16,7 +16,9 @@ static const CGFloat cellSpace_2 = 5;
 
 static const CGFloat bottomSpace = -5;
 @interface SegmentTableView ()<UITableViewDelegate,UITableViewDataSource>
-
+{
+    UIColor *_selectColor;
+}
 @property (nonatomic) UITableView   *tableView;
 @property (nonatomic) GradientColor *gradientColor;
 //@property (nonatomic) GradientColor *gradientColor_bg;
@@ -68,6 +70,13 @@ static const CGFloat bottomSpace = -5;
     }
     return _selectColor;
 }
+
+-(void)setSelectColor:(UIColor *)selectColor {
+    _selectColor = selectColor;
+    self.cellBgView.backgroundColor = selectColor;
+    self.cellLineView.backgroundColor = selectColor;
+}
+
 -(UIView *)cellBgView {
     if (!_cellBgView) {
         _cellBgView = [[UIView alloc]initWithFrame:CGRectMake(5, 0, self.bounds.size.height+bottomSpace - 10, 20)];
@@ -75,7 +84,6 @@ static const CGFloat bottomSpace = -5;
         _cellBgView.layer.cornerRadius = 4;
         _cellBgView.layer.masksToBounds = YES;
         _cellBgView.hidden = self.selectedStyle != SegmentSelectedStyleBackground;
-
     }
     return _cellBgView;
 }
@@ -250,8 +258,12 @@ static const CGFloat bottomSpace = -5;
         cell.number = 0;
     }
 
+    cell.bgImage = nil;
     if (indexPath.section == self.currentIndex) {
         cell.textLabel.textColor = self.selectedTitleColor;
+        if (indexPath.section<self.selectedBgImage.count && self.selectedStyle == SegmentSelectedStyleCustomBG) {
+            cell.bgImage = self.selectedBgImage[indexPath.section];
+        }
 //        cell.textLabel.backgroundColor = self.selectedBgColor;
     }else {
         cell.textLabel.textColor = self.normalTitleColor;
@@ -358,6 +370,21 @@ static const CGFloat bottomSpace = -5;
     if (index < self.titleArray.count) {
         _SegmentTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:index]];
         cell.number = number;
+    }
+}
+//-(NSArray *)selectedBgImage {
+//    if (!_selectedBgImage) {
+//        UIImage *img_l = [[UIImage imageNamed:@"tab_right"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 15) resizingMode:UIImageResizingModeStretch];
+//        UIImage *img_r = [[UIImage imageNamed:@"tab_left"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 15, 0, 5) resizingMode:UIImageResizingModeStretch];
+//        _selectedBgImage = @[img_l,img_r];
+//    }
+//    return _selectedBgImage;
+//}
+-(void)setBgColor:(UIColor *)bgColor {
+    _bgColor = bgColor;
+    self.tableView.backgroundColor = _bgColor;
+    if (self.selectedStyle == SegmentSelectedStyleCustomBG) {
+        self.backgroundColor = [UIColor whiteColor];
     }
 }
 @end

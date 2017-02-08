@@ -26,6 +26,10 @@
 -(CGFloat)heightForHeaderInSection:(NSInteger)section {return 0;}
 -(CGFloat)heightForRowAtIndexPath:(NSIndexPath *)indexPath {return 0;}
 - (void)didScrollContentOffset:(CGPoint)contentOffset velocity:(CGPoint)velocity {}
+-(NSArray*)selectedImageInTitle {return  @[];}
+-(UIColor*)bgColorInTitle{return [UIColor whiteColor];}
+-(void)didSelectRowAtIndexPath:(NSIndexPath *)indexPath{}
+- (void)emptyPageContentView:(UIContentView*)contentView isReuse:(BOOL)isReuse{}
 @end
 
 @interface PageSwitchViewController ()<PageSwitchViewDelegate, PageSwitchViewDataSource>
@@ -39,6 +43,8 @@
     [self.view addSubview:self.pageSwitchView];
     self.pageSwitchView.delegate = self;
     self.pageSwitchView.dataSource = self;
+    self.pageSwitchView.normalTitleColor = [UIColor colorWithHexString:@"#787878"];
+
     [self layoutPageSwitchViewWithinserts:UIEdgeInsetsMake(0, 0, 0, 0)];
 }
 -(void)layoutPageSwitchViewWithinserts:(UIEdgeInsets)inserts{
@@ -54,6 +60,7 @@
         _pageSwitchView.titleSelectedStyle = self.titleSelectedStyle;
         _pageSwitchView.selectedTitleColor = self.selectedTitleColor;
         _pageSwitchView.titleCellSelectColor = self.titleCellSelectColor;
+        _pageSwitchView.horizontalScrollEnabled = YES;
     }
     return _pageSwitchView;
 }
@@ -78,6 +85,9 @@
 
 - (void)pageSwitchView:(PageSwitchView *)pageSwitchView cellContentView:(UIContentView*)contentView atIndexPath:(NSIndexPath*)indexPath isReuse:(BOOL)isReuse {
     [self cellContentView:contentView atIndexPath:indexPath isReuse:isReuse];
+}
+- (void)pageSwitchView:(PageSwitchView *)pageSwitchView emptyPageContentView:(UIContentView*)contentView isReuse:(BOOL)isReuse {
+    [self emptyPageContentView:contentView isReuse:isReuse];
 }
 
 -(NSUInteger)numberOfSectionsInTableView:(PageSwitchView *)tableView {
@@ -104,6 +114,16 @@
     [self didScrollContentOffset:contentOffset velocity:velocity];
 }
 
+-(NSArray*)selectedImageInTitleAtPageSwitchView:(PageSwitchView *)pageSwitchView {
+    return [self selectedImageInTitle];
+}
+
+-(UIColor*)bgColorInTitleAtPageSwitchView:(PageSwitchView *)pageSwitchView {
+    return [self bgColorInTitle];
+}
+-(void)pageSwitchView:(PageSwitchView *)pageSwitchView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self didSelectRowAtIndexPath:indexPath];
+}
 #pragma mark -
 
 -(void)reload {
@@ -173,5 +193,11 @@
 }
 -(UIColor *)titleCellSelectColor {
     return self.pageSwitchView.titleCellSelectColor;
+}
+-(void)setHorizontalScrollEnabled:(BOOL)horizontalScrollEnabled {
+    self.pageSwitchView.horizontalScrollEnabled = horizontalScrollEnabled;
+}
+-(BOOL)horizontalScrollEnabled {
+    return self.pageSwitchView.horizontalScrollEnabled;
 }
 @end

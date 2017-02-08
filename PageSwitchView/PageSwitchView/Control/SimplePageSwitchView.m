@@ -60,6 +60,16 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
 
 #pragma mark - Get Set
 
+-(id)pageContentView {
+    if (self.hTableView.currentPageIndex < self.pageSwitchItemArray.count) {
+        PageSwitchItem *item = self.pageSwitchItemArray[self.hTableView.currentPageIndex];
+        if (item.didLoad) {
+            return item.contentView;
+        }
+    }
+    return nil;
+}
+
 -(UIViewController *)selfViewController{
     if (!_selfViewController) {
         UIResponder *responder = self;
@@ -110,14 +120,9 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
     }
     return _segmentTableView;
 }
-
-
-
--(PageSwitchItem *)contentPageSwitchItem {
-    NSUInteger currentPageIndex = self.hTableView.currentPageIndex;
-    return  self.pageSwitchItemArray[currentPageIndex];
+-(UIViewController *)currentViewController {
+    return self.pageSwitchItemArray[self.hTableView.currentPageIndex].contentViewController;
 }
-
 
 -(UIView *)navigationBar_placeholderView {
     if (!_navigationBar_placeholderView) {
@@ -143,44 +148,59 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
 
 #pragma mark - HorizontalTableViewDelegate
 - (void)tableView:(HorizontalTableView*)tableView cellContentView:(UIContentView*)contentView atRowIndex:(NSUInteger )rowIndex isReuse:(BOOL)isReuse {
-    if (!isReuse) {
-        __weak UIContentView *wContentView = contentView;
-        __weak PageSwitchItem * pageSwitchItem = self.pageSwitchItemArray[rowIndex];
-        __weak typeof(self) wself = self;
-        pageSwitchItem.didLoadBock = ^{
-            CGRect frame = wContentView.bounds;
-            [wself.selfViewController addChildViewController:pageSwitchItem.contentViewController];
-            if (pageSwitchItem.isPSView) {
-                __weak PageSwitchView *pageSwitchView = (PageSwitchView*)pageSwitchItem.contentView;
-                pageSwitchView.superTitleHeight = self.titleHeight;
-                pageSwitchView.backgroundColor = self.backgroundColor;
-                pageSwitchView.tableView.backgroundColor = self.backgroundColor;
+    __weak UIContentView *wContentView = contentView;
+    __weak PageSwitchItem * pageSwitchItem = self.pageSwitchItemArray[rowIndex];
+    __weak typeof(self) wself = self;
+    pageSwitchItem.didLoadBock = ^{
+        CGRect frame = wContentView.bounds;
+        [wself.selfViewController addChildViewController:pageSwitchItem.contentViewController];
+        if (pageSwitchItem.isPSView) {
+            __weak PageSwitchView *pageSwitchView = (PageSwitchView*)pageSwitchItem.contentView;
+            pageSwitchView.superTitleHeight = self.titleHeight;
+            pageSwitchView.backgroundColor = self.backgroundColor;
+            pageSwitchView.tableView.backgroundColor = self.backgroundColor;
+            if (pageSwitchView.horizontalScrollEnabled) {
                 pageSwitchView.horizontalTableView.syncGestureRecognizer = YES;
                 pageSwitchView.didScrollCallBack = ^(){
-                   [wself pageSwitchViewDidScroll:pageSwitchView];
+                    [wself pageSwitchViewDidScroll:pageSwitchView];
                 };
-            }else {
-                frame.origin.y = self.titleHeight;
-                frame.size.height -= self.titleHeight;
             }
-            if (pageSwitchItem.isScroll) {
-                pageSwitchItem.contentView.backgroundColor = self.backgroundColor;
-            }
-            if (pageSwitchItem.is2Scroll) {
-                pageSwitchItem.contentView.backgroundColor = self.backgroundColor;
-            }
-            [wContentView addSubview:pageSwitchItem.contentViewController.view];
-            pageSwitchItem.contentViewController.view.frame = frame;
-            if ([pageSwitchItem.contentViewController respondsToSelector:@selector(viewDidAdjustRect)]) {
-                [pageSwitchItem.contentViewController viewDidAdjustRect];
-            }
-            if (pageSwitchItem.contentViewController.view != pageSwitchItem.contentView) {
-                [pageSwitchItem.contentView removeFromSuperview];
-                [pageSwitchItem.contentViewController.view insertSubview:pageSwitchItem.contentView atIndex:0];
-//                [pageSwitchItem.contentViewController.view addSubview:pageSwitchItem.contentView];
-                [wself addConstraint:pageSwitchItem.contentView inserts:UIEdgeInsetsMake(0, 0, 0, 0)];
-            }
-        };
+        }else {
+            frame.origin.y = self.titleHeight;
+            frame.size.height -= self.titleHeight;
+        }
+        if (pageSwitchItem.isScroll) {
+            pageSwitchItem.contentView.backgroundColor = self.backgroundColor;
+        }
+        if (pageSwitchItem.is2Scroll) {
+            pageSwitchItem.contentView.backgroundColor = self.backgroundColor;
+        }
+        pageSwitchItem.contentViewController.view.frame = frame;
+        
+        if (pageSwitchItem.moveToSuperBock) {
+            pageSwitchItem.moveToSuperBock();
+        }
+        
+        if ([pageSwitchItem.contentViewController respondsToSelector:@selector(viewDidAdjustRect)]) {
+            [pageSwitchItem.contentViewController viewDidAdjustRect];
+        }
+        if (pageSwitchItem.contentViewController.view != pageSwitchItem.contentView) {
+            [pageSwitchItem.contentView removeFromSuperview];
+            [pageSwitchItem.contentViewController.view insertSubview:pageSwitchItem.contentView atIndex:0];
+            [wself addConstraint:pageSwitchItem.contentView inserts:UIEdgeInsetsMake(0, 0, 0, 0)];
+        }
+    };
+
+    if (contentView.mountObject != pageSwitchItem) {
+        contentView.mountObject = pageSwitchItem;
+        [contentView clearSubviews];
+        if (pageSwitchItem.didLoad) {
+            contentView.content = pageSwitchItem.contentViewController.view;
+        }else{
+            pageSwitchItem.moveToSuperBock = ^{
+                contentView.content = pageSwitchItem.contentViewController.view;
+            };
+        }
     }
 }
 
@@ -278,7 +298,6 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
             wself.layout_CR.constant = inserts.right;
             wself.layout_CB.constant = inserts.bottom;
             wself.layoutBlock = nil;
-            [wself setNeedsLayout];
         }else{
             wself.translatesAutoresizingMaskIntoConstraints = NO;
             wself.layout_CT = [NSLayoutConstraint constraintWithItem:wself attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeTop multiplier:1 constant:inserts.top];
@@ -290,7 +309,6 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
             [superview addConstraint:wself.layout_CR];
             [superview addConstraint:wself.layout_CB];
             wself.layoutBlock = nil;
-            [wself setNeedsLayout];
         }
     };
     if (superview) {
@@ -299,11 +317,22 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
 }
 
 -(void)reloadData {
+    
     if ([self.dataSource respondsToSelector:@selector(titleHeightInPageSwitchView:)]) {
         self.titleHeight = MIN([self.dataSource titleHeightInPageSwitchView:self], kMinTitleBarHeight);
     }
     self.segmentTableView.selectColor = self.titleCellSelectColor;
-    self.pageSwitchItemArray = [[self.dataSource pageSwitchItemsInPageSwitchView:self] mutableCopy];
+    
+    NSArray<PageSwitchItem*> *arr = [self.dataSource pageSwitchItemsInPageSwitchView:self] ;
+    for (PageSwitchItem *item in self.pageSwitchItemArray) {
+        if (![arr containsObject:item]) {
+            if (item.didLoad) {
+                [item.contentViewController removeFromParentViewController];
+            }
+        }
+    }
+    self.pageSwitchItemArray = [arr mutableCopy];
+    
     self.segmentTableView.allowCellSpace = self.titleCellSpace;
     self.segmentTableView.maxTitleCount = self.maxTitleCount;
     self.segmentTableView.adaptFull_maxTitleCount = self.adaptFull_maxTitleCount;
@@ -354,9 +383,9 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
 }
 -(void)didMoveToSuperview {
     [super didMoveToSuperview];
-//        self.selfViewController.edgesForExtendedLayout =  UIRectEdgeLeft | UIRectEdgeBottom | UIRectEdgeRight;
-//        self.selfViewController.extendedLayoutIncludesOpaqueBars = NO;
-//        self.selfViewController.modalPresentationCapturesStatusBarAppearance = NO;
+    //    self.selfViewController.edgesForExtendedLayout =  UIRectEdgeLeft | UIRectEdgeBottom | UIRectEdgeRight;
+    //    self.selfViewController.extendedLayoutIncludesOpaqueBars = NO;
+    //    self.selfViewController.modalPresentationCapturesStatusBarAppearance = NO;
     self.selfViewController.automaticallyAdjustsScrollViewInsets = NO;
     //    [self navigationBar_placeholderView];
     if (self.layoutBlock) {

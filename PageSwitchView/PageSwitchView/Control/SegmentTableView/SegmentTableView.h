@@ -41,6 +41,9 @@
 @property (nonatomic) NSUInteger maxTitleCount;//同时显示最多标题数，0时候不限制
 @property (nonatomic) BOOL adaptFull_maxTitleCount;//maxTitleCount不为0的时候设置标题占满标题栏
 
+@property (nonatomic) NSArray *selectedBgImage;
+@property (nonatomic) UIColor *bgColor;
+
 
 @property (nonatomic) UIColor* selectColor;//选中态样式颜色
 

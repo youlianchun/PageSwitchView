@@ -16,7 +16,7 @@ static const CGFloat height = 8;
 }
 @property (nonatomic) UILabel *markLabel;
 @property (nonatomic) NSLayoutConstraint *markLabel_CW;
-
+@property (nonatomic) UIImageView *bgImageView;
 @end
 
 @implementation _SegmentTableViewCell
@@ -78,7 +78,19 @@ static const CGFloat height = 8;
     }
     return _markLabel;
 }
-
+-(UIImageView *)bgImageView {
+    if (!_bgImageView) {
+        _bgImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+//        _bgImageView.contentMode = UIViewContentModeRedraw;
+        [self.contentView insertSubview:_bgImageView atIndex:0];
+        _bgImageView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_bgImageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_bgImageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
+        [self.contentView addConstraint: [NSLayoutConstraint constraintWithItem:_bgImageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+        [self.contentView addConstraint: [NSLayoutConstraint constraintWithItem:_bgImageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+    }
+    return _bgImageView;
+}
 -(void)setNumber:(NSInteger)number {
     _number = number;
     self.markLabel.hidden = number == 0;
@@ -109,5 +121,11 @@ static const CGFloat height = 8;
 
     // Configure the view for the selected state
 }
+-(void)setBgImage:(UIImage *)bgImage {
+    self.bgImageView.image = bgImage;
+}
 
+-(UIImage *)bgImage{
+    return self.bgImageView.image;
+}
 @end
