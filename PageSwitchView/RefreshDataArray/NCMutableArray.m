@@ -9,8 +9,8 @@
 
 @interface NCMutableArray()<NSLocking>
 {
-//    NSMutableArray *_array;
-    NSRecursiveLock *_safeLock;
+    NSMutableArray *_array;
+//    NSRecursiveLock *_safeLock;
 }
 @end
 
@@ -53,7 +53,7 @@
 - (instancetype)initWithCapacity:(NSUInteger)numItems {
     self = [super init];
     if (self) {
-        _safeLock = [[NSRecursiveLock alloc] init];
+//        _safeLock = [[NSRecursiveLock alloc] init];
         _array = [NSMutableArray arrayWithCapacity:numItems];
     }
     return self;
@@ -63,78 +63,79 @@
     if (_array) {
         _array = nil;
     }
+//    _safeLock = nil;
 }
 
 - (NSUInteger)count {
-    [_safeLock lock];
+    // [_safeLock lock];
     NSInteger result = _array.count;
-    [_safeLock unlock];
+    // [_safeLock unlock];
     return result;
 }
 
 - (id)objectAtIndex:(NSUInteger)index {
-    [_safeLock lock];
+    // [_safeLock lock];
    id result = [_array objectAtIndex:index];
-    [_safeLock unlock];
+    // [_safeLock unlock];
     return result;
 }
 
 - (void)insertObject:(id)anObject atIndex:(NSUInteger)index {
-    [_safeLock lock];
+    // [_safeLock lock];
     [_array insertObject:anObject atIndex:index];
-    [_safeLock unlock];
+    // [_safeLock unlock];
 }
 
 - (void)removeObjectAtIndex:(NSUInteger)index {
-    [_safeLock lock];
+    // [_safeLock lock];
     [_array removeObjectAtIndex:index];
-    [_safeLock unlock];
+    // [_safeLock unlock];
 }
 
 - (void)addObject:(id)anObject {
-    [_safeLock lock];
+    // [_safeLock lock];
     [_array addObject:anObject];
-    [_safeLock unlock];
+    // [_safeLock unlock];
 }
 
 - (void)removeLastObject {
-    [_safeLock lock];
+    // [_safeLock lock];
     [_array removeLastObject];
-    [_safeLock unlock];
+    // [_safeLock unlock];
 }
 
 - (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject {
-    [_safeLock lock];
+    // [_safeLock lock];
     [_array replaceObjectAtIndex:index withObject:anObject];
-    [_safeLock unlock];
+    // [_safeLock unlock];
 }
 
 #pragma mark Optional
 
 - (void)removeAllObjects {
-    [_safeLock lock];
+    // [_safeLock lock];
     [_array removeAllObjects];
-    [_safeLock unlock];
+    // [_safeLock unlock];
 }
 
 - (NSUInteger)indexOfObject:(id)anObject {
-    [_safeLock lock];
+    // [_safeLock lock];
     NSInteger result = [_array indexOfObject:anObject];
-    [_safeLock unlock];
+    // [_safeLock unlock];
     return result;
 }
 
 - (id)objectAtIndexedSubscript:(NSUInteger)idx {
-    [_safeLock lock];
+    // [_safeLock lock];
     id result = _array[idx];
-    [_safeLock unlock];
+    // [_safeLock unlock];
     return result;
 }
 
 - (void)setObject:(id)anObject atIndexedSubscript:(NSUInteger)index {
-    [_safeLock lock];
+    // [_safeLock lock];
     _array[index] = anObject;
-    [_safeLock unlock];
+    // [_safeLock unlock];
 }
 
 - (void)enumerateObjectsUsingBlock:(void (NS_NOESCAPE ^)(id obj, NSUInteger idx, BOOL *stop))block {
@@ -150,105 +151,105 @@
 }
 
 - (NSArray *)objectsAtIndexes:(NSIndexSet *)indexes {
-    [_safeLock lock];
+    // [_safeLock lock];
     NSArray *arr = [_array objectsAtIndexes:indexes];
-    [_safeLock unlock];
+    // [_safeLock unlock];
     return arr;
 }
 
 - (void)exchangeObjectAtIndex:(NSUInteger)idx1 withObjectAtIndex:(NSUInteger)idx2 {
-    [_safeLock lock];
+    // [_safeLock lock];
     [_array exchangeObjectAtIndex:idx1 withObjectAtIndex:idx2];
-    [_safeLock unlock];
+    // [_safeLock unlock];
 }
 
 - (void)removeObject:(id)anObject inRange:(NSRange)range {
-    [_safeLock lock];
+    // [_safeLock lock];
     [_array removeObject:anObject inRange:range];
-    [_safeLock unlock];
+    // [_safeLock unlock];
 }
 
 - (void)removeObject:(id)anObject {
-    [_safeLock lock];
+    // [_safeLock lock];
     [_array removeObject:anObject];
-    [_safeLock unlock];
+    // [_safeLock unlock];
 }
 
 - (void)removeObjectIdenticalTo:(id)anObject inRange:(NSRange)range {
-    [_safeLock lock];
+    // [_safeLock lock];
     [_array removeObjectIdenticalTo:anObject inRange:range];
-    [_safeLock unlock];
+    // [_safeLock unlock];
 }
 
 - (void)removeObjectIdenticalTo:(id)anObject {
-    [_safeLock lock];
+    // [_safeLock lock];
     [_array removeObjectIdenticalTo:anObject];
-    [_safeLock unlock];
+    // [_safeLock unlock];
 }
 
 - (void)removeObjectsInArray:(NSArray *)otherArray {
-    [_safeLock lock];
+    // [_safeLock lock];
     [_array removeObjectsInArray:otherArray];
-    [_safeLock unlock];
+    // [_safeLock unlock];
 }
 
 - (void)removeObjectsInRange:(NSRange)range {
-    [_safeLock lock];
+    // [_safeLock lock];
     [_array removeObjectsInRange:range];
-    [_safeLock unlock];
+    // [_safeLock unlock];
 }
 
 - (void)replaceObjectsInRange:(NSRange)range withObjectsFromArray:(NSArray *)otherArray range:(NSRange)otherRange {
-    [_safeLock lock];
+    // [_safeLock lock];
     [_array replaceObjectsInRange:range withObjectsFromArray:otherArray range:range];
-    [_safeLock unlock];
+    // [_safeLock unlock];
 }
 
 - (void)replaceObjectsInRange:(NSRange)range withObjectsFromArray:(NSArray *)otherArray {
-    [_safeLock lock];
+    // [_safeLock lock];
     [_array replaceObjectsInRange:range withObjectsFromArray:otherArray];
-    [_safeLock unlock];
+    // [_safeLock unlock];
 }
 
 - (void)setArray:(NSArray *)otherArray {
-    [_safeLock lock];
+    // [_safeLock lock];
     [_array setArray:otherArray];
-    [_safeLock unlock];
+    // [_safeLock unlock];
 }
 
 - (void)sortUsingFunction:(NSInteger (NS_NOESCAPE *)(id,  id, void * _Nullable))compare context:(nullable void *)context {
-    [_safeLock lock];
+    // [_safeLock lock];
     [_array sortUsingFunction:compare context:context];
-    [_safeLock unlock];
+    // [_safeLock unlock];
 }
 
 - (void)sortUsingSelector:(SEL)comparator {
-    [_safeLock lock];
+    // [_safeLock lock];
     [_array sortUsingSelector:comparator];
-    [_safeLock unlock];
+    // [_safeLock unlock];
 }
 
 - (BOOL)containsObject:(id)anObject {
-    [_safeLock lock];
+    // [_safeLock lock];
     BOOL result = [_array containsObject:anObject];
-    [_safeLock unlock];
+    // [_safeLock unlock];
     return result;
 }
 
 
 - (void)addObjectsFromArray:(NSArray*)otherArray {
-    [_safeLock lock];
+    // [_safeLock lock];
     [_array addObjectsFromArray:otherArray];
-    [_safeLock unlock];
+    // [_safeLock unlock];
 }
 
 //#pragma mark NSLocking
 - (void)lock {
-    [_safeLock lock];
+    // [_safeLock lock];
 }
 
 - (void)unlock {
-    [_safeLock unlock];
+    // [_safeLock unlock];
 }
 
 - (id)copyWithZone:(nullable NSZone *)zone {

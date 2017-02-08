@@ -7,11 +7,11 @@
 //
 
 #import "UIScrollView+ScrollToTop.h"
-#import<libkern/OSAtomic.h>
+#import <libkern/OSAtomic.h>
 #import <objc/runtime.h>
 
 @interface UIScrollView ()
-@property (nonatomic,assign) BOOL disabled;//是否禁止默认NO
+@property (nonatomic, assign) BOOL disabled;//是否禁止默认NO
 @property (nonatomic, retain) NSLock *lock;
 @end
 
@@ -61,7 +61,6 @@
             dispatch_source_set_cancel_handler(timer, ^{
             });
             dispatch_resume(timer);
-            
 
         }else{
             [scrollView setContentOffset:CGPointZero];

@@ -20,34 +20,21 @@ extern RefreshSet RefreshSetMake(BOOL header, BOOL footer, NSUInteger startPage,
 typedef UIScrollView RefresView;
 
 @protocol RefresDataArrayDelegate <NSObject>
-
 /**
- 加载完成
- 
- @param view 加载页
- @param page 加载结果
- @param firstPage 是否第一页
- @param netRes arr 网络请求数组 isOK 网络状态，false时候不执行其它操作
+ *  加载数据
+ *
+ *  @param page   加载页
+ *  @param netRes 加载结果
+ 请求结果只需要调用netRes(结果数组,接口请求状态)，接口请求状态指的是网络请求成功或者失败
  */
 -(void)loadDataInRefresView:(RefresView*)view page:(NSUInteger)page firstPage:(BOOL)firstPage res:(void(^)(NSArray* arr, BOOL isOK))netRes;
-
 /**
  *  设置刷新项
  *
  *  @return <#return value description#>
  */
 -(RefreshSet)refreshSetWithRefresView:(RefresView*)view;
-
 @optional
-/**
- 加载完成
- 
- @param view 加载页
- @param page 加载结果
- @param firstPage 是否第一页
- */
--(void)didLoadDataInRefresView:(RefresView*)view page:(NSUInteger)page firstPage:(BOOL)firstPage;
-
 /**
  *  没有数据
  *
@@ -55,26 +42,24 @@ typedef UIScrollView RefresView;
  */
 -(void)emptyDataArrayInRefresView:(RefresView*)view isEmpty:(BOOL)isEmpty;
 
-
-/**
- 是否隐藏第一页footer，当分页为1的时候
-
- @param view 加载页
- @return 是否隐藏
- */
-//-(BOOL)hidenFooterAtFirstPageWhen1PageSizeInRefresView:(RefresView*)view;
+-(void)didLoadDataInRefresView:(RefresView*)view page:(NSUInteger)page firstPage:(BOOL)firstPage lastPage:(BOOL)lastPage;
 
 @end
 
 @interface RefresDataArray<ObjectType> : NCMutableArray<ObjectType>
 
+@property (nonatomic) id object;
+
+@property (assign, nonatomic) CGFloat ignoredScrollViewContentInsetTop;
+@property (assign, nonatomic) CGFloat ignoredScrollViewContentInsetBottom;
+
+@property (nonatomic, copy) BOOL(^hidenFooterAtFirstPageWhen1PageSize)(RefresDataArray<ObjectType> *wArr);
 
 /**
  数组0元素时候请求Page始终是StartPage，默认false
  */
 @property (nonatomic, assign) BOOL pageIsStartPageWhenEmpty;
-
-@property (nonatomic, copy) BOOL(^hidenFooterAtFirstPageWhen1PageSize)(RefresDataArray<ObjectType> *wArr);
+@property (nonatomic, assign) BOOL refresing;
 
 /**
  *  请求下一页数据，没有分页时候且第一页已经请求完成后不执行

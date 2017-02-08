@@ -8,10 +8,7 @@
 #import <Foundation/Foundation.h>
 NS_ASSUME_NONNULL_BEGIN
 @interface NCMutableArray<__covariant ObjectType> : NSObject<NSCopying, NSMutableCopying>
-{
-    @private
-    NSMutableArray<ObjectType> *_array;
-}
+
 @property (nonatomic, readonly) NSUInteger count;
 
 @property (nonatomic, assign) BOOL locking;

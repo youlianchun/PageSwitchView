@@ -7,6 +7,8 @@
 //
 
 #import "RefresBranchdDataArray.h"
+#import "RefresBoleDataArray.h"
+
 @interface RefresDataArray()
 - (instancetype)initSelf;
 -(void)setRefSet:(RefreshSet)refSet;
@@ -14,6 +16,7 @@
 
 @interface RefresBranchdDataArray ()
 @property (nonatomic, copy) void(^didLoadData)(NSUInteger page, BOOL firstPage);
+@property (nonatomic, weak) RefresBoleDataArray*boleDataArray;
 @end
 
 @implementation RefresBranchdDataArray
@@ -26,14 +29,25 @@
     return self;
 }
 
--(void)reloadData {
+-(void)reloadDataFromBole {
     [super reloadDataWithAnimate:NO];
+}
+
+-(void)reloadData {
+    if (self.boleDataArray) {
+        if (!self.boleDataArray.willLoading) {
+            [super reloadDataWithAnimate:NO];
+        }
+    }else{
+        [super reloadDataWithAnimate:NO];
+    }
 }
 
 -(void)setRefSet:(RefreshSet)refSet {
     refSet.header = NO;
     [super setRefSet:refSet];
 }
+
 -(void)didLoadDataWithPage:(NSUInteger)page firstPage:(BOOL)firstPage {
     if (self.didLoadData) {
         self.didLoadData(page,firstPage);

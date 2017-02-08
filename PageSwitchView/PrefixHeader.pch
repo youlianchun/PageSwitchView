@@ -8,4 +8,5 @@
 
 #import "UIColor+HexString.h"
 #import "UIScrollView+ScrollToTop.h"
+#import "CFunction.h"
 

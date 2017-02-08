@@ -14,7 +14,7 @@
  *
  *  @param obj     绑定对象，nil为不绑定（绑定对象一旦释放将不执行代码块）
  *  @param time    延迟时间（秒）
- *  @param ^doCode 延迟执行代码块
+ *  @param doCode 延迟执行代码块
  */
 void doCodeDelay(id obj, double time,void (^doCode)(void));
 

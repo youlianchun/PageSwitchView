@@ -28,13 +28,18 @@ typedef UIScrollView RefresView;
 @end
 
 @interface RefresBoleDataArray<ObjectType> : NCMutableArray<ObjectType>
+@property (nonatomic, readonly) BOOL loading;
+@property (nonatomic, readonly) BOOL willLoading;//即将开始请求网络
 
 @property (assign, nonatomic) CGFloat ignoredScrollViewContentInsetTop;
+//@property (assign, nonatomic) CGFloat ignoredScrollViewContentInsetBottom;
 
 + (instancetype)arrayWithRefresView:(RefresView*)view delegate:(id<RefresBoleDataArrayDelegate>)delegate;
 
 -(void)addBranchd:(RefresBranchdDataArray*)branchd;
 
 -(void)removeBranchd:(RefresBranchdDataArray*)branchd;
+
+-(void)reloadDataWithAnimate:(BOOL)animate;
 
 @end
