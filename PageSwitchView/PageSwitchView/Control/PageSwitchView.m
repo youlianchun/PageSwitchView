@@ -23,7 +23,6 @@
 @property (nonatomic)UIScrollView *otherScrollView;
 @property (nonatomic)CGPoint velocity;
 @property (nonatomic) void(^reloadDataCallBack)();
-@property (nonatomic) void(^willReloadDataCallBack)();
 @end
 
 @implementation _PageSwitchView
@@ -46,9 +45,6 @@
     }
 }
 -(void)reloadData {
-    if(self.willReloadDataCallBack) {
-        self.willReloadDataCallBack();
-    }
     [super reloadData];
     if(self.reloadDataCallBack) {
         self.reloadDataCallBack();
@@ -471,21 +467,8 @@
             }
             
         }else{//普通视图
-            //            [NSObject cancelPreviousPerformRequestsWithTarget:self];
-            //            [self performSelector:@selector(scrollViewDidEndScrollingAnimation:) withObject:nil afterDelay:0.2];
-            //            self.isScrolling = YES ;
-            
-            //            static CGFloat lastContentOffset_y=0;
-            //            if (scrollView.contentOffset.y<lastContentOffset_y) {//向下
-            //
-            //            } else if (scrollView.contentOffset.y>lastContentOffset_y) {//向上
-            //                if (self.pageTableView.contentOffset.y >= maxOffsetY) {
-            //                    self.pageTableView.contentOffset = CGPointMake(0.0f, maxOffsetY);
-            //                }
-            //            }
-            //            lastContentOffset_y = scrollView.contentOffset.y;
+
         }
-        //    }
     }
     CGFloat offset_Y = self.pageTableView.contentOffset.y;
     if (self.pageTableView.otherScrollView) {
