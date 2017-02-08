@@ -102,7 +102,6 @@
 @property (nonatomic, assign) CGFloat panelScrollView_maxOffsetY;
 @property (nonatomic, assign) BOOL maxOffsetY_didSet_didScroll;
 
-@property (nonatomic, assign) CGFloat lastContentOffset_y;
 @property (nonatomic, assign) CGFloat offset_Y_last;
 
 @end
@@ -117,7 +116,6 @@
         self.backgroundColor = [UIColor colorWithWhite:defauleBackgroungColor alpha:1];
         self.maxOffsetY_didSet_didScroll = NO;
         self.panelScrollView_maxOffsetY = 0;
-        self.lastContentOffset_y = 0;
         self.offset_Y_last = 0;
     }
     return self;
