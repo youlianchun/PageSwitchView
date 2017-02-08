@@ -34,7 +34,7 @@
     
     __weak typeof(self) wself = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [wself setNumber:1 atIndex:2];
+        [wself setNumber:1 atIndex:2];
 //        [wself reload];
 
     });
@@ -54,10 +54,9 @@
     PageSwitchItem *item2 = [PageSwitchItem itemWithTitle:@"战报" key:@"PageSwitchItemViewController"];
     PageSwitchItem *item3 = [PageSwitchItem itemWithTitle:@"看台" key:@"PageSwitchItemViewController"];
     PageSwitchItem *item4 = [PageSwitchItem itemWithTitle:@"天梯" key:@"PageSwitchItemViewController"];
-    PageSwitchItem *item5 = [PageSwitchItem itemWithTitle:@"天梯" key:@"PageSwitchItemViewController"];
 
 
-    return @[item0,item1,item2,item3,item4,item5];
+    return @[item0,item1,item2,item3,item4];
 }
 
 @end
