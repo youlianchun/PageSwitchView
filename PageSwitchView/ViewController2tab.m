@@ -58,5 +58,10 @@
 
     return @[item0,item1,item2,item3,item4];
 }
+-(UIView*)viewForPageTitleViewAtPageIndex:(NSUInteger)index{
+    UIView *view = [[UIView alloc] init];
+    view.backgroundColor = [UIColor yellowColor];
+    return view;
+}
 
 @end

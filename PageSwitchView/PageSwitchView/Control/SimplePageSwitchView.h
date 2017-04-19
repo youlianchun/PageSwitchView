@@ -19,6 +19,7 @@
 - (NSArray<PageSwitchItem*> *)pageSwitchItemsInPageSwitchView:(SimplePageSwitchView *)pageSwitchView;
 
 @optional
+-(UIView*)viewForPageTitleViewInPageSwitchView:(SimplePageSwitchView *)pageSwitchView atPageIndex:(NSUInteger)index;
 
 
 - (CGFloat)titleHeightInPageSwitchView:(SimplePageSwitchView *)pageSwitchView;

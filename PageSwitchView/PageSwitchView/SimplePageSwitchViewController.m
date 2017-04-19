@@ -10,6 +10,7 @@
 #import "PageSwitchItemViewController.h"
 
 @implementation SimplePageSwitchViewController(Protocol)
+-(UIView*)viewForPageTitleViewAtPageIndex:(NSUInteger)index{return nil;}
 -(NSArray<PageSwitchItem *> *)pageSwitchItems {
     PageSwitchItem *item1 = [PageSwitchItemViewController pageSwitchItemWithTitle:@"item"];
     return @[item1];
@@ -44,6 +45,9 @@
 }
 
 #pragma mark - delegate dataSource
+-(UIView*)viewForPageTitleViewInPageSwitchView:(SimplePageSwitchView *)pageSwitchView atPageIndex:(NSUInteger)index {
+    return [self viewForPageTitleViewAtPageIndex:index];
+}
 -(NSArray<PageSwitchItem *> *)pageSwitchItemsInPageSwitchView:(SimplePageSwitchView *)pageSwitchView {
     return [self pageSwitchItems];
 }

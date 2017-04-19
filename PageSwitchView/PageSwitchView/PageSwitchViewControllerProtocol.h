@@ -17,6 +17,8 @@
 - (CGFloat)titleHeight;
 - (void)movedToPageIndex:(NSUInteger)index;
 - (void)movingAtPageIndex:(NSUInteger)index;
+-(UIView*)viewForPageTitleViewAtPageIndex:(NSUInteger)index;
+
 @end
 
 

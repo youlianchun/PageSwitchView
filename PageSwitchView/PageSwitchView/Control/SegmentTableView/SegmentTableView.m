@@ -251,23 +251,24 @@ static const CGFloat bottomSpace = -5;
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
         cell.textLabel.text = self.titleArray[indexPath.section];
         cell.textLabel.font = self.titleFont;
-//        NSInteger numberMaek = 0;
-//        if ([self.dataSource respondsToSelector:@selector(numberOfMarkWithTitle:andIndex:)]) {
-//            numberMaek = [self.dataSource numberOfMarkWithTitle:self.titleArray[indexPath.section] andIndex:indexPath.section];
-//        }
         cell.number = 0;
+        if ([self.dataSource respondsToSelector:@selector(bgViewInTableView:atIndex:)]) {
+            UIView *bgView = [self.dataSource bgViewInTableView:self atIndex:indexPath.section];
+            CGFloat w = [self tableView:tableView heightForRowAtIndexPath:indexPath];
+            CGFloat h = self.bounds.size.height;
+            bgView.frame = CGRectMake(0, 0, w, h);
+            cell.bgCView = bgView;
+        }
     }
-
+    
     cell.bgImage = nil;
     if (indexPath.section == self.currentIndex) {
         cell.textLabel.textColor = self.selectedTitleColor;
         if (indexPath.section<self.selectedBgImage.count && self.selectedStyle == SegmentSelectedStyleCustomBG) {
             cell.bgImage = self.selectedBgImage[indexPath.section];
         }
-//        cell.textLabel.backgroundColor = self.selectedBgColor;
     }else {
         cell.textLabel.textColor = self.normalTitleColor;
-//        cell.textLabel.backgroundColor = self.normalBgColor;
     }
     return cell;
 }

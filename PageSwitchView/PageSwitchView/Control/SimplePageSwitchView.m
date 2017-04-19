@@ -262,6 +262,13 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
     [self.hTableView scrollToRowAtIndex:index animated:NO];
 }
 
+-(UIView*)bgViewInTableView:(SegmentTableView*)tableView atIndex:(NSUInteger)index {
+    if ([self.dataSource respondsToSelector:@selector(viewForPageTitleViewInPageSwitchView:atPageIndex:)]) {
+        return [self.dataSource viewForPageTitleViewInPageSwitchView:self atPageIndex:index];
+    }
+    return nil;
+}
+
 #pragma mark -
 //子page是PageSwitchView时候子page标题显示比例
 -(void)pageSwitchViewDidScroll:(PageSwitchView*)pageSwitchView {

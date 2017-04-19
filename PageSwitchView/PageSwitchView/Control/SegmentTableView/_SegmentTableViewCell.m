@@ -17,6 +17,7 @@ static const CGFloat height = 8;
 @property (nonatomic) UILabel *markLabel;
 @property (nonatomic) NSLayoutConstraint *markLabel_CW;
 @property (nonatomic) UIImageView *bgImageView;
+@property (nonatomic) UIView *bgView;
 @end
 
 @implementation _SegmentTableViewCell
@@ -78,11 +79,36 @@ static const CGFloat height = 8;
     }
     return _markLabel;
 }
+
+-(UIView *)bgView {
+    if (!_bgView) {
+        _bgView = [[UIView alloc] initWithFrame:CGRectZero];
+        _bgView.backgroundColor = [UIColor clearColor];
+//        _bgView.contentMode = UIViewContentModeRedraw;
+        [self.contentView insertSubview:_bgView atIndex:0];
+        _bgView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_bgView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_bgView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
+        [self.contentView addConstraint: [NSLayoutConstraint constraintWithItem:_bgView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+        [self.contentView addConstraint: [NSLayoutConstraint constraintWithItem:_bgView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+    }
+    return _bgView;
+}
+-(void)setBgCView:(UIView *)bgCView {
+    if (_bgCView != bgCView) {
+        [_bgCView removeFromSuperview];
+        _bgCView = bgCView;
+        if (bgCView) {
+            [self.bgView addSubview:bgCView];
+        }
+    }
+    
+}
 -(UIImageView *)bgImageView {
     if (!_bgImageView) {
         _bgImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
 //        _bgImageView.contentMode = UIViewContentModeRedraw;
-        [self.contentView insertSubview:_bgImageView atIndex:0];
+        [self.contentView insertSubview:_bgImageView atIndex:_bgView?1:0];
         _bgImageView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_bgImageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_bgImageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
@@ -121,11 +147,11 @@ static const CGFloat height = 8;
 
     // Configure the view for the selected state
 }
--(void)setBgImage:(UIImage *)bgImage {
-    self.bgImageView.image = bgImage;
-}
-
--(UIImage *)bgImage{
-    return self.bgImageView.image;
-}
+//-(void)setBgImage:(UIImage *)bgImage {
+//    self.bgImageView.image = bgImage;
+//}
+//
+//-(UIImage *)bgImage{
+//    return self.bgImageView.image;
+//}
 @end

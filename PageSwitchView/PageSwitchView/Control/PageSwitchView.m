@@ -595,6 +595,12 @@
     self.titleArray = titleArray;
     return titleArray;
 }
+-(UIView*)bgViewInTableView:(SegmentTableView*)tableView atIndex:(NSUInteger)index {
+    if ([self.dataSource respondsToSelector:@selector(viewForPageTitleViewInPageSwitchView:atPageIndex:)]) {
+        return [self.dataSource viewForPageTitleViewInPageSwitchView:self atPageIndex:index];
+    }
+    return nil;
+}
 
 #pragma mark - SegmentTableViewDelegate
 -(void)segmentTableView:(SegmentTableView *)tableView didSelectAtIndex:(NSUInteger)index {

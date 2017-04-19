@@ -132,10 +132,8 @@ static void *kScrollContext = &kScrollContext;
 
 -(void)didMoveToSuperview {
     [super didMoveToSuperview];
-    UIScrollView *superview = (UIScrollView*)self.superview;
-    BOOL b = [superview isKindOfClass:[UIScrollView class]];
+    BOOL b = [self.superview isKindOfClass:[UIScrollView class]];
     NSAssert(b, @"must be add to UIScrollView");
-//    [self scrollView:(UIScrollView*)self.superview contextObserver:YES];
     
     [self panelView];
     if (self.didMoveToSuperviewBlock) {

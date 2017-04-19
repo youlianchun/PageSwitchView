@@ -11,6 +11,8 @@
 #import "PageSwitchItemViewController.h"
 
 @implementation PageSwitchViewController(Protocol)
+-(UIView*)viewForPageTitleViewAtPageIndex:(NSUInteger)index{return nil;}
+
 -(NSArray<PageSwitchItem *> *)pageSwitchItems {
     PageSwitchItem *item1 = [PageSwitchItemViewController pageSwitchItemWithTitle:@"item"];
     return @[item1];
@@ -65,6 +67,9 @@
     return _pageSwitchView;
 }
 #pragma mark - delegate dataSource
+-(UIView*)viewForPageTitleViewInPageSwitchView:(PageSwitchView *)pageSwitchView atPageIndex:(NSUInteger)index {
+    return [self viewForPageTitleViewAtPageIndex:index];
+}
 - (CGFloat)titleHeightInPageSwitchView:(PageSwitchView *)pageSwitchView {
     return [self titleHeight];
 }

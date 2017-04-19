@@ -19,6 +19,7 @@
 - (NSArray<PageSwitchItem*> *)pageSwitchItemsInPageSwitchView:(PageSwitchView *)pageSwitchView;
 
 @optional
+-(UIView*)viewForPageTitleViewInPageSwitchView:(PageSwitchView *)pageSwitchView atPageIndex:(NSUInteger)index;
 
 - (UIView *)viewForHeaderInPageSwitchView:(PageSwitchView *)pageSwitchView;
 

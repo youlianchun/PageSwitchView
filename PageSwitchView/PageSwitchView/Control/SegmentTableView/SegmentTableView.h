@@ -13,6 +13,7 @@
 @protocol SegmentTableViewDataSource <NSObject>
 
 -(NSArray<NSString*>*)titlesOfRowInTableView:(SegmentTableView*)tableView;
+-(UIView*)bgViewInTableView:(SegmentTableView*)tableView atIndex:(NSUInteger)index;
 
 //@optional
 //-(NSInteger)numberOfMarkWithTitle:(NSString*)title andIndex:(NSUInteger)index;
