@@ -703,7 +703,7 @@
             self.topeSpace = [self.dataSource topeSpaceInPageSwitchView:self];
         }
         if ([self.dataSource respondsToSelector:@selector(titleHeightInPageSwitchView:)]) {
-            self.titleHeight = MIN([self.dataSource titleHeightInPageSwitchView:self], kMinTitleBarHeight);
+            self.titleHeight = MAX([self.dataSource titleHeightInPageSwitchView:self], kMinTitleBarHeight);
         }
         
         self.headerView = nil;
