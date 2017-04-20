@@ -237,6 +237,9 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
     [self.segmentTableView handoverWithLeftPageIndex:index leftScale:1.0 rightPageIndex:kNull_PageIndex rightScale:0.0];
     self.pageSwitchItemArray[index].isCurrent = YES;
     [self.segmentTableView adjustCurrentIndex:index];
+    if ([self.delegate respondsToSelector:@selector(pageSwitchView:movedToPageIndex:)]) {
+        [self.delegate pageSwitchView:self movedToPageIndex:index];
+    }
 }
 
 
@@ -260,6 +263,9 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
         [pageSwitchItem.contentViewController pageScrolling];
     }
     [self.hTableView scrollToRowAtIndex:index animated:NO];
+    if ([self.delegate respondsToSelector:@selector(pageSwitchView:movedToPageIndex:)]) {
+        [self.delegate pageSwitchView:self movedToPageIndex:index];
+    }
 }
 
 -(UIView*)bgViewInTableView:(SegmentTableView*)tableView atIndex:(NSUInteger)index {
