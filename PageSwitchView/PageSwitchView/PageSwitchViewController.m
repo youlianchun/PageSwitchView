@@ -129,6 +129,14 @@
 -(void)pageSwitchView:(PageSwitchView *)pageSwitchView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self didSelectRowAtIndexPath:indexPath];
 }
+
+- (void)pageSwitchView:(PageSwitchView *)pageSwitchView movedToPageIndex:(NSUInteger)index {
+    [self movedToPageIndex:index];
+}
+
+- (void)pageSwitchView:(PageSwitchView *)pageSwitchView movingAtPageIndex:(NSUInteger)index {
+    [self movingAtPageIndex:index];
+}
 #pragma mark -
 
 -(void)reload {

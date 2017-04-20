@@ -332,7 +332,7 @@ HorizontalTableViewDelegate, HorizontalTableViewDataSource >
 -(void)reloadData {
     
     if ([self.dataSource respondsToSelector:@selector(titleHeightInPageSwitchView:)]) {
-        self.titleHeight = MIN([self.dataSource titleHeightInPageSwitchView:self], kMinTitleBarHeight);
+        self.titleHeight = MAX([self.dataSource titleHeightInPageSwitchView:self], kMinTitleBarHeight);
     }
     self.segmentTableView.selectColor = self.titleCellSelectColor;
     
